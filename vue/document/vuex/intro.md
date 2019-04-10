@@ -277,6 +277,18 @@ mapGetters({
 `Action 类似于 mutation，不同在于：Action 提交的是 mutation，而不是直接变更状态。Action 可以包含任意异步操作。 `  `他就像一个事件一样
 激发一个事件,并且充当一个过滤数据的中间管道 然后将真正的处理过程交给 mutation`
 
+`context 对象包含以下属性：`
+```node
+{
+  state,      // 等同于 `store.state`，若在模块中则为局部状态
+  rootState,  // 等同于 `store.state`，只存在于模块中
+  commit,     // 等同于 `store.commit`
+  dispatch,   // 等同于 `store.dispatch`
+  getters,    // 等同于 `store.getters`
+  rootGetters // 等同于 `store.getters`，只存在于模块中
+}
+```
+
 ```node
 const store = new Vuex.Store({
   state: {
