@@ -5,14 +5,14 @@
 用法，原生提供了Promise对象`](#top)
 
 ---
-- [x] [Promise 介绍](#intro)
-- [x] [Promise 基操](#use)
-- [x] [Promise.prototype.then()](#then)
-- [x] [Promise.prototype.catch()](#catch)
-- [x] [Promise.prototype.finally()](#finally)
-- [x] [Promise.all()](#all)
-- [x] [Promise.race()](#race)
-- [x] [Promise.resolve()](#resolve)
+- [x] [`1.Promise 介绍`](#intro)
+- [x] [`2.Promise 基操`](#use)
+- [x] [`3.Promise.prototype.then()`](#then)
+- [x] [`4.Promise.prototype.catch()`](#catch)
+- [x] [`5.Promise.prototype.finally()`](#finally)
+- [x] [`6.Promise.all()`](#all)
+- [x] [`7.Promise.race()`](#race)
+- [x] [`8.Promise.resolve()`](#resolve)
 
 ----
 #### [Promise 介绍](#top) :grey_exclamation: <b id="intro"></b>
