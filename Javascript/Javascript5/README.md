@@ -2,35 +2,35 @@
 -----
 `更新时间:2018/10/8`
 
-* [x] [`1.JavaScript5. 基本数据类型 简述`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptDateType.md)
+* [x] [`1.JavaScript5. 基本数据类型 简述`](./JavaScriptDateType.md)
 
-* [x] [`2.JavaScript5. 内存作用域环境`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptVariable.md)
+* [x] [`2.JavaScript5. 内存作用域环境`](./JavaScriptVariable.md)
 
-* [x] [`3.JavaScript5. 引用类型`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptObject.md)
+* [x] [`3.JavaScript5. 引用类型`](./JavaScriptObject.md)
 
-* [x] [`4.JavaScript5. 构建对象`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptOO.md)
+* [x] [`4.JavaScript5. 构建对象`](./JavaScriptOO.md)
 
-* [x] [`5.JavaScript5. 对象继承`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptOOExtend.md)
+* [x] [`5.JavaScript5. 对象继承`](./JavaScriptOOExtend.md)
  
-* [x] [`6.JavaScript5. 函数对象`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptFunction.md)
+* [x] [`6.JavaScript5. 函数对象`](./JavaScriptFunction.md)
 
-* [x] [`7.JavaScript5. Bom对象`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptBom.md)
+* [x] [`7.JavaScript5. Bom对象`](./JavaScriptBom.md)
 
-* [x] [`JavaScript5. 原生Event`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptEvent.md)
+* [x] [`JavaScript5. 原生Event`](./JavaScriptEvent.md)
 
-* [x] [`JavaScript5. 表单脚本`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptForm.md)
+* [x] [`JavaScript5. 表单脚本`](./JavaScriptForm.md)
 
-* [x] [`JavaScript5. 正则表达式`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavascriptRegExp.md)
+* [x] [`JavaScript5. 正则表达式`](./JavascriptRegExp.md)
 
-* [x] [`JavaScript5. 原声Error`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/ErrorHandling.md)
+* [x] [`JavaScript5. 原声Error`](./ErrorHandling.md)
 
-* [x] [`JavaScript5. 原生XML`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptXML.md)
+* [x] [`JavaScript5. 原生XML`](./JavaScriptXML.md)
 
-* [x] [`JavaScript5. 原生JSON` ](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptJson.md)
+* [x] [`JavaScript5. 原生JSON` ](./JavaScriptJson.md)
 
-* [x] [`Javascript5. 原生Ajax `](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptAjax.md)
+* [x] [`Javascript5. 原生Ajax `](./JavaScriptAjax.md)
 
-* [x] [`JavaScript5. 原生Cookie`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptCookie.md)
+* [x] [`JavaScript5. 原生Cookie`](./JavaScriptCookie.md)
 
 
 
