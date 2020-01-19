@@ -1,4 +1,4 @@
-[:whale2: JavaScript脚本 原生笔记](https://developer.mozilla.org/en-US/docs/Web/JavaScript) . 
+[JavaScript5.1 脚本 原生笔记](https://developer.mozilla.org/en-US/docs/Web/JavaScript) . 
 -----
 `更新时间:2018/10/8`
 
