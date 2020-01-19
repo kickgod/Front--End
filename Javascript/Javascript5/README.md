@@ -1,7 +1,7 @@
 #### [JavaScript5.1 脚本 原生笔记](https://developer.mozilla.org/en-US/docs/Web/JavaScript) . 
 
 -----
-`更新时间:2018/10/8` ``
+`更新时间:2018/10/8` `2020/1/19`
 
 * [x] [`1.JavaScript5. 基本数据类型 简述`](./JavaScriptDateType.md)
 
