@@ -1,17 +1,17 @@
-### [JavaScript 引用类型](#top) <b id="top"></b> :maple_leaf:
+### [JavaScript 引用类型](#top) <b id="top"></b> 
 
 ----
 :white_check_mark: `引用类型通常叫做类（class），也就是说，遇到引用值，所处理的就是对象`
 
-- [x] :maple_leaf: [`Object 对象`](#object)
-- [x] :maple_leaf: [`Boolean 对象`](#boolean)
-- [x] :maple_leaf: [`Number 对象`](#number)
-- [x] :maple_leaf: [`String 对象`](#string)
-- [x] :maple_leaf: [`Array 对象`](#array)
-- [x] :maple_leaf: [`Date 对象`](#date)
-- [x] :maple_leaf: [`Function 对象`](#function)
-- [x] :maple_leaf: [`Global 对象`](#global)
-- [x] :maple_leaf: [`Math 对象`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
+- [x]  [`Object 对象`](#object)
+- [x]  [`Boolean 对象`](#boolean)
+- [x]  [`Number 对象`](#number)
+- [x]  [`String 对象`](#string)
+- [x]  [`Array 对象`](#array)
+- [x]  [`Date 对象`](#date)
+- [x]  [`Function 对象`](#function)
+- [x]  [`Global 对象`](#global)
+- [x]  [`Math 对象`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
 
 #####  :star2: [Object 对象](#top) <b id="object"></b>
 `尽管JS支持对象,但是它并不支持接口和类的基本结构,引用类型又叫对象定义 描述属性和方法`
@@ -72,7 +72,7 @@ console.log(`Name:${p1["sex"]}`);
 ```
 * `访问属性的方式,不仅仅可以通过` `.` `的方式 还可以通过方括号` `[]` `变量的方式引用属性`
 
-##### :maple_leaf: [Boolean 对象](#top)  <b id="boolean"></b>
+##### [Boolean 对象](#top)  <b id="boolean"></b>
 * `Boolean 对象是 Boolean 原始类型的引用类型。要创建 Boolean 对象，只需要传递 Boolean 值作为参数：`
 * `Boolean 对象将覆盖 Object 对象的 ValueOf() 方法，返回原始值，即 true 和 false。ToString() 方法也会被覆盖，返回字符串 "true" 或 "false"。`
 * `遗憾的是，在 ECMAScript 中很少使用 Boolean 对象，即使使用，也不易理解。`
@@ -88,6 +88,16 @@ console.log(val.toString());
 var val = new Boolean(true);
 console.log(val.toString());
 ```
+* `可以使用Boolean(obj) 将一个值转换为Boolean值`
+
+`数据类型`|`转换为true`|`转换为false`
+--|:--:|--:
+`Boolean`|`true`|`false`
+`String`|`任何非空字符`|`空字符`
+`Number`|`任何非零数字值`|`0和NaN`
+`Object`|`任何对象`|`null`
+`Undefined`|`undefined 只能转换为 false`|`undefined`
+
 #####  :star2: [Number 对象](#top) <b id="number"></b> 
 `正如你可能想到的，Number 对象是 Number 原始类型的引用类型。要创建 Number 对象，采用下列代码：`
 ```javascript
