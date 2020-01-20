@@ -158,8 +158,9 @@ for(let i = 0; i <10;i++){
 }
 ```
 
-* `for-in`:`一种精准的迭代语句，可以用来枚举对象的属性`
-  * `如果要迭代的对象的变量值是 null或者 undefined for-in 语句会报错 但是在js5之后 这种情况不再抛出错误,而只是不执行循环体,所以建立使用 for-in循环之前，先检查对象的值是否是 null 或者 undefined`
+* `for-in`:`一种精准的迭代语句，可以用来枚举对象的属性 只遍历` [`可枚举属性（包括它的原型链上的可枚举属性`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavaScriptOO.md#object)
+  * `如果要迭代的对象的变量值是 null或者 undefined for-in 语句会报错 但是在js5之后 这种情况不再抛出错误,而只是不执行循环体,所以建立使用 for-in循环之前，先检查对象的值是否是 null 或者 undefined` [`官方解释`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...in)
+  * `不建议与数组一起使用，数组可以用Array.prototype.forEach()和for ... of`
 ```javascript
 for(var property in window){
   document.write(property);
@@ -179,13 +180,24 @@ for (let property in Person){
 }
 
 ```
+`如果你只要考虑对象本身的属性，而不是它的原型，那么使用 getOwnPropertyNames() 或执行 hasOwnProperty() 来确定某属性是否是对象本身的属性（也能使用propertyIsEnumerable）。或者，如果你知道不会有任何外部代码干扰，您可以使用检查方法扩展内置原型。`
+
+* `for...of`
+```javascript
+const array1 = ['a', 'b', 'c'];
+
+for (const element of array1) {
+  console.log(element);
+}
+```
+
 * `break continue`
 ```javascript
 break; //立即退出循环体
 continue;//  立即结束  进行下一次循环
 ```
 
-* `switch`
+* `switch` 
 ```javascript
 switch (Person.label) {
     case "ZH":
