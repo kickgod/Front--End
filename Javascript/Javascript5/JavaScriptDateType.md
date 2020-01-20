@@ -1,6 +1,34 @@
-<a id="top" href="#top">JavaScript 原生数据类型  :maple_leaf:</a> 
+#### <a id="top" href="#top">JavaScript5.1 原生数据类型 </a> 
+
 ----
-`1.undefined 派生自null  所以两个相等`
+
+`标识符 区分大小写 可以以 字母 $ _ 开头` `单行注释 // 多行注释 /**/ 每个语句结束最好加; 避免不必要的错误`
+* `1. 在非严格模式下可以不声明直接使用对象等非严格操作`
+* `2. 在严格模式下javaScripts3中 不确定的行为将为得到处理，不安全的操作将会抛出错误`
+```javascript
+"use strict";//开启严格模式
+
+var name  = 'jxKicker';
+
+var $name = "is you father";
+
+var _name = ";";
+
+// gg = "what you said?"; //在严格模式下不能运行
+
+console.log(name,$name,_name);
+console.log(gg);
+
+```
+
+1. `js 有 undefined boolean string  number object function 六种类型 可以使用 typeof 判断类型`
+2. `没必要将一个变量初始化为 undefined 因为它是自动的`
+
+```javascript
+console.log(typeof  age);
+```
+
+`1.undefined 派生自null  所以两个相等 未经初始化的变量自动是 undefined null表示一个空指针 typeof 返回类型为 object `
 ```javascript
 var isEqual = (null == undefined)
 console.log(isEqual)
