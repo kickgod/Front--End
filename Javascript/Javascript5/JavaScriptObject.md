@@ -120,9 +120,19 @@ alert(oNumberObject.toPrecision(1));  //输出 "7e+1"
 alert(oNumberObject.toPrecision(2));  //输出 "68"
 alert(oNumberObject.toPrecision(3));  //输出 "68.0"
 ```
+
+**`Number API`**
+* `Number.isNaN()`:`判断是否是非数字，只要能被转换为Number 就都返回true`
+* `Number.isInteger()`:`判断是否是整数`
+* `Number.isSafeInteger()`:`判断是否是安全整数`
+* `Number.parseFloat(v)`:`转换为float`
+* `Number.parseInt(v)`：`v 转换为int`
+* `Number.parseInt(v,p)`：`v 转换为int p表示v是几进制数 例如 Number.parseInt(10,16) //结果为:16`
+
+
 #####  :star2: [String 对象](#top) <b id="string"></b> 
 [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) `官方文档解释方法属性`
-`String 是一个基本包装类型,它是唯一的,一旦创建不能改变,每次改变实际上都是创建一个新的字符串`
+`String 是一个基本包装类型,它是唯一的,一旦创建不能改变,每次改变实际上都是创建一个新的字符串` `可以使用单引号 也可以使用双引号表示`
 * `String的属性`
   * `String.prototype`:`对该对象的对象原型的引用`
   * `String.length`:`字符串长度`
