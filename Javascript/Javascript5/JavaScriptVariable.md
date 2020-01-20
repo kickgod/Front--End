@@ -1,10 +1,10 @@
-#### <a id="top" href="#top">JavaScript 变量 作用域 内存  </a> 
+##### <a id="top" href="#top">JavaScript 变量 作用域 内存 基本流程语句 </a> 
 
 ----
 `JS 变量和其他语言的变量有很大区别,js变量是松散类型,他只是在特定时间用于保存特定值的一个名字而已，由于不存在定义某个变量必须保存何种数据类型值的规则
 ,变量的值和数据可以在脚本的生命周期内改变,尽管开起来很强大,但是容易出问题,而且复杂`
 
-####  <a href="#top">变量</a>
+#####  <a href="#top">变量</a>
 * `ECS 包含两种不同的数据类型：`
   * `基本类型值`:`简单的数据段 ` `Undefind` `Null` `Boolean` `Number` `String` `这五种类型都是按值访问`
   * `引用类型值`:`可以由多个值构成的对象 保存在内存中 按引用访问,实际操作是引用`
@@ -35,7 +35,7 @@ var o = new Object();
 setName(o);
 console.log(o.Name); //Nike
 ```
-#### <a href="#top">检测类型</a>
+##### <a href="#top">检测类型</a>
 `对于一般的检测我们可以使用 typeof 检测类型  对于null 也是object 类型 所有的引用类型都是 object的实例 ` 
 ```javascript
 var o = "Nicholas";
@@ -69,7 +69,7 @@ console.log(person instanceof Object);  //true
 console.log(colors instanceof Array);   //true
 console.log(pattern instanceof RegExp); //true
 ```
-####  <a href="#top">执行环境和作用域</a>
+#####  <a href="#top">执行环境和作用域</a>
 `执行环境简称 环境,是JavaScript中最为重要的一个概念,执行环境定义了变量或函数有权访问的其他数据,决定了他们各自的行为,每个执行环境都有一个与之关联
 的` **`变量对象[Variable  object]`** `环境中定义的所有变量和函数都保存在这个对象中.虽然我们编写的代码无法访问这个对象,单解析器在处理数据时会在后台使用它。`
 * `全局环境是最外围的一个执行环境,在web浏览器中,全局环境被认为是window对象,因为此所有全局编和函数都是作为window对象的属性和方法创建` 
@@ -108,14 +108,93 @@ console.log(buildName());
 * `标记清楚`:`常用,几乎所有浏览器都有,差异只在垃圾收集的时间间隔不一样`
 * `引用计数`:`有循环引用的问题`
 * `何时启动垃圾回收呢!它是周期性运行的`
-* `通常分配给web浏览器的可用内存数量比纷飞给卓明应用程序的少,这是出于安全考虑,防止运行js 耗尽全部系统资源,导致系统崩溃,所以
-为了优化内存占用,一旦数据不再有用,那么最好通过将其值设置为null 来释放引用,这叫做接触引用`
+* `通常分配给web浏览器的可用内存数量比纷飞给卓明应用程序的少,这是出于安全考虑,防止运行js 耗尽全部系统资源,导致系统崩溃,所以`
+`为了优化内存占用,一旦数据不再有用,那么最好通过将其值设置为null 来释放引用,这叫做接触引用`
+
+##### <a href="#top">基本流程语句</a> 
+
+* `,` `操作符`
+```javascript
+let i = 10, j= 5, k=5; //一条语句执行多个操作
+
+let _num = (1,2,5,9,8); 
+
+console.log(_num); //8
+```
+
+* `if`
+```javascript
+if (_num == 9){
+    console.log("it's 9 clock;");
+}else {
+    console.log("i don't know anything;");
+}
 
 
+if (_num == 9){
+    console.log("it's 9 clock;");
+}else if(_num == 8){
+    console.log("it's 8 clock;");
+}else{
+    console.log("i don't know anything;");
+}
+```
 
+* `do while`
+```javascript
+do{
+ statement;
+}while(expression);
 
+while(expression){
+ statement;
+}
+```
 
+* `for`
+```javascript
+for(let i = 0; i <10;i++){
+ statement;
+}
+```
 
+* `for-in`:`一种精准的迭代语句，可以用来枚举对象的属性`
+  * `如果要迭代的对象的变量值是 null或者 undefined for-in 语句会报错 但是在js5之后 这种情况不再抛出错误,而只是不执行循环体,所以建立使用 for-in循环之前，先检查对象的值是否是 null 或者 undefined`
+```javascript
+for(var property in window){
+  document.write(property);
+}
 
+//例子
+let Person = new Object();
 
+Person.name = "JxKicker";
+Person.age = 18;
+Person.sex = Boolean(true);
+Person.id = "2016110418";
+Person.label = "HE";
 
+for (let property in Person){
+    console.log(`${property}:${Person[property]}`);
+}
+
+```
+* `break continue`
+```javascript
+break; //立即退出循环体
+continue;//  立即结束  进行下一次循环
+```
+
+* `switch`
+```javascript
+switch (Person.label) {
+    case "ZH":
+        console.log("Chinese");break;
+    case "EN": //可以合并
+    case "AM":
+        console.log("American");break;
+    case "HE":
+        console.log("Hemileo"); break;
+    default: console.log("i don't know");
+}
+```
