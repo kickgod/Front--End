@@ -23,7 +23,7 @@
 
 * [x] [`JavaScript5. 正则表达式`](./JavascriptRegExp.md)
 
-* [x] [`JavaScript5. 原声Error`](./ErrorHandling.md)
+* [x] [`JavaScript5. 原生Error`](./ErrorHandling.md)
 
 * [x] [`JavaScript5. 原生XML`](./JavaScriptXML.md)
 
