@@ -2,19 +2,13 @@
 ----
 `ECMA-262第三版引入try-catch语句,作为uJavaScript中处理异常的一种标准方式.基本的语法如下所示,这和Java中的try-catch是相似的`
 
-* [x] <a href="#Sysstruct">`语法基本结构`</a>
-
-* [x] <a href="#ErrorType">`Error对象错误类型`</a>
-
-* [x] <a href="#ThrowError">`抛出错误`</a>
-
-* [x] <a href="#DefineUserErrorBySelf">`用户自定义错误`</a>
-
-* [x] <a href="#ErrorEvent">`错误事件`</a>
-
-* [x] <a href="#ErrorTypeError">`常见错误类型`</a>
-
-* [x] <a href="#DebugTechnologe">`错误调试技术`</a>
+* [x] <a href="#Sysstruct">`1.语法基本结构`</a>
+* [x] <a href="#ErrorType">`2.Error对象错误类型`</a>
+* [x] <a href="#ThrowError">`3.抛出错误`</a>
+* [x] <a href="#DefineUserErrorBySelf">`4.用户自定义错误`</a>
+* [x] <a href="#ErrorEvent">`5.错误事件`</a>
+* [x] <a href="#ErrorTypeError">`6.常见错误类型`</a>
+* [x] <a href="#DebugTechnologe">`7.错误调试技术`</a>
 
 #### <a id="Sysstruct">基本结构</a> <a href="#top" >`置顶` :arrow_up:</a>  
 ```JavaScript
@@ -101,7 +95,7 @@
  throw new SysntaxError("语法错误");
  
 ```
-#### <a id="DefineUserErrorBySelf" >用户自定义错误：</a><a href="#top" >`置顶` :arrow_up:</a>  
+#### <a id="DefineUserErrorBySelf" href="#" >用户自定义错误：</a> <a href="#top" >置顶 :arrow_up:</a>  
 `用户可以利用继承自定义错误类型`
 
 ##### 这个采用原型链方式继承
@@ -124,6 +118,43 @@
     /*注意：IE只有在抛出Error对象的时候才会显示自定义错误.对于其他类型,它都五一例外地显示“exception thrown a
       nd not caught”（抛出异常,且未被捕获）*/
 ```
+
+##### 例子
+```javascript
+Person.age = 18;
+
+Person.sex = Boolean(true);
+
+Person.id = "2016110418";
+
+Person.label = "HE";
+
+function Error_Legal_Parameter(message){
+    this.name="parameter_not_legal";
+    this.message=message;
+}
+Error_Legal_Parameter.prototype = new Error();
+
+function input() {
+    try{
+        var object_ = arguments[0];
+        if (object_ != undefined && object_ != null) {
+            for (let property in object_){
+                console.log(`${property}: ${object_[property]}`);
+            }
+        }else{
+            throw new Error_Legal_Parameter("without any parameters");
+        }
+    }catch (e) {
+        console.error(e.message);
+    }
+}
+
+input(null);
+input(Person);
+```
+
+
 ##### 抛出异常的时机
 ```JavaScript
   function process(values){
