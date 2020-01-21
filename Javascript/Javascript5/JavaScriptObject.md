@@ -1,7 +1,7 @@
 ### [JavaScript 引用类型](#top) <b id="top"></b> 
 
 ----
-:white_check_mark: `引用类型通常叫做类（class），也就是说，遇到引用值，所处理的就是对象`
+`引用类型通常叫做类（class），也就是说，遇到引用值，所处理的就是对象`
 
 - [x]  [`Object 对象`](#object)
 - [x]  [`Boolean 对象`](#boolean)
@@ -406,10 +406,10 @@ new Date(2018, 6, 22, 7, 22, 13, 0)
 new Date(2018, 6, 22)
 ```
 ##### 构造总结
-* 不传参数，创建一个表示“现在”的Date对象
-* 传递 number ，表示从格林威治标准时间1970年1月1日00:00开始的毫秒数
-* 传递一个字符串，代表一个日期
-* 传递一组参数，它们代表日期的不同部分
+* `不传参数，创建一个表示“现在”的Date对象`
+* `传递 number ，表示从格林威治标准时间1970年1月1日00:00开始的毫秒数`
+* `传递一个字符串，代表一个日期`
+* `传递一组参数，它们代表日期的不同部分`
 
 ##### 时区
 * `初始化日期时，您可以传递时区，因此日期不会被假定为 UTC ，然后转换为您当地的时区。`
@@ -507,8 +507,8 @@ if (date2.getTime() === date1.getTime()) {
 `请记住， getTime() 返回的毫秒数，因此您需要在比较中考虑时间因素。July 10, 2018 07:22:13 不等于 July 10, 2018 。在这种情况下，您可以使用 setHours(0, 0, 0, 0) 重置时间。`
 
 ##### [Function 对象](#top) <b id="function"></b>  :maple_leaf:
-`函数本质是一个对象`
-
+`函数本质是一个对象 函数名不能声明为 eval和arguments 参数不可同名` [`arguments  对象详情`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments)
+`The arguments object is a local variable available within all non-arrow functions.`
 ##### 声明函数--[`函数声明语法定义`](#top)
 ```node
  function sum(num1,num2){
@@ -519,6 +519,17 @@ if (date2.getTime() === date1.getTime()) {
     return num1 +num2;
  }
 ```
+
+##### 立即执行函数
+```javascript
+(function callHello(str) {
+   alert(str);
+})("what are you said?");
+```
+
+##### 函数的参数
+`函数不介意传递进来多少个参数,也不在乎传递的参数的类型，原因是ECMAScript中的参数是用一个数组来表示函数接受的始终是这个数组，在函数内部可以使用arguments访问这个参数数组，从而获取每个参数`
+
 ##### 声明函数--[`Function 构造函数`](#top)
 > `前面声明参数 最后一个参数为方法体` `不推荐这样方法定义函数,因为这会导致解析两次代码 ` `1. 解析常规代码 2.解析字符串构造函数`
 
@@ -532,8 +543,8 @@ var sum = new Function("num1","num2","return num1 + num2")
 > `函数可以作为值传递给另一个函数`
 
 ##### 函数内部属性
-> `arguments`:`类数组对象，包含着传入函数中的所有参数,保存函数参数,arguments还有一个名叫callee的属性 该属性是一个指针指向拥有arguments对象的函数
-可以用来做阶乘`
+> `arguments`:`类数组对象，包含着传入函数中的所有参数,保存函数参数,arguments还有一个名叫callee的属性 第一个元素可以通过 arguments[0] 来访问 依次类推`
+   > `callee`：`该属性是一个指针指向拥有arguments对象的函数,可以用来做阶乘`
 > `caller 属性`：`显示当前函数在被那个函数调用`
 > `length 属性`：`函数接受的函数个数`
 > `prototype`:`父类指向`
@@ -563,7 +574,24 @@ factorial = function(){
 }
 
 fac(5) //结果出错
+```
 
+```node
+let Person = new Object();
+Person.name = "JxKicker";
+Person.age = 18;
+Person.sex = Boolean(true);
+Person.id = "2016110418";
+Person.label = "HE";
+
+(function input() {
+    var object_ = arguments[0];
+    if (object_ != undefined && object_ != null) {
+        for (let property in object_){
+            console.log(`${property}: ${object_[property]}`);
+        }
+    }
+})(Person);
 ```
 
 ##### apply / call 方法  手动指定this 
