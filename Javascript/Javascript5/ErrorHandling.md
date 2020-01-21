@@ -1,20 +1,20 @@
-<a id="top">JavaScript5.错误处理 </a> :blue_heart:
+##### <a id="top">JavaScript5.错误处理 </a> 
 ----
 `ECMA-262第三版引入try-catch语句,作为uJavaScript中处理异常的一种标准方式.基本的语法如下所示,这和Java中的try-catch是相似的`
 
-* [x] <a href="#Sysstruct">语法基本结构</a>
+* [x] <a href="#Sysstruct">`语法基本结构`</a>
 
-* [x] <a href="#ErrorType">Error对象错误类型</a>
+* [x] <a href="#ErrorType">`Error对象错误类型`</a>
 
-* [x] <a href="#ThrowError">抛出错误</a>
+* [x] <a href="#ThrowError">`抛出错误`</a>
 
-* [x] <a href="#DefineUserErrorBySelf">用户自定义错误</a>
+* [x] <a href="#DefineUserErrorBySelf">`用户自定义错误`</a>
 
-* [x] <a href="#ErrorEvent">错误事件</a>
+* [x] <a href="#ErrorEvent">`错误事件`</a>
 
-* [x] <a href="#ErrorTypeError">常见错误类型</a>
+* [x] <a href="#ErrorTypeError">`常见错误类型`</a>
 
-* [x] <a href="#DebugTechnologe">错误调试技术</a>
+* [x] <a href="#DebugTechnologe">`错误调试技术`</a>
 
 #### <a id="Sysstruct">基本结构</a> <a href="#top" >`置顶` :arrow_up:</a>  
 ```JavaScript
