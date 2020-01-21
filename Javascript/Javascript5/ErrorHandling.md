@@ -121,13 +121,14 @@
 
 ##### 例子
 ```javascript
+let Person = new Object();
+
+Person.name = "JxKicker";
 Person.age = 18;
-
 Person.sex = Boolean(true);
-
 Person.id = "2016110418";
-
 Person.label = "HE";
+
 
 function Error_Legal_Parameter(message){
     this.name="parameter_not_legal";
@@ -263,15 +264,3 @@ input(Person);
 * `console.log(msg)`: 将一般性消息记录到控制台 :输出后字体为`黑色` 字体背景 `白色`
 
 * `console.warn(msg)`: 将信息性消息记录到控制台 :输出后字体为`黑色` 字体背景 `黄色`    
-
-
-
-
-
-
-
-
-
-
-
-
