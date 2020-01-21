@@ -5,7 +5,7 @@
 
 * [x] [`1.JavaScript5. 基本数据类型 简述`](./JavaScriptDateType.md)
 
-* [x] [`2.JavaScript5. 内存作用域环境`](./JavaScriptVariable.md)
+* [x] [`2.JavaScript5. 内存作用域环境 流程语句`](./JavaScriptVariable.md)
 
 * [x] [`3.JavaScript5. 引用类型`](./JavaScriptObject.md)
 
