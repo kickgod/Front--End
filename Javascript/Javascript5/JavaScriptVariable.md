@@ -82,13 +82,16 @@ console.log(pattern instanceof RegExp); //true
 * `如果这个环境是函数，则将其活动对象（activation object)作为变量对象。活动对象在最开始时只包含一个变量，就是函数内部的arguments对象[全局环境不存在]`
 * `标识符解析 是从内部 向外部 查找解析,所有最好使用局部变量,减少搜索时间`
 
+##### 延迟作用域链
+`当在 with 语句中引用变量 href 时（实际引用的是 location.href），可以在当前执行环境的变量对象中 找到。当引用变量 qs 时，引用的则是在 buildUrl()中定义的那个变量，而该变量位于函数环境的变 量对象中。至于 with 语句内部，则定义了一个名为 url 的变量，因而 url 就成了函数执行环境的一 部分，所以可以作为函数的值被返回.`
+
 ```javascript
 function buildName(){
     var qs = "?Name=jx";
     with(location){
         var url = href + qs;
     }
-    return url; //file:///E:/ecs5-workspace/ecs5-Bom/index.html?Name=jx
+    return url; // https://hp/ecs5-workspace/ecs5-Bom/index.html?Name=jx
 }
 
 console.log(buildName());
@@ -96,6 +99,7 @@ console.log(buildName());
 ##### 作用域
 * `js没有块级作用域`
 * `但是有函数局部环境 有局部变量 使用var 声明变量 避免直接使用变量 不声明变量`
+
 ```javascript
 {
     if(true){
@@ -104,6 +108,24 @@ console.log(buildName());
     console.log(color);//blue
 }
 ```
+`对于有块级作用域的语言来说，for 语句初始化变量的表达式所定义的变量，只会存在于循环的环 境之中。而对于 JavaScript来说，由 for 语句创建的变量 i 即使在 for 循环执行结束后，也依旧会存在 于循环外部的执行环境中。 `
+
+##### let const
+`js6 支持使用let声明变量 支持块级作用域， const声明常量也是块级作用域`
+
+```node
+try{
+    if (person.name == 'jxKicker'){
+        let age = 18;
+        console.log(age);
+    }
+    console.log(age); // 18
+}catch (e) {
+    console.error(e.message);// age is not defined
+}
+
+```
+
 ##### 垃圾回收机制
 * `标记清楚`:`常用,几乎所有浏览器都有,差异只在垃圾收集的时间间隔不一样`
 * `引用计数`:`有循环引用的问题`
