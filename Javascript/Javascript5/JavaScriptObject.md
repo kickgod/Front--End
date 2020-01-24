@@ -390,8 +390,8 @@ var sum = values.reduceRight(function(prev,cur,index,array){
 })
 //sum = 21
 ```
-##### [Date 对象](#top) <b id="date"></b>  :maple_leaf:
-[`构造方法`](#top)
+##### [Date 对象](#top) <b id="date"></b>  :maple_leaf: [`构造方法`](#top)
+
 * `Date 对象实例表示单个时间点。我们使用下面的代码初始化 Date 对象`:`new Date()`
 * `在内部，日期用 1970年1月1日（UTC）以来的毫秒数表示。这个日期很重要，因为就计算机而言，这就是一切开始的地方。`
 * `重要：UNIX 时间戳的原因以秒（seconds）为单位。JavaScript 以毫秒（milliseconds）为单位记录时间。`
@@ -400,9 +400,11 @@ var sum = values.reduceRight(function(prev,cur,index,array){
 const timestamp = 1530826365
 new Date(timestamp * 1000)
 ```
+
 * `如果我们传递 0 ，我们将得到一个 Date 对象，表示 1970年1月1日（UTC）的时间：`:`new Date(0)`
 * `如果我们传递一个字符串而不是一个数字，那么Date对象使用 parse 方法来确定您传递的日期。例如：`
 * `你也可以使用 Date.parse：Date.parse 将返回一个时间戳（以毫秒为单位）而不是 Date 对象。`
+
 ```node
 new Date('2018-07-22')
 new Date('2018-07') //July 1st 2018, 00:00:00
@@ -415,14 +417,9 @@ new Date('July 22, 2018 07:22:13')
 new Date('2018-07-22 07:22:13')
 new Date('2018-07-22T07:22:13')
 new Date('25 March 2018')
-new Date('25 Mar 2018')
-new Date('25 March, 2018')
 new Date('March 25, 2018')
-new Date('March 25 2018')
 new Date('March 2018') //Mar 1st 2018, 00:00:00
 new Date('2018 March') //Mar 1st 2018, 00:00:00
-new Date('2018 MARCH') //Mar 1st 2018, 00:00:00
-new Date('2018 march') //Mar 1st 2018, 00:00:00
 
 
 Date.parse('2018-07-22')
@@ -435,7 +432,13 @@ Date.parse('July 22, 2018')
 Date.parse('July 22, 2018 07:22:13')
 Date.parse('2018-07-22 07:22:13')
 Date.parse('2018-07-22T07:22:13')
+
+// Date.UTC() 方法
+// GMT 时间 2005 年 5 月 5 日下午 5:55:55 
+var allFives = new Date(Date.UTC(2005, 4, 5, 17, 55, 55)); 
+console.log(allFives.toLocaleString()); //2005-5-6 1:55:55
 ```
+
 * `您还可以传递一组代表日期各部分的有序值：年，月（从0开始），日，小时，分钟，秒和毫秒：`
 * `最小值应该是 3 个参数，但是大多数 JavaScript 引擎都能解析 2 个或 1 个参数：`
 ```node
