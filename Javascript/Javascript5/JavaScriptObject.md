@@ -290,10 +290,29 @@ console.log('pop2:', pop2.join('-'));  // pop2: 1-2-3-4-sd-true
 * `shift()`:`移出队列的第一项并且返回 length 减一`
 * `unshift()`:`在数组前端添加任意多个值`
 
+```node
+let colors = ["red","black","blue","purple"];
+
+colors.unshift("white","yellow");
+
+console.error(colors.join(" "));
+//white yellow red black blue purple
+```
 
 ##### 排序方法
 * `sort([?function(value,value1){return 0|1|-1;}])`:`排序方法 可以传入一个函数 排序,返回排序后的数组`
 * `reverse()`:`数组反转排序 返回排序后的数组` 
+
+```javascript
+console.error(grades.sort( function (val1, val2) {
+    if (val1 > val2){
+        return 1;
+    }else if (val1 < val2){
+        return -1;
+    }
+    return 0;
+}));
+```
 
 ##### 操作方法
 * `concat()`:`数组合并 可以传入任意多个数组 或者 元素`
@@ -325,7 +344,25 @@ array: [ 1, 2, 456, 879, 6, 7, 8, 9 ]
 * `lastIndexOf(value)`:`要查找项的索引位置 倒叙位置 从后往前找`
 ##### 迭代方法
 * `[返回 Boolean] every`:`对数组中的每一项运行给定函数,如果该函数对每一项都返回true 则返回true`
+   ```node
+   let isOk = grades.every(function (item,index,array) {
+      return item > 60;
+   });
+   console.log(`是否全部及格:${isOk}`);
+   ```
 * `[返回 Array]   filter`:`对数组中的每一项运行给定函数，返回该函数会返回true的项组成的数组`
+   ```node
+   let grades = [89,45,76,52.5,94,85,6,85,99,97,95,66,64,62,66,35,26,66,75,87,89];
+
+   let filter_grade = grades.filter(
+       function(item, index, array)
+       {
+           return (item > 85);
+       }
+   );
+
+   console.log(filter_grade);
+   ```
 * `[返回 void]    forEach`:`对数组中的每一项运行给定函数,这个方法没有返回值`
 * `[返回 Array]   map`:`对数组中的每一项运行给定函数 返回每次函数调用的结果组成的数组`
 * `[返回 Boolean] some`:`对数组中的每一项运行给定函数,如果函数对任一项返回true 则返回`
@@ -525,6 +562,12 @@ if (date2.getTime() === date1.getTime()) {
 (function callHello(str) {
    alert(str);
 })("what are you said?");
+
+
+let number_ = (function (val1,cal2) {
+    return val1 + cal2;
+})(10,25);
+console.error(number_); // 35
 ```
 
 ##### 函数的参数
