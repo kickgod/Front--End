@@ -546,6 +546,19 @@ if (date2.getTime() === date1.getTime()) {
 ```
 `请记住， getTime() 返回的毫秒数，因此您需要在比较中考虑时间因素。July 10, 2018 07:22:13 不等于 July 10, 2018 。在这种情况下，您可以使用 setHours(0, 0, 0, 0) 重置时间。`
 
+##### 两个时间相减
+`两个时间相减返回两个时间相差的毫秒数`
+
+```node
+let val_second =  (second_time_gap / 1000).toFixed(0) ; //得到秒
+let val_minute = (second_time_gap / 1000 / 60).toFixed(0); //相差的分
+let val_hour = (second_time_gap / 1000 / 60 / 60).toFixed(0); //得到相差的 时间
+let val_day = (second_time_gap / 1000 / 60 / 60 / 24).toFixed(0); //获得相差的天
+
+
+console.log(val_day,val_hour, val_minute, val_second);
+```
+
 ##### [Function 对象](#top) <b id="function"></b>  :maple_leaf:
 `函数本质是一个对象 函数名不能声明为 eval和arguments 参数不可同名` [`arguments  对象详情`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments)
 `The arguments object is a local variable available within all non-arrow functions.`
