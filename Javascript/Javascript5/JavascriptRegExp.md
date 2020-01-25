@@ -1,13 +1,14 @@
-<a id="top"  href="#top">:arrow_lower_left: JavaScript5 正则表达式 vscode :maple_leaf:</a>
+##### <a id="top"  href="#top"> JavaScript5 正则表达式 </a>
+
 ----
 `Javascript 正则表达式的使用,正则表达式具体请 到此处学习` [`菜鸟正则表达式`](http://www.runoob.com/regexp/regexp-tutorial.html) 
 [`RegExp官方文档`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
 
-- [x] <a href="#createregexp">`创建RegExp 对象`</a>
-- [x] <a href="#rugularprefix">`正则表达式修饰符`</a>
-- [x] <a href="#newfucntion">`新增的属性/ 方法`</a>
+- [x] <a href="#createregexp">`1.创建RegExp 对象`</a>
+- [x] <a href="#rugularprefix">`2.正则表达式修饰符`</a>
+- [x] <a href="#newfucntion">`3.新增的属性/ 方法`</a>
 
-##### :whale2:  [创建RegExp 对象](#top) <b id="createregexp"></b>
+##### [创建RegExp 对象](#top) <b id="createregexp"></b>
 `在 ES5 中，RegExp构造函数的参数有两种情况。`
 * 第一种情况是，参数是字符串，这时第二个参数表示正则表达式的修饰符（flag）。
 ```javascript
@@ -38,7 +39,7 @@ console.log(val.replace(expression,"**"));
 //输出: **sdsdsd **asd
 ```
 
-##### :whale2:[字符串修饰符](#top)</a> <b id="rugularprefix"></b>
+##### [字符串修饰符](#top)</a> <b id="rugularprefix"></b>
 * `RegExp 对象创建有三种模式 igm` <br/>  
    * `i`:`表示不区分大小写`
    * `g`:`加上以后不会再匹配到一个后就停止匹配,继续向后面匹配,默认匹配到第一个就停止匹配`
@@ -73,7 +74,7 @@ console.log(val.replace(expression,"**"));
     re.flags // 's'
   ```
 
-##### :whale2:[新增的属性](#top)</a> <b id="newfucntion"></b>
+##### [新增的属性](#top)</a> <b id="newfucntion"></b>
 * `RegExp.prototype.flags`：`ES6 为正则表达式新增了flags属性，会返回正则表达式的修饰符 字符串`
 * `RegExp.prototype.unicodes`:`正则实例对象新增unicode属性，表示是否设置了u修饰符。 Boolean`
 * `RegExp.prototype.sticky`:`与y修饰符相匹配，ES6 的正则实例对象多了sticky属性，表示是否设置了y修饰符。Boolean`
