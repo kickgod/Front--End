@@ -1,15 +1,15 @@
-### [JavaScript 面向对象](#top) <b id="top"></b> :maple_leaf:
+### [JavaScript 面向对象](#top) <b id="top"></b> 
 
 ----
 :white_check_mark: `JavaScript5 没有类 但是有对象，JS对象是一个非常有趣的东西 它就是无序属性的集合 属性可以为基本值 对象 和函数`
 
-- [x] :maple_leaf: [`Object 属性类型/特性`](#object)
+- [x] [`Object 属性类型/特性`](#object)
    * `数据属性`
        * `特性` `Object.defineProperty`
    * `访问器属性`
        * `特性` `Object.defineProperties`
-- [x] :maple_leaf: [`创建对象`](#create)
-- [x] :maple_leaf: [`基本定理`](#basic)
+- [x] [`创建对象`](#create)
+- [x] [`基本定理`](#basic)
   * `工厂模式`
   * `构造函数` ` * 指定这种 其他理解` 
   * `原型模式`
@@ -17,11 +17,11 @@
   * `稳妥构造函数`
       
 
-##### [Object 属性类型/特性](#top)  :maple_leaf:   <b id="object"></b>
+##### [Object 属性类型/特性](#top)  <b id="object"></b>
 `ECMA 在第五版定义了只有内部采用的特性 描述了属性的各种特性,ECM-262 定义这些特性是否了实现JavaScript 是为了实现JavaScripty殷勤用的,因此Js代码中无法访问他们
 为了表示特性是内部值 规范用双中括号表示 [[Enumerable]]`
 
-- [x] (1). ECMA中有两种属性:数据属性和访问器属性
+- [x] `(1). ECMA中有两种属性:数据属性和访问器属性`
 
 ##### 数据属性
 `包含一个数据值的位置，这个位置可以读取 数据属性有四个描述其行为的特性`
@@ -36,7 +36,7 @@ var person = {
   Name:"Jxkicker" //前三个特性值为 true [[Value]] 为 "Jxkicker"
 }
 ```
-#####  :maple_leaf::[Object.defineProperty(obj,propertyName,obj_desc)](#top)
+##### [Object.defineProperty(obj,propertyName,obj_desc)](#top)
 `如果要修改属性默认的特性,必须使用defineProperty方法 接收三个参数 属性所在对象 属性名称 和一个描述符对象 描述符对象的属性必须是  configurable,enumerable
 writeable,value 设置一个或者多个值`
 * `注意`:`那么不设置的特征值是 默认值 可以多次调用 此方法修改同一个属性但是 但是在吧configurable设置 为false之后就会有错误了 `
@@ -86,7 +86,7 @@ console.log(user.age);
 console.log(user.birthYear);
 ```
 
-##### :maple_leaf: [Object.defineProperties()](#top)
+##### [Object.defineProperties()](#top)
 `一次性定义多个属性 如果有些描述属性没有给与值 那么默认为false`
 
 ```node
@@ -120,7 +120,7 @@ book.year = 2008;
 
 console.log(book.edition);
 ```
-##### :maple_leaf: [读取属性的特性](#top)
+##### [读取属性的特性](#top)
 `js提供了 Object.getOwnPropertyDescriptor(obj,propertyName);` `第一个参数 对象` `第二个参数 对象的属性名 返回一个描述对象`
 ```node
 
@@ -138,7 +138,7 @@ console.log(yeardescripter.enumerable); // true
 console.log(typeof yeardescripter.set); //function
 console.log(typeof yeardescripter.get); //function
 ```
-##### [创建对象](#top)  :maple_leaf:   <b id="create"></b>
+##### [创建对象](#top)  <b id="create"></b>
 `以上创建对象的方式 太过于单一，无法提供一个创建对象的模板 还无法实现继承重用效果,怎么实现来 请让我细细道来`
 
 ##### [工厂模式](#top)
@@ -317,13 +317,13 @@ console.log('name:', friend.getName() );
 
 
 
-##### [属性访问属性](#top)  :maple_leaf:  
+##### [属性访问属性](#top)  
 `当访问一个属性的,它是如何查找值的呢？ 这和静态语言不同 且等我嘻嘻说来`
 * `每当读取某个对象的某个属性的时候,都会执行一次搜索,目标是具有给定名称的属性`
 * `1.首先搜索对象实例本身的属性 找到 返回值 找不到 搜索指针指向的原型对象`
 * `2.在原型对象中搜素属性 找到返回 找不到 则继续向上查找 原型的原型`
 * `所以 如果原型对象属性 和实例对象的属性 同名的时候 会发生覆盖 并且实例属性的优先级高`
-##### [基本定理](#top)  :maple_leaf:   <b id="basic"></b>
+##### [基本定理](#top)   <b id="basic"></b>
 * `Function是最顶层的构造方法，所有对象都由Function方法构造，包括Object方法，Function方法（有些人把这个认为是Function方法的自生性，不用纠结，不管是什么原因，只要记住Function是方法也是对象就行）`
 * `所有的方法（就是克隆类）都继承Function.prototype对象（包括Function方法 通过定理1可得）`
 * `不要纠结是先有Object对象，还是先有Function方法，就跟先有鸡还是现有蛋一样，相互依赖，同时诞生`
