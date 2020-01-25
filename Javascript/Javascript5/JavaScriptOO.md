@@ -64,26 +64,27 @@ console.log(person.name); //JxKicker
 - [x] `(4)`. `[[Set]]`:`在设置属性的时候调用的函数 默认值 undefined`
 
 ```javascript
-var user = {
-    _birth_year:1998,
-    age:20
-}
+let toolBox = {};
 
-Object.defineProperty(user,"birthYear",{
-    get:function(){
-        return this._birth_year;
-    },
-    set:function(newValue = 1998){
-        this._birth_year = newValue;
-        var date = new Date();
-        this.age = date.getFullYear() - this._birth_year;
-    }
+Object.defineProperty(toolBox, "_basic_standard_precision", {
+    configurable: false,
+    writable:false,
+    value:3,
+    enumerable:false
 });
 
-user.birthYear = 1997;
+Object.defineProperty(toolBox,"pricision", {
+    configurable:true,
+    Enumerable:true,
+    get() {
+        return this._basic_standard_precision;
+    },
+    set(v) {
+        this._basic_standard_precision = v;
+    }
+})
 
-console.log(user.age);
-console.log(user.birthYear);
+console.log(toolBox.pricision);
 ```
 
 ##### [Object.defineProperties()](#top)
