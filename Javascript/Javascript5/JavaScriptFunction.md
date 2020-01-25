@@ -1,4 +1,5 @@
-### [JavaScript 函数](#top) :grey_exclamation: <b id="top"></b>
+#### [JavaScript 函数](#top) <b id="top"></b>
+
  `Javascript 函数有很多的其他深层次的东西`:white_check_mark:
 
 ---
@@ -84,6 +85,8 @@ console.log(test(10));//跑递归
 ```
 #####  :octocat: [2.闭包](#top) <b id="close"></b> 
 `闭包`:`有权访问另一个函数作用域的变量的函数`
+`创建闭包的常见方式，就是在一个函数内部创建另一个函数。`
+`闭包就是能够读取其他函数内部变量的函数,可以把闭包简单理解成  ‘定义在一个函数内部的函数’ `
 ```javascript
 function getMax(propertyName){
     return function (objext) {
@@ -105,6 +108,25 @@ console.log(maxScore); //98.6
 - `func_getmax 依赖于 getMax 的 propertyName `
 - `func_getmax 延长了 getMax 的函数作用域 getMax被引用 `
 - `func_getmax 被销毁后 getMax 才能被销毁`
+
+* `闭包的最大用处有两个：`
+ * `1.可以读取函数内部的变量`
+ * `2.让这些变量的值始终保存在内存中`
+* `缺点：内存泄露`
+```node
+function call_one() {
+    let n = 999;
+    return function() {
+        console.log(n);
+    }
+}
+
+let result = call_one();
+    result();//999
+```
+
+
+[`参考博客`](https://www.jianshu.com/p/87762b8864a8)
 
 #####  :octocat: [3.this对象](#top) <b id="this"></b> 
 `this 对象是在运行时给予函数的执行环境绑定的,在全局函数中,this等于 window` `注意: 匿名函数的执行环境具有全局性,因此this通常指向window`<br/>
