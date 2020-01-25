@@ -574,6 +574,8 @@ console.log(val_day,val_hour, val_minute, val_second);
  }
 ```
 
+`这是因为在使用函数表达式定义函数时，没有必要使用函数名——通过变量 sum 即可以引 用函数。另外，还要注意函数末尾有一个分号，就像声明其他变量时一样`
+
 ##### 立即执行函数
 ```javascript
 (function callHello(str) {
@@ -606,6 +608,17 @@ var sum = new Function("num1","num2","return num1 + num2")
 > `arguments`:`类数组对象，包含着传入函数中的所有参数,保存函数参数,arguments还有一个名叫callee的属性 第一个元素可以通过 arguments[0] 来访问 依次类推`
    > `callee`：`该属性是一个指针指向拥有arguments对象的函数,可以用来做阶乘`
 > `caller 属性`：`显示当前函数在被那个函数调用`
+   ```node
+   function outer(){   
+       inner();
+   }
+
+   function inner(){    
+       console.log(arguments.callee.caller); //[Function: outer]
+   } 
+
+   outer(); 
+   ```
 > `length 属性`：`函数接受的函数个数`
 > `prototype`:`父类指向`
 > `this`:`对于ES5 普通函数 this执行函数运行时所在环境`
@@ -676,6 +689,22 @@ function foo(a, b, c) {
  
 foo.call(obj, 1, 2, 3)   //打印结果： 2;
 ```
+
+##### 他们的用处
+```node
+function sum(num1, num2){     return num1 + num2; } 
+ 
+function callSum1(num1, num2){     
+   return sum.apply(this, arguments);// 传入 arguments 对象
+} 
+ 
+function callSum2(num1, num2){     
+   return sum.apply(this, [num1, num2]); // 传入数组
+} 
+ 
+alert(callSum1(10,10));   //20 alert(callSum2(10,10));   //20 
+```
+
 ##### [Global 对象](#top) <b id="global"></b>  :maple_leaf:
 * `JavaScript 中有一个特殊的对象，称为全局对象（Global Object），它及其所有属性都可以在程序的任何地方访问，即全局变量。`
 * `全局对象只是一个对象，而不是类。既没有构造函数，也无法用new实例化一个新的全局对象。`
