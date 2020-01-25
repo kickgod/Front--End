@@ -9,6 +9,7 @@
 - [x]  [`String 对象`](#string)
 - [x]  [`Array 对象`](#array)
 - [x]  [`Date 对象`](#date)
+- [x]  [`RegExp 对象`](https://github.com/kickgod/Front-End/blob/master/Javascript/Javascript5/JavascriptRegExp.md)
 - [x]  [`Function 对象`](#function)
 - [x]  [`Global 对象`](#global)
 - [x]  [`Math 对象`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
