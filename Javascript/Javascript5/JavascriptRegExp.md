@@ -10,19 +10,28 @@
 
 ##### [创建RegExp 对象](#top) <b id="createregexp"></b>
 `在 ES5 中，RegExp构造函数的参数有两种情况。`
-* 第一种情况是，参数是字符串，这时第二个参数表示正则表达式的修饰符（flag）。
+* `第一种情况是，参数是字符串，这时第二个参数表示正则表达式的修饰符（flag）。`
 ```javascript
   var regex = new RegExp('xyz', 'i');
   // 等价于
   var regex = /xyz/i;
+
+  let regular = new RegExp(/^jx/i);
+
+  let _str = "jxKicker";
+
+  console.log(regular.test(_str));
+
 ```
-* 第二种情况是，参数是一个正则表示式，这时会返回一个原有正则表达式的拷贝。
+* `第二种情况是，参数是一个正则表示式，这时会返回一个原有正则表达式的拷贝。`
 ```javascript
   var regex = new RegExp(/xyz/i); //修饰符跟在后面此时不允许使用第二个参数
   // 等价于
   var regex = /xyz/i;
 ```
-ES6 改变了这种行为。如果RegExp构造函数第一个参数是一个正则对象，那么可以使用第二个参数指定修饰符。而且，返回的正则表达式会忽略原有的正则表达式的修饰符，只使用新指定的修饰符。
+
+`ES6 改变了这种行为。如果RegExp构造函数第一个参数是一个正则对象，那么可以使用第二个参数指定修饰符。而且，返回的正则表达式会忽略原有的正则表达式的修饰符，只使用新指定的修饰符。`
+
 ```javascript
 let reg=new RegExp(/abc/ig, 'i');
 console.log(reg.flags);// 返回正则对象的修饰符
@@ -38,6 +47,15 @@ let val ="atsdsdsd atasd";
 console.log(val.replace(expression,"**"));
 //输出: **sdsdsd **asd
 ```
+
+* `RegExp的实例属性`
+
+  * `global`:`Boolean 值,表示是否设置了 g标志`
+  * `ignoreCase`:`Boolean 值,表示是否设置了 i标志`
+  * `lastIndex`:`整数 表示开始搜索下一个匹配项的字符位置,从0算起`
+  * `multiline`:`布尔值, 表示是否设置了m标志`
+  * `source`:`正则表达式的字符串表示，按照字面量形式而非传入构造函数的字符串模式返回`
+
 
 ##### [字符串修饰符](#top)</a> <b id="rugularprefix"></b>
 * `RegExp 对象创建有三种模式 igm` <br/>  
@@ -58,6 +76,27 @@ console.log(val.replace(expression,"**"));
     console.log(val1,val2,val3,val4);
    ```
    * `y`:`lastIndex初始值为0。规定正则表达式必须从lastIndex规定的位置开始进行匹配。` [y](http://es6.ruanyifeng.com/#docs/regex#y-%E4%BF%AE%E9%A5%B0%E7%AC%A6)
+   ```javascript
+    //如果不懂这个y 什么意思 把 regex对象后面的y去掉再看输出就行
+    var text = "First line\nsecond line";
+
+    var regex = /(\S+) line\n?/y;
+
+    function print(val) {
+        console.log(val);
+    }
+
+    let match = regex.exec(text);
+    print(match[1]);  // prints "First"
+    print(regex.lastIndex); // prints 11
+
+    let match2 = regex.exec(text);
+    print(match2[1]); // prints "Second"
+    print(regex.lastIndex); // prints "22"
+
+    let match3 = regex.exec(text);
+    print(match3 === null); // prints "true"
+   ```
   *  `s`:`s 修饰符：dotAll 模式 . 匹配符匹配任意单字符,但是不能匹配 \n 如果想让他匹配 \n 那么只需要加上s 修饰符` 
   ```javascript
     /foo.bar/.test('foo\nbar')
@@ -75,11 +114,29 @@ console.log(val.replace(expression,"**"));
   ```
 
 ##### [新增的属性](#top)</a> <b id="newfucntion"></b>
+
 * `RegExp.prototype.flags`：`ES6 为正则表达式新增了flags属性，会返回正则表达式的修饰符 字符串`
 * `RegExp.prototype.unicodes`:`正则实例对象新增unicode属性，表示是否设置了u修饰符。 Boolean`
 * `RegExp.prototype.sticky`:`与y修饰符相匹配，ES6 的正则实例对象多了sticky属性，表示是否设置了y修饰符。Boolean`
 * `dotAll `:`是否加上了 s 修饰符 允许匹配\n . `
+
+##### API
+
+* `RegExp.prototype.exec()` `在目标字符串中执行一次正则匹配操作。`:`返回 Match`
+* `RegExp.prototype.test()` `测试当前正则是否能匹配目标字符串。`:`返回 Boolean`
+* `RegExp.prototype.toSource()`  `返回一个字符串，其值为该正则对象的字面量形式。覆盖了Object.prototype.toSource 方法.`
+* `RegExp.prototype.toString()` `返回一个字符串，其值为该正则对象的字面量形式。覆盖了Object.prototype.toString() 方法.`
+
 ##### 方法
+
+* `replace()` :`使用 $1 和 $2 指明括号里先前的匹配.`
+```javascript
+var re = /(\w+)\s(\w+)/;
+var str = "John Smith";
+var newstr = str.replace(re, "$2, $1"); //$1 $2 是分组查询结果
+print(newstr);
+```
+
 `String.prototype.matchAll`:`String.prototype.matchAll方法，可以一次性取出所有匹配。不过，它返回的是一个遍历器（Iterator），而不是数组。`
 ```node
 const string = 'test1test2test3';
