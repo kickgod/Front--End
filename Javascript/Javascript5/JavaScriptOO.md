@@ -121,6 +121,32 @@ book.year = 2008;
 
 console.log(book.edition);
 ```
+
+```node
+let kingdom = {};
+Object.defineProperties(kingdom, {
+    name:{ //国民
+        writable:true,
+        value:'中华人民共和国',
+        enumerable:true,
+        configurable:true
+    },
+    long:{ //国祚
+        enumerable:true,
+        configurable:true,
+        get() {
+            return (new Date()).getFullYear() - 1949;
+        }
+    },
+    peopleCount:{ //民族数量
+        enumerable:true,
+        configurable:true,
+        value:56,
+        writable:false
+    }
+});
+```
+
 ##### [读取属性的特性](#top)
 `js提供了 Object.getOwnPropertyDescriptor(obj,propertyName);` `第一个参数 对象` `第二个参数 对象的属性名 返回一个描述对象`
 ```node
