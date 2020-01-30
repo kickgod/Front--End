@@ -1,10 +1,10 @@
-<a id="top" href="#top">Sass 运行环境安装  :maple_leaf:</a> 
+<a id="top" href="#top">Sass 运行环境安装  </a> 
 ----
 `	Sass是世界上最成熟，最稳定，最强大的专业级CSS扩展语言。Bootstrap4.0 也是基于Sass 编写的,使用Sass构建了无数的框架。Compass，Bourbon和Susy..。`
 
-- [x] :maple_leaf: <a href="#WindowsInstallSass">`Windows 10 安装Sass`</a>
-- [x] :maple_leaf: <a href="#CodingFileSass">`编译文件`</a>
-- [x] :maple_leaf: <a href="#vscodeUseSass">`使用vscode 实现自动编译 / 自由开发`</a>
+- [x] <a href="#WindowsInstallSass">`Windows 10 安装Sass`</a>
+- [x] <a href="#CodingFileSass">`编译文件`</a>
+- [x] <a href="#vscodeUseSass">`使用vscode 实现自动编译 / 自由开发`</a>
 
 #####  <a id="WindowsInstallSass" href="#WindowsInstallSass">安装Sass</a>  :star2: <a href="#top"> :arrow_up: </a>
 `Sass 是基于Ruby的扩展语言,所以需要安装Ruby`
