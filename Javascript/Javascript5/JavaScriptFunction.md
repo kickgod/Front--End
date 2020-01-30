@@ -98,12 +98,19 @@ let person = {
     name :"jxkicker",
     age:20,
     scores:[98.6,78.5,78.6,95.6,15.5]
+};
+
+let val = {
+    gg:[99,78,85,56,84,89,56]
 }
 
 let func_getmax = getMax("scores");
-let maxScore =  func_getmax(person);
+let func_getggMax = getMax('gg');
 
-console.log(maxScore); //98.6
+let maxScore =  func_getmax(person);
+let maxgg = func_getggMax(val);
+
+console.log(maxScore,maxgg); //98.6 99
 ```
 - `func_getmax 依赖于 getMax 的 propertyName `
 - `func_getmax 延长了 getMax 的函数作用域 getMax被引用 `
@@ -143,9 +150,13 @@ var obj = {
     }
 }
 
-console.log(obj.getNameFuc()()); //The Window  非严格模式
+console.log(obj.getNameFuc()()); 
+//The Window  非严格模式 在浏览器里面执行的结果
+//undefined 在v8引擎执行结果
 ```
+
 > `那么怎么使用 obj.name ？ 一切都是引用`
+
 ```node
  var name = "The Window";
  var obj = {
@@ -160,7 +171,10 @@ console.log(obj.getNameFuc()()); //The Window  非严格模式
 
  console.log(obj.getNameFuc()()); //My Object
 ```
-**`对象中的方法的this 在对象中的函数,指向对象本身`**
+`this是JavaScript的一个关键字，他是指函数执行过程中，自动生成的一个内部对象，是指当前的对象，只在当前函数内部使用。（this对象是在运行时基于函数的执行环境绑定的：在全局函数中，this指向的是window；当函数被作为某个对象的方法调用时，this就等于那个对象）`
+
+##### 对象中的方法的this 在对象中的函数,指向对象本身
+
 ```node
 /**
  * @param {string} id 证件号码
@@ -186,6 +200,23 @@ Person.prototype.toString = function(){
 let jxKicker = new Person("2016110418","jxKicker",20);
 console.log(jxKicker.toString());
 ```
+
+##### es6 箭头函数 this
+`箭头函数的this定义：箭头函数的this是在定义函数时绑定的，不是在执行过程中绑定的。简单的说，函数在定义时，this就继承了定义函数的对象。`
+
+```node
+var name = "The Window";
+
+var obj = {
+    name : "My Object",
+    getNameFuc() {
+        return ()=> this.name;
+    }
+}
+
+console.log(obj.getNameFuc()()); //My Object
+```
+`此时的this 在定义的时候就已经绑定为obj对象`
 #####  :octocat: [4.Dom操作造成了内存泄漏](#top) <b id="lost"></b> 
 `有时候对于引用的不释放,特别是在 dom 操作中,可能会其一直保存在内容中,造成内容占用！`
 ```node
@@ -203,8 +234,8 @@ list.each(function(index,htmlElement){
 list = null;
 ```
 #####  :octocat: [5.作用域和私有变量](#top) <b id="inner"></b> 
-`JS5 没有会计作用域,所以会发生这样的事情`:`i 跳出循环之后 还在 但是不慌 你记住 用let 和const[常量] 声明的变量就是支持块级作用域的,这是es6的标准
-并且已经被各大浏览器所支持`
+`JavaScript 5.1 没有块级作用域,所以会发生这样的事情`:`i 跳出循环之后 还在 但是不慌 你记住 用let 和const[常量] 声明的变量就是支持块级作用域的,这是es6的标准并且已经被各大浏览器所支持【现已经完全支持】`
+
 ```javascript
 function circle(){
     for(var i = 0;i<10;i++){
@@ -215,7 +246,9 @@ function circle(){
 
 circle();
 ```
+
 `es6`：`使用let 声明的变量`
+
 ```javascript
 function circle(){
     for(let i = 0;i<10;i++){
@@ -260,7 +293,7 @@ let name = obj.getName();
 console.log(name);
 ```
 `通过参数也是可以的`:`这样一个对象的私有变量 就出来了  知道怎么做了吧`
-```
+```javascript
 function myVariable(name,age){
     
     this.setName = function(value) {
@@ -285,6 +318,7 @@ console.log(name);
 
 #####  :octocat: [7.静态私有变量](#top) <b id="static"></b> 
 `创建一个私有的作用域`
+
 ```node
 (function () {
     var name = "";
@@ -299,12 +333,12 @@ console.log(name);
     }
 })();
 
-
 var p1 = new Person("JxKicker");
 var p2 = new Person("wangzhe");
 console.log(p1.getName());//wangzhe
 console.log(p2.getName());//wangzhe
 ```
+
 #####  :octocat: [8.模块模式](#top) <b id="module"></b> 
 `模块模式为单例创建私有变量和特权方法.单例[singleton]的意思 就是只有一个实例的对象,Javascript 使用对象字面量的方式创建单例对象`
 ```node
