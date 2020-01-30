@@ -1,14 +1,14 @@
-<a id="top" href="#top">Sass 基本语法  :maple_leaf:</a> 
+<a id="top" href="#top">Sass 基本语法 </a> 
 ----
 `Sass语法及其简单,让我们来进入Sass的世界  注释 /* */ 与 // 都支持`
 
-- [x] :maple_leaf: <a href="#SassValraible">`Sass 变量 `</a>
-- [x] :maple_leaf: <a href="#SassQianTao">`Sass 嵌套`</a>
+- [x]  <a href="#SassValraible">`Sass 变量 `</a>
+- [x]  <a href="#SassQianTao">`Sass 嵌套`</a>
   - <a href="#CengciProperty" >`sass 层次嵌套`</a>
   - <a href="#Property" >`sass 属性嵌套`</a>
-- [x] :maple_leaf: <a href="#PartialSass">`@import scss `</a>
-- [x] :maple_leaf: <a href="#mixinSupport">`供应商前缀 mixin `</a>
-- [x] :maple_leaf: <a href="#kuozhanhejicheng">`继承 @extend`</a>
+- [x] <a href="#PartialSass">`@import scss `</a>
+- [x] <a href="#mixinSupport">`供应商前缀 mixin `</a>
+- [x] <a href="#kuozhanhejicheng">`继承 @extend`</a>
 
 
 
