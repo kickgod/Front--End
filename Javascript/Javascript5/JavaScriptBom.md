@@ -35,7 +35,68 @@ window.addItem(20);
 console.log(window.index);//30
 
 ```
-#####  :octocat: [2.窗口关系和框架](#top) <b id="frame"></b> 
+##### [window API](https://developer.mozilla.org/en-US/docs/Web/API/Window)
+
+* `属性`
+  * `closed`:`read-only property indicates whether the referenced window is closed or not.`
+  * `console `:`property returns a reference to the Console object, which provides methods for logging information to the browser's console.`
+  * `Crypto`:`该Crypto接口表示当前上下文中可用的基本加密功能。它允许访问加密强度高的随机数生成器和加密基元。`
+  ```node
+     var array = new Uint32Array(2);
+     window.crypto.getRandomValues(array);
+
+     console.log("Your lucky numbers:");
+     for (var i = 0; i < array.length; i++) {
+         console.log(array[i]);
+     }
+  ```
+  * [`customElements`](https://blog.csdn.net/YiYour/article/details/79425242)
+  * `document`
+  * `event`
+  * `history`
+  * `indexedDB` :`只读属性WindowOrWorkerGlobalScope为应用程序提供了一种机制，可以异步访问索引数据库的功能。`
+  * `innerHeight`
+  * `innerWidth`
+  * `length`：`返回窗口中的frame数量`
+  * [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Storage):`The read-only localStorage property allows you to access a Storage object for the Document's origin; the stored data is saved across browser sessions. localStorage is similar to sessionStorage, except that while data stored in localStorage has no expiration time, data stored in sessionStorage gets cleared when the page session ends — that is, when the page is closed`
+  * [`sessionStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
+  * `navigator`
+  * `scrollbars`:`返回scrollbars对象，可以检查其可见性`
+  ```html
+   <script>
+     let visibleScrollbars = window.scrollbars.visible;
+   </script>  
+  ```
+  * `scrollX`:`您可以从scrollX属性获取垂直滚动文档的像素数`
+  * `scrollY`:`您可以从scrollY属性获取垂直滚动文档的像素数`
+* `方法`
+  * `blur()`:`将焦点从窗口移开。`
+  * `alert()`
+  * `setInterval()`
+  * `setTimeout()`
+  * `clearInterval()`
+  * `clearTimeout()`
+  * `close()`:`立即关闭当前页面`
+  * `confirm()`
+  * `focus()`
+  * [`matchMedia()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia):`媒体匹配查询`
+  ```node
+  let mql = window.matchMedia('(max-width: 600px)');
+  ```
+  * `scrollTo()`
+  * `scroll()`
+  * `scrollBy()`
+  * `stop()`:`将window.stop()停止在当前浏览器上下文进一步的资源负荷，相当于在浏览器中的停止按钮。由于脚本的执行方式，该方法无法中断其父文档的加载，但会停止其图像，新窗口和其他仍在加载的对象。`
+ * `事件`
+  * `error`
+  * `focus`
+  * `blur`
+  * `load`
+  * `unload`
+  * `offline`
+  * `online`
+  * `focus`
+ #####  :octocat: [2.窗口关系和框架](#top) <b id="frame"></b> 
 `如果页面中包含框架 [frame 标签] 则每一个框架都拥有自己window 对象,并且保存在 frame集合中,在frames集合中,可以通过数值索引【从0 开始 从左向右 自上而下】 或者通过 框架名称访问相应的 windo对象`
 ```html
 <body>
