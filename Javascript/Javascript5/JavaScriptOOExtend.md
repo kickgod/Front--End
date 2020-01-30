@@ -1,5 +1,5 @@
 ### [JavaScript OO 之继承](#top) :grey_exclamation: <b id="top"></b>
-:white_check_mark: `继承方法 虽然有很多种 但是 我们一般只用那么一种 因为其他的都是这一种继承方法的垫脚石,推荐使用寄生组合继承`
+:white_check_mark: `继承方法 虽然有很多种 但是 我们一般只用那么一种 因为其他的都是这一种继承方法的垫脚石,推荐使用寄生组合继承, 本质上来说JavaScript其实并没有继承这个东西，继承实现的基础完全是靠的借用构造函数和prototype引用,而prototype 是类似于 静态语言例如Java或 C#等 静态属性一样的东西，所以其继承的本质是畸形的`
 
 - [x] [`1.原型链继续`](#proto) 
 - [x] [`2.理解一下属性在哪里`](#property) 
@@ -190,18 +190,26 @@ var obj = createAnthor(person);
 
 ----
 * `寄生组合式继承`:`很好减少了很多的东西 通过改变引用关系 完美的实现了继承 它是最应该掌握的继承方式`
+* > `借用构造函数实现属性继承`
+* > `利用原型链完成对函数方法的继承`
 
 ```node
-function inheritPrototype(subType,superType){
-    var prototype = object(superType.prototype); //  var prototype = Object.create(superType.prototype)；
-    prototype.constructor = subType;
-    subType.prototype = prototype;
+function object(o){
+    function F() {};
+    F.prototype = o;
+    return new F();
+}
+
+function inheritPrototype(son,father){
+    var prototype = object(father.prototype); //  var prototype = Object.create(father.prototype)；
+    prototype.constructor = father;
+    son.prototype = prototype;
 }
 
 /***************** 父类 *******************/
 function Egg(color = "white",typeName ="卵生物种"){
     this.typeName =  typeName ,
-    this.color = color
+        this.color = color
 }
 
 Egg.prototype.getType = function(){
@@ -225,7 +233,16 @@ chicken.prototype.getPrice = function(Meony){
         console.error('Error', 'Meony is not Number Type')
     }
     return  this.weight * Meony;
-}
+};
+
+let littleChicken =  new chicken("White",true,2.1);
+
+/*
+for (let property in littleChicken){
+    console.log(`${property}: ${littleChicken[property]} `);
+}*/
+
+console.log(littleChicken instanceof Egg); //true
 ```
 
 -----------------
