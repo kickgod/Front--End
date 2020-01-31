@@ -12,6 +12,9 @@
   * [`5.1 Document 查询API`](#target6)
   * [`5.2 Document 一致性检测`](#target7)
 - [x] [`6.页面加载顺序`](#target8)
+- [x] [`7.Element`](#target9)
+
+
 ------
 
 #####  :octocat: [1.节点层次](#top) <b id="target1"></b> 
@@ -221,7 +224,7 @@ window对象的一个属性,因此可以将其作为全局对象来访问,Docume
 #####  :octocat: [5.2 Document 一致性检测](#top) <b id="target7"></b> 
 `Dom 是分多个级别的 有 DOM1 DOM2 DOM3 三个级别每个级别提供的功能不一样所以检测浏览器实现了Dom 那些部分就十分必要了`
 
-#####  :octocat: [页面加载顺序](#top) <b id="target6"></b> 
+#####  :octocat: [6.页面加载顺序](#top) <b id="target6"></b> 
 
 * `页面加载大致的几个步骤`
   * `1.开始解析HTML文档结构。`
@@ -264,6 +267,58 @@ document.addEventListener("readystatechange", function() {
 ##### 3.window的load事件
 
 `当所有的资源全部加载完成后就会触发window的load事件。`
+
+#####  :octocat: [7.Element](#top) <b id="target9"></b> 
+`除了 Document 类型之外，Element 类型就要算是 Web 编程中常用的类型了。Element 类型用 于表现 XML或HTML元素，提供了对元素标签名、子节点及特性的访问。Element 节点具有以下特征`
+
+* `nodeType 的值为 1；` 
+* `nodeName 的值为元素的标签名；` 
+* `nodeValue 的值为 null；` 
+* `parentNode 可能是 Document 或 Element；`
+* `其子节点可能是 Element、Text、Comment、ProcessingInstruction、CDATASection 或 EntityReference。 `
+
+`要访问元素的标签名，可以使用 nodeName 属性，也可以使用 tagName 属性；这两个属性会返回 相同的值（使用后者主要是为了清晰起见）。`
+```html
+<button class="btn" name="saveCode" id="saveCode" data-val="14258Ada87">确认</button>
+<script>
+  window.onload = function(){
+     var btnElement = document.getElementsByName("saveCode").item(0);
+     console.log(btnElement.tagName, btnElement.nodeName);    //BUTTON BUTTON
+     console.log(btnElement.nodeType, btnElement.nodeValue);  //1 null
+  }
+ <script/>
+```
+
+##### 1. HTML元素 
+`所有 HTML元素都由 HTMLElement 类型表示，不是直接通过这个类型，也是通过它的子类型来表 示。HTMLElement类型直接继承自Element并添加了一些属性。添加的这些属性分别对应于每个HTML 元素中都存在的下列标准特性。 `
+
+* `id`:`元素在文档中的唯一标识符。` 
+* `title`: `有关元素的附加说明信息，一般通过工具提示条显示出来。` 
+* `lang`:`元素内容的语言代码，很少使用。` 
+* `dir`:`语言的方向，值为"ltr"（left-to-right，从左至右）或"rtl"（right-to-left，从右至左） ， 也很少使用。`
+* `className`:`与元素的class特性对应，即为元素指定的CSS类。没有将这个属性命名为class， 是因为 class 是 ECMAScript的保留字 如果有多个类名就返回多个类名组成的字符串`
+* `classList`:`返回类名组成的数组`
+
+##### 2. 取得特性 
+`每个元素都有一或多个特性，这些特性的用途是给出相应元素或其内容的附加信息。操作特性的 DOM方法主要有三个`
+
+* `getAttribute()`
+* `setAttribute()`
+* `removeAttribute()`
+
+```node
+var div = document.getElementById("myDiv");
+alert(div.getAttribute("id"));         //"myDiv" 
+alert(div.getAttribute("class"));      //"bd" 
+
+div.setAttribute("title", "Some other text"); 
+
+
+window.setTimeout(()=>{
+    div.removeAttribute('class');
+},3000);
+```
+
 
 --------------------
 `作者:` `JxKicker` 
