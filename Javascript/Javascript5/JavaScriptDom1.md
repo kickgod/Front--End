@@ -1,6 +1,6 @@
 ### [JavaScript Dom1 文档对象模型](#top) :grey_exclamation: <b id="top"></b>
 `文档对象模型（Document Object Model，简称DOM），是W3C组织推荐的处理可扩展标志语言的标准编程接口。在网页上，组织页面（或文档）的
-对象被组织在一个树形结构中，用来表示文档中对象的标准模型就称为DOM。` :speech_balloon:
+对象被组织在一个树形结构中，用来表示文档中对象的标准模型就称为DOM。[总之DOM的作用就是让程序员可以随心所欲的操作WEB 页面]` :speech_balloon:
 
 ------
 
@@ -44,32 +44,47 @@ Document
                |_ _ div
                     |_ _ Text Hello World!
 ```
+`文档元素是文档的外层元素，文档中的其他所有元素都包含在文档元素中。`
 
-
-
-
+##### DOM
+* `D`: `文档 表示整个HTML网页`
+* `O`: `对象 表示将网页里面的每一个部分都转化为对象`
+* `M`: `模型 实现对象之间的关系, 用户完成对对象的管理 即DOM树`
 
 #####  :octocat: [2.Node 类型](#top) <b id="target2"></b> 
 `Dom1 级定义了一个Node 接口,该接口将由Dom 中所有的节点类型实现 每一个节点都有一个 nodeType 表名节点的类型,任何节点类型必然是这十二个节点之一`
 
-|`值`|`节点类型`|`描述`|`子节点`|
-|:---|:----|:----|:----|
-|`1`|`Element`|`代表元素`|`Element, Text, Comment, ProcessingInstruction, CDATASection, EntityReference`|
-|`2`|`Attr`|`代表属性`|`Text, EntityReference`|
-|`3`|`Text`|`代表元素或属性中的文本内容`|`None`|
-|`4`|`CDATASection`|`代表文档中的 CDATA 部分（不会由解析器解析的文本）。`|`None`|
-|`5`|`EntityReference`|`代表实体引用`|`Element, ProcessingInstruction, Comment, Text, CDATASection, EntityReference`|
-|`6`|`Entity`|`代表实体`|`Element, ProcessingInstruction, Comment, Text, CDATASection, EntityReference`|
-|`7`|`ProcessingInstruction`|`代表处理指令`|`None`|
-|`8`|`Comment`|`代表注释`|`None`|
-|`9`|`Document`|`代表整个文档（DOM 树的根节点）。`|`Element, ProcessingInstruction, Comment, DocumentType`|
-|`10`|`DocumentType`|`向为文档定义的实体提供接口`|`None`|
-|`11`|`DocumentFragment`|`代表轻量级的 Document 对象，能够容纳文档的某个部分`|`Element, ProcessingInstruction, Comment, Text, CDATASection, EntityReference`|
-|`12`|`Notation`|`代表 DTD 中声明的符号。`|`None`|
+* `Node.ELEMENT_NODE(1)` 
+* `Node.ATTRIBUTE_NODE(2)` 
+* `Node.TEXT_NODE(3)` 
+* `Node.CDATA_SECTION_NODE(4)` 
+* `Node.ENTITY_REFERENCE_NODE(5)` 
+* `Node.ENTITY_NODE(6)` 
+* `Node.PROCESSING_INSTRUCTION_NODE(7)`
+* `Node.COMMENT_NODE(8)`
+* `Node.DOCUMENT_NODE(9)` 
+* `Node.DOCUMENT_TYPE_NODE(10)` 
+* `Node.DOCUMENT_FRAGMENT_NODE(11)` 
+* `Node.NOTATION_NODE(12)`
 
-* `nodeName`:`Node.nodeName 表名节点名称 例如 body div p`
+|`值`|`节点类型`|`nodeName` |`描述`|`子节点`|
+|:---|:----|:----|:----|:----|
+|`1`|`Element`|`标签名`|`元素节点例如 p div`|`Element, Text, Comment, ProcessingInstruction, CDATASection, EntityReference`|
+|`2`|`Attr`|`属性名`|`代表属性`|`Text, EntityReference`|
+|`3`|`Text`|`#text`|`代表元素或属性中的文本内容`|`None`|
+|`4`|`CDATASection`|` `|`代表文档中的 CDATA 部分（不会由解析器解析的文本）。`|`None`|
+|`5`|`EntityReference`|` `|`代表实体引用`|`Element, ProcessingInstruction, Comment, Text, CDATASection, EntityReference`|
+|`6`|`Entity`|` `|`代表实体`|`Element, ProcessingInstruction, Comment, Text, CDATASection, EntityReference`|
+|`7`|`ProcessingInstruction`|` `|`代表处理指令`|`None`|
+|`8`|`Comment`|` `|`代表注释`|`None`|
+|`9`|`Document`|`#document`|`代表整个文档（DOM 树的根节点）。`|`Element, ProcessingInstruction, Comment, DocumentType`|
+|`10`|`DocumentType`|` `|`向为文档定义的实体提供接口`|`None`|
+|`11`|`DocumentFragment`|` `|`代表轻量级的 Document 对象，能够容纳文档的某个部分`|`Element, ProcessingInstruction, Comment, Text, CDATASection, EntityReference`|
+|`12`|`Notation`|` `|`代表 DTD 中声明的符号。`|`None`|
+
+* `nodeName`:`Node.nodeName 表名节点名称 例如 body div p `
 * `nodeType`:`返回数字 节点类型的值 它属于 Node 类型枚举之一  `
-* `nodeValue`:`这个属性的值始终都是 null`
+* `nodeValue`:`这个属性的值始终都是 null 如果是属性节点那么 nodeValue就是属性值 如果是文本节点那么 就是文本内容`
 
 ```node
 <body id="main">
