@@ -11,6 +11,7 @@
 - [x] [`5.Document 类型`](#target5)
   * [`5.1 Document 查询API`](#target6)
   * [`5.2 Document 一致性检测`](#target7)
+- [x] [`6.页面加载顺序`](#target8)
 ------
 
 #####  :octocat: [1.节点层次](#top) <b id="target1"></b> 
@@ -202,7 +203,7 @@ window对象的一个属性,因此可以将其作为全局对象来访问,Docume
 有时候 document.firstChild 不是  html 也是<!DOCTYPE html>  切记切记
 ```
 
-#####  :octocat: [5.1 Document 查询API](#top) <b id="target6"></b> 
+#####  :octocat: [5.1 Document 查询API](#top) <b id="target8"></b> 
 * `document.getElementById(id)`:`通过元素ID 获得 元素 返回 HTMLElement 类型`
 
 * `document.getElementsByClassName(name)`:`通过类名获取 元素 返回类型为`  [`HTMLCollection`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection)
@@ -219,6 +220,50 @@ window对象的一个属性,因此可以将其作为全局对象来访问,Docume
 
 #####  :octocat: [5.2 Document 一致性检测](#top) <b id="target7"></b> 
 `Dom 是分多个级别的 有 DOM1 DOM2 DOM3 三个级别每个级别提供的功能不一样所以检测浏览器实现了Dom 那些部分就十分必要了`
+
+#####  :octocat: [页面加载顺序](#top) <b id="target6"></b> 
+
+* `页面加载大致的几个步骤`
+  * `1.开始解析HTML文档结构。`
+  * `2.加载外部样式表及JavaScript脚本。`
+  * `3.解析执行JavaScript脚本。`
+  * `4.DOM树渲染完成。`
+  * `5.加载未完成的资源（如图片）。`
+  * `6.页面加载成功。`
+  * `页面加载触发的事件`
+  
+##### 1.document的readystatechange事件
+
+
+```node
+document.onreadystatechange = function() { // 文档加载状态改变事件处理
+    if (document.readyState === "loading") { // document加载中
+        console.log(document.readyState);
+    }
+    if (document.readyState === "interactive") { 
+        // 互动文档加载完成，文档解析完成，但是如图像，样式表和框架等子资源仍在加载中
+        console.log(document.readyState);
+    }
+    if (document.readyState === "complete") { // 文档和所有子资源加载完成，load事件即将被触发
+        console.log(document.readyState);
+    }
+}
+```
+`readyState属性描述了文档的加载状态，整个加载过程中document.readyState会不断变化，每次变化都触发readystatechange事件。也可以用事件监听器去绑定：`
+
+```node
+document.addEventListener("readystatechange", function() {
+    console.log(document.readyState);
+});
+```
+
+##### 2.document的DOMContentLoaded事件
+
+`DOM树渲染完成时候触发DOMContentLoaded事件，此时可能外部资源还在加载。jQuery中的ready事件就是实现的这个事件。`
+
+##### 3.window的load事件
+
+`当所有的资源全部加载完成后就会触发window的load事件。`
 
 --------------------
 `作者:` `JxKicker` 
