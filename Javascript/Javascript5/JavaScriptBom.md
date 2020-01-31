@@ -72,6 +72,7 @@ console.log(window.index);//30
 * `方法`
   * `blur()`:`将焦点从窗口移开。`
   * `alert()`
+  * `prompt()`
   * `setInterval()`
   * `setTimeout()`
   * `clearInterval()`
@@ -140,8 +141,8 @@ console.log(window.frames[0].parent == window.frames[1].parent); //true
     return [left,top];
  }
 ```
-`window.moveTo(10,0)`:`将窗口移动到 10.0`<br/>
-`window.moveBy(0,100)`:`窗口向下移动100像素`<br/>
+`window.moveTo(10,0)`:`将窗口移动到 10.0 [现在已经不起作用了]`<br/>
+`window.moveBy(0,100)`:`窗口向下移动100像素[现在已经不起作用了]`<br/>
 
 ##### 窗口大小
 `跨浏览器解决窗口大小不是一件很简单的事情,IE9,FireFox Safari,Opera,Chrome 为此提供了四个属性：innerWith`
@@ -178,7 +179,7 @@ let dHeight = document.body.clientHeight;
 console.log(dWidth,dHeight);
 ```
 ##### 窗口大小问题
-**`许多浏览器都禁止跳转浏览器窗口大小的能力！----所以下面的函数 就很尴尬...`**<br/>
+**`许多浏览器都禁止调整浏览器窗口大小的能力！----所以下面的函数 就很尴尬...`**<br/>
 `window.resizeTo(100,100)`:`将窗口大小变成 100,100`<br/>
 `window.resizeBy(100,100)`:`将窗口长宽各增加 100,100`<br/>
 
@@ -337,6 +338,8 @@ if(hasPlugins("Flash")){
 
 ##### :octocat:  [9.history 对象](#top) <b id="history"></b>
 `这个对象保存着用户上网的历史记录,从这个窗口打开的那一刻算起,因为history是window对象的属性,所以每一个窗口框架都有自己的 history,出于安全，开发人员无法得知用户浏览过的URL。不过,借由用户访问过的页面列表,痛呀可以在不知道实际URL的情况下进行后退和前进`
+
+
 * `go()`:`histroy.go(-1) 后退一页，histroy.go(1) 前进一页 `
 * `back()`:`后退一页`
 * `forward()`:`前进一页`
@@ -346,9 +349,20 @@ if(history.length == 0){
    //这是第一次打开的页面
 }
 ```
+* `history.pushState()方法将状态添加到浏览器的会话历史记录堆栈中。`
+```node
+let state = { 'page_id': 1, 'user_id': 5 }
+let title = ''
+let url = 'hello-world.html'
+
+history.pushState(state, title, url)
+```
+* `replaceState()`:`更新历史记录堆栈上的最新条目以具有指定的数据，标题和URL（如果提供）。数据被DOM视为不透明；您可以指定任何可以序列化的JavaScript对象。请注意，除Safari外，所有浏览器当前都忽略title参数。` 
+
+`他们最大的特点是添加或替换历史记录后，浏览器地址栏会变成你传的地址，而页面并不会重新载入或跳转`
 
 -------
-`Bom 就这些内容吧 ！ 相信你都应该记住它们！`
+`Bom 就这些内容吧 ！ 相信你都应该记住它们！ 当前还有许多的不常用的API 并未提及`
 
 
 
