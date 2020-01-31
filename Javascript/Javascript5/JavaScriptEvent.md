@@ -1,22 +1,22 @@
-
-<a id="top" href="#top">JavaScript 原生Event  :maple_leaf:</a> 
+#### <a id="top" href="#top">JavaScript 原生Event </a> 
 ----
+
 `JS与HTML之间的交互式通过事件实现的,事件就是文档或浏览器窗口发生的一些特点交互瞬间,可以使用侦听器来预订事件,由于不同的DOM版本 又有不同DOM级别的事件,比如DOM0级事件
 DOM1 级事件,现在主要浏览器已经实现了DOM2级事件`
 
-- [x] :maple_leaf: <a href="#EventStream">事件流</a>
+- [x] <a href="#EventStream">`事件流`</a>
   - <a href="#EventMaoPao">`事件冒泡`</a>
   - <a href="#EventCatch">`事件捕获`</a>
   - <a href="#DomEventStream">`DOM事件流`</a>
-- [x] :maple_leaf: <a href="#EventDealWith">`事件处理程序`</a>
+- [x] <a href="#EventDealWith">`事件处理程序`</a>
   - <a href="#HTMLEventBuilder">`HTML事件处理程序`</a>
   - <a href="#DOM1EventBuilder">`Dom0级事件处理程序`</a>
   - <a href="#DOM2EventBuilder">`Dom2级事件处理程序`</a>
   - <a href="#IEEventBuilder">`IE事件处理程序`</a>
-- [x] :maple_leaf: <a href="#EventObject">`事件对象`</a>
+- [x]  <a href="#EventObject">`事件对象`</a>
   - <a href="#DOMEventObject">`DOM中的事件对象`</a>  
   - <a href="#IEEventObject">`IE中的事件对象`</a>
-- [x] :maple_leaf: <a href="#EventType">事件类型</a>
+- [x] <a href="#EventType">事件类型</a>
   - <a href="#UIEvent">`UI事件`</a>
   - <a href="#FocusEvent">`焦点事件`</a>
   - <a href="#MouseEvent">`鼠标事件`</a>
@@ -28,7 +28,7 @@ DOM1 级事件,现在主要浏览器已经实现了DOM2级事件`
   - <a href="#HTMLEventType">`HTML5事件`</a>
   - <a href="#DevieceEvent">`设备事件[现代移动响应开发的需求产生]`</a>
   - <a href="#TouchAndGestureEvent">`触摸与手势事件[现代移动响应开发的需求产生]`</a>
-- [x] :maple_leaf: <a href="#MemoreEngine">`内存和性能`</a>
+- [x] <a href="#MemoreEngine">`内存和性能`</a>
   - <a href="#EventDelegate">`事件委托[基于事件冒泡]`</a>
 - [x] :maple_leaf: <a href="#StartEventByMe">`模拟事件`</a>
 
