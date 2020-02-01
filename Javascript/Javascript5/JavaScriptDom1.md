@@ -13,6 +13,7 @@
   * [`5.2 Document 一致性检测`](#target7)
 - [x] [`6.页面加载顺序`](#target8)
 - [x] [`7.Element`](#target9)
+- [x] [`8.Text`](#target10)
 
 
 ------
@@ -305,7 +306,12 @@ document.addEventListener("readystatechange", function() {
 * `getAttribute()`
 * `setAttribute()`
 * `removeAttribute()`
-
+* `attributes`:`Element 类型是使用 attributes 属性的唯一一个 DOM节点类型。attributes 属性中包含一个 NamedNodeMap，与 NodeList 类似，也是一个“动态”的集合。元素的每一个特性都由一个 Attr 节 点表示，每个节点都保存在 NamedNodeMap 对象中。NamedNodeMap 对象拥有下列方法。` 
+   * `getNamedItem(name)`：`返回 nodeName 属性等于 name 的节点；` 
+   * `removeNamedItem(name)`：`从列表中移除 nodeName 属性等于 name 的节点； `
+   * `setNamedItem(node)`：`向列表中添加节点，以节点的 nodeName 属性为索引；` 
+   * `item(pos)`：`返回位于数字 pos 位置处的节点`
+   
 ```node
 var div = document.getElementById("myDiv");
 alert(div.getAttribute("id"));         //"myDiv" 
@@ -319,6 +325,48 @@ window.setTimeout(()=>{
 },3000);
 ```
 
+```node
+var id = element.attributes.getNamedItem("id").nodeValue; 
+
+element.attributes["id"].nodeValue = "someOtherId"; 
+
+var oldAttr = element.attributes.removeNamedItem("id"); 
+```
+##### 3. 创建元素
+`使用 document.createElement()方法可以创建新元素。这个方法只接受一个参数，即要创建元 素的标签名。这个标签名在 HTML文档中不区分大小写`
+```node
+    var div = document.createElement("div");
+    div.innerText = "我是新元素";
+    div.className = "box";
+    document.body.appendChild(div);
+```
+
+#####  :octocat: [7.Text](#top) <b id="target10"></b> 
+`文本节点由 Text 类型表示，包含的是可以照字面解释的纯文本内容。纯文本中可以包含转义后的 HTML字符，但不能包含 HTML代码。Text 节点具有以下特征：` 
+
+* `nodeType 的值为 3； `
+* `nodeName 的值为"#text"；` 
+* `nodeValue 的值为节点所包含的文本； `
+* `parentNode 是一个 Element； `
+* `不支持（没有）子节点。 `
+
+```node
+  <input type="text" name="Code" id="ucode" class="input" value=""  placeholder="请输入秘钥" >
+
+  var btnElement = document.getElementsByName("saveCode").item(0);
+  console.log(btnElement.childNodes[0].nodeValue); //确认
+```
+
+`可以通过 nodeValue 属性或 data 属性访问 Text 节点中包含的文本，这两个属性中包含的值相同。
+对 nodeValue 的修改也会通过 data 反映出来，反之亦然。`
+
+* `appendData(text)：将 text 添加到节点的末尾。 `
+* `deleteData(offset, count)：从 offset 指定的位置开始删除 count 个字符。 ` 
+* `insertData(offset, text)：在 offset 指定的位置插入 text。 `
+* `replaceData(offset, count, text)：用 text 替换从 offset 指定的位置开始到 offset`
+* `splitText(offset)：从 offset 指定的位置将当前文本节点分成两个文本节点。` 
+* `substringData(offset, count)：提取从 offset 指定的位置开始到 offset+count 为止 处的字符串`
+* `length `:`保存着节点中字符的数目。`
 
 --------------------
 `作者:` `JxKicker` 
