@@ -1,7 +1,8 @@
-<a id="top" href="#top">JavaScript 原生Form :maple_leaf:</a> 
+#### <a id="top" href="#top">JavaScript 原生Form</a> 
+
 ----
 `一个网站的关键在于表单，他决定用户的输入,向服务器提交的数据,Js对于它有许多的方法和属性对象,以便我们开发更优秀的前端界面`
-- [x] :maple_leaf: <a href="#FormBasicKnow">`表单的基本知识`</a>
+- [x] <a href="#FormBasicKnow">`表单的基本知识`</a>
   - <a href="#GetFromElement">`获取表单：HTMLFormElement `</a> 
   - <a href="#FormSubmit">`提交表单：Submit `</a> 
   - <a href="#resetform">`重置表单：Reset `</a> 
@@ -9,14 +10,14 @@
   - <a href="#formfiledProperty">`表单字段公共属性`</a> 
   - <a href="#formfiledFunction">`表单字段公共方法`</a> 
   - <a href="#formfiledEventFunction">`表单字段公共事件`</a> 
-- [x] :maple_leaf: <a href="#TextScript">`文本框脚本`</a>
+- [x] <a href="#TextScript">`文本框脚本`</a>
   - <a href="#getvaluetext">`获取表单文本的值`</a> 
   - <a href="#Shoosetext">`选择文本select`</a> 
   - <a href="#keypressevent">`过滤输入`</a>
-- [x] :maple_leaf: <a href="#copypaste">`粘贴板事件`</a>
-- [x] :maple_leaf: <a href="#">``</a>
+- [x] <a href="#copypaste">`粘贴板事件`</a>
+- [x] <a href="#">``</a>
 
-####  <a id="FormBasicKnow" href="#FormBasicKnow">表单的基本知识</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+#####  <a id="FormBasicKnow" href="#FormBasicKnow">表单的基本知识</a>  <a href="#top">   ↑</a>
 <a href="#">`表单对应：HTMLFormElement  --->继承自 HTMLElement`</a> <br/>
 
 * `在HTML中，表单由form标签，在javascript中，表单对应HTMLFormElement类型，HTMLFormElement类型继承HTMLElement类型，所
@@ -83,7 +84,7 @@ formElement.addEventListener("reset",function(event){
 },false);
 ```
 
-#####  <a id="formfiled" href="#formfiled">表单字段：elements </a>  :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="formfiled" href="#formfiled">表单字段：elements </a>  <a href="#top"> ↑ </a>
 `form 的属性elements 属性 可以让你以name字典或者 数组索引的方式访问form表单的所有input textare fieldset button 控件`
 ```javascript
   console.log(formElement.elements["StudentID"]);
@@ -101,7 +102,7 @@ console.log(formElement.elements["color"]);
 <input type="radio" name="color" value="Yellow" /> Yellow
 <input type="radio" name="color" value="Blue" /> Blue
 ```
-#####  <a id="formfiledProperty" href="#formfiledProperty">表单字段公共属性</a>  :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="formfiledProperty" href="#formfiledProperty">表单字段公共属性</a>  <a href="#top"> ↑ </a>
 * Form 表单字段拥有的一些相同的属性
   * `disabled`：`布尔值，表示当前字段是否被禁用。`
   * `form`：`指向当前字段所属表单的指针；只读。`
@@ -123,29 +124,29 @@ console.log(formElement.elements["color"]);
 ```
 `有时候在我们提交表单以后,我们就应该将提交按钮设置为disable 以免用户重复提交,为此我们可以监听submit事件,当用户提交按钮以后就禁用按钮,一直到得到返回之后,如果是Ajax 那么就是等ajax 回调函数执行的时候 在重新启用它`
 
-####  <a id="formfiledFunction" href="#formfiledFunction">表单字段公共方法</a>  :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="formfiledFunction" href="#formfiledFunction">表单字段公共方法</a>   <a href="#top"> ↑ </a>
 * `公有的方法有两个`
   * `focus()`:`可以将浏览器焦点设置到表单的字段上面 ----请注意是方法  不是 onfocus事件 ，但是html5新增的autofocus 属性`
   * `blur()`：`可以使得字段失去焦点`
   
-####  <a id="formfiledEventFunction" href="#formfiledEventFunction">表单字段公共事件</a>  :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="formfiledEventFunction" href="#formfiledEventFunction">表单字段公共事件</a>   <a href="#top"> ↑ </a>
 * 公共的事件
   * focus 焦点事件： `当浏览器的字段获得焦点的时候触发`
   * blur 失去焦点事件 ：`失去焦点`
   * change : `value的值改变或者 <select> 标签的选项改变`
-####  <a id="TextScript" href="#TextScript">文本框脚本</a>  :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="TextScript" href="#TextScript">文本框脚本</a>   <a href="#top"> ↑ </a>
 * `在HTML中，有两种方式来表现文本框：一种是使用<input>元素的单行文本框，另一种是使用<textarea>的多行文本框。这两个控件非常相似，而且多数时候的行为也差不多。不过，它们之间仍然存在一些重要的区别。`
 * `要表现文本框，必须将<input>元素的type特性设置为”text”。而通过设置size特性，可以指定文本框中能够显示的字符数。通过value特性，可以设置文本框的初始值，而maxlength特性则用于指定文本框可以接受的最大字符数。`
 * `相对而言，<textarea>元素则始终会显示为一个多行文本框。要指定文本框的大小，可以使用rows和cols特性。其中rows特性指定的是文本框的字符行数，而cols特性指定的是文本框的字符列数。`
 
-#####  <a id="getvaluetext" href="#getvaluetext">获取表单文本的值</a>  :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="getvaluetext" href="#getvaluetext">获取表单文本的值</a>   <a href="#top"> ↑ </a>
 `要是用value 属性,才能获得input 的value值,获得控件的文本`
 ```javascript
  var input_text = document.forms[0].elements["userinput"];
  var val = input_text.value;
  console.log("用户输入:"+val);
 ```
-#####  <a id="Shoosetext" href="#Shoosetext">选择文本方法/事件 </a>  :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="Shoosetext" href="#Shoosetext">选择文本方法/事件 </a>   <a href="#top"> ↑ </a>
 `文本控件都有哦一个select事件,可以让控件选择整个文本,当然这个时候最好当焦点在文本框的时候才选择文本才好,所有最好按照用的需求来使用这个方法`<br/>
 **`select 方法`**
 ```javascript
@@ -179,7 +180,7 @@ console.log(formElement.elements["color"]);
   txt.setSelectionRange(1,20);
   txt.focus();
 ```
-#####  <a id="keypressevent" href="#keypressevent">过滤输入</a>  :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="keypressevent" href="#keypressevent">过滤输入</a>   <a href="#top"> ↑ </a>
 `过滤输入最快捷的方式就是监控keypress 事件,然后阻止浏览器的默认事件就可以阻止用户的输入，但是因为输入法的关系用户还是可以输入中文数字和英文
 已经不可以输入了`
 ```C#
@@ -187,7 +188,7 @@ console.log(formElement.elements["color"]);
    event.preventDefault();
  },false);
 ```
-##### <a id="copypaste" href="#copypaste">粘贴板事件</a>  :star2: <a href="#top"> :arrow_up: </a> 
+##### <a id="copypaste" href="#copypaste">粘贴板事件</a>   <a href="#top"> ↑ </a> 
 * 关于粘贴复制剪切操作的事件
   * `beforecopy`：`在发生复制操作前触发`
   * `copy`：`在发生复制操作时触发`
@@ -201,13 +202,13 @@ console.log(formElement.elements["color"]);
     * `getDate`:`获取数据`
     * `setDate`：``
     * `clearDate`:``
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
+#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
+#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
+#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
+#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
+#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
+#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
 
 
 
