@@ -14,12 +14,17 @@
 - [x] [`6.页面加载顺序`](#target8)
 - [x] [`7.Element`](#target9)
 - [x] [`8.Text`](#target10)
-
+- [x] [`9.Comment`](#target11)
+- [x] [`10.CDATASection`](#target12)
+- [x] [`11.DocumentType`](#target13)  
+- [x] [`12.DocumentFragment`](#target14)
+- [x] [`13.Attr`](#target15)
+- [x] [`14.DOM操作技术 `](#target16)
 
 ------
 
 #####  :octocat: [1.节点层次](#top) <b id="target1"></b> 
-`概括`:`节点是层次关系的 一层嵌套一层 组成了 Dom的结构 本质上 你可以把他看成一棵树 `
+`概括`:`节点是层次关系的 一层嵌套一层 组成了 Dom的结构 本质上 你可以把他看成一棵树,节点之间的关系构成了层次，而所有页面标记则表现为一个以特定节点 为根节点的树形结构 `
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -341,7 +346,7 @@ var oldAttr = element.attributes.removeNamedItem("id");
     document.body.appendChild(div);
 ```
 
-#####  :octocat: [7.Text](#top) <b id="target10"></b> 
+#####  :octocat: [8.Text](#top) <b id="target10"></b> 
 `文本节点由 Text 类型表示，包含的是可以照字面解释的纯文本内容。纯文本中可以包含转义后的 HTML字符，但不能包含 HTML代码。Text 节点具有以下特征：` 
 
 * `nodeType 的值为 3； `
@@ -367,6 +372,153 @@ var oldAttr = element.attributes.removeNamedItem("id");
 * `splitText(offset)：从 offset 指定的位置将当前文本节点分成两个文本节点。` 
 * `substringData(offset, count)：提取从 offset 指定的位置开始到 offset+count 为止 处的字符串`
 * `length `:`保存着节点中字符的数目。`
+
+
+##### 创建文本节点 
+`document.createTextNode()创建新文本节点，这个方法接受一个参数——要插入节点 中的文本。与设置已有文本节点的值一样，作为参数的文本也将按照 HTML或 XML的格式进行编码`
+
+```node
+var element = document.createElement("div"); element.className = "message"; 
+ 
+var textNode = document.createTextNode("Hello world!"); element.appendChild(textNode); 
+ 
+document.body.appendChild(element); 
+```
+
+#####  :octocat: [9.Comment](#top) <b id="target11"></b> 
+`注释在 DOM中是通过 Comment 类型来表示的`
+ * `nodeType 的值为 8`
+ * `nodeName 的值为"#comment"；` 
+ * `nodeValue 的值是注释的内容；` 
+ * `parentNode 可能是 Document 或 Element;`
+ 
+ ```html
+<div id="myDiv"><!--A comment --></div> 
+
+var div = document.getElementById("myDiv"); 
+var comment = div.firstChild; 
+alert(comment.data);    //"A comment" 
+```
+`使用 document.createComment()并为其传递注释文本也可以创建注释节点`
+
+
+#####  :octocat: [10.CDATASection](#top) <b id="target12"></b> 
+`CDATASection 类型只针对基于 XML 的文档，表示的是 CDATA 区域。与 Comment 类似， CDATASection 类型继承自 Text 类型，因此拥有除 splitText()之外的所有字符串操作方法。 CDATASection 节点具有下列特征： `
+
+* `nodeType 的值为 4；` 
+* `nodeName 的值为"#cdata-section"；` 
+* `nodeValue 的值是 CDATA区域中的内容；` 
+* `parentNode 可能是 Document 或 Element；`
+
+`<div id="myDiv"><![CDATA[This is some content.]]></div> ` : `CDATA 指的是不由 XML 解析器进行解析的文本数据`
+
+`在真正的 XML文档中，可以使用 document.createCDataSection()来创建 CDATA区域，只需 为其传入节点的内容即可`
+
+
+#####  :octocat: [11.DocumentType](#top) <b id="target13"></b> 
+
+* `nodeType 的值为 10；` 
+* `nodeName 的值为 doctype的名称；` 
+* `nodeValue 的值为 null；` 
+* `parentNode 是 Document；`
+
+`在 DOM1 级中，DocumentType 对象不能动态创建，而只能通过解析文档代码的方式来创建。支 持它的浏览器会把 DocumentType 对象保存在 document.doctype 中。`
+
+* `DOM1 级描述了 DocumentType 对象的 3个属性：name、entities 和 notations。`
+   * `name 表示文档类型的名称；` 
+   * `entities 是由文档类型描述的实体的 NamedNodeMap 对象；` 
+   * `notations 是由文档类型描述的符号的 NamedNodeMap 对象;`
+   
+```html
+<!DOCTYPE html>
+
+alert(document.doctype.name);        //"HTML" 
+```
+
+#####  :octocat: [12.DocumentFragment](#top) <b id="target14"></b> 
+ 
+* `nodeType 的值为 11；` 
+* `nodeName 的值为"#document-fragment"；` 
+* `nodeValue 的值为 null；` 
+* `parentNode 的值为 null；`
+
+
+`虽然不能把文档片段直接添加到文档中，但可以将它作为一个“仓库”来使用，即可以在里面保存将 来可能会添加到文档中的节点`
+
+`要创建文档片段，可以使用 document.createDocumentFragment()方 法，如下所示： `
+ 
+`var fragment = document.createDocumentFragment(); `
+
+```node
+var fragment = document.createDocumentFragment(); 
+
+var ul = document.getElementById("myList"); var li = null; 
+ 
+for (var i=0; i < 3; i++){    
+  li = document.createElement("li");     
+  li.appendChild(document.createTextNode("Item " + (i+1)));     
+  fragment.appendChild(li); 
+} 
+ 
+ul.appendChild(fragment);  
+```
+
+##### :octocat: [13.Attr](#top) <b id="target15"></b>  
+`元素的特性在 DOM中以 Attr 类型来表示。在所有浏览器中（包括 IE8），都可以访问 Attr 类型 的构造函数和原型。从技术角度讲，特性就是存在于元素的 attributes 属性中的节点。特性节点具有 下列特征： `
+
+ * `nodeType 的值为 2； `
+ * `nodeName 的值是特性的名称；` 
+ * `nodeValue 的值是特性的值；` 
+ * `parentNode 的值为 null；` 
+
+`尽管它们也是节点，但特性却不被认为是 DOM 文档树的一部分。开发人员常使用的是 getAt- tribute()、setAttribute()和 remveAttribute()方法，很少直接引用特性节点。 `
+
+```node
+var attr = document.createAttribute("align"); attr.value = "left"; element.setAttributeNode(attr); alert(element.attributes["align"].value);       //"left" alert(element.getAttributeNode("align").value); //"left" alert(element.getAttribute("align"));           //"left" 
+```
+
+##### :octocat: [14.DOM操作技术](#top) <b id="target16"></b>  
+`很多时候，DOM操作都比较简明，因此用 JavaScript 生成那些通常原本是用 HTML 代码生成的内 容并不麻烦。不过，也有一些时候，操作 DOM并不像表面上看起来那么简单。由于浏览器中充斥着隐 藏的陷阱和不兼容问题，用 JavaScript代码处理 DOM的某些部分要比处理其他部分更复杂一些`
+
+
+##### 动态脚本 
+`看看代码就应该懂了`
+```node
+<script type="text/javascript" src="client.js"></script>
+
+var script = document.createElement("script"); 
+script.type = "text/javascript"; 
+script.src = "client.js"; 
+document.body.appendChild(script); 
+
+//整合为一个函数
+function loadScript(url){     
+  var script = document.createElement("script");     
+  script.type = "text/javascript";     
+  script.src = url;     
+  document.body.appendChild(script); 
+} 
+
+//然后，就可以通过调用这个函数来加载外部的 JavaScript文件了： 
+ 
+loadScript("client.js"); 
+```
+
+##### 同理有动态样式
+`看看就懂了,这样就可以实现换肤了`
+```node
+<link rel="stylesheet" type="text/css" href="styles.css"> 
+
+使用 DOM代码可以很容易地动态创建出这个元素： 
+ 
+var link = document.createElement("link"); 
+link.rel = "stylesheet"; 
+link.type = "text/css"; 
+link.href = "style.css"; 
+var head = document.getElementsByTagName("head")[0]; 
+head.appendChild(link); 
+ 
+```
 
 --------------------
 `作者:` `JxKicker` 
