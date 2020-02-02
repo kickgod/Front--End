@@ -12,6 +12,7 @@
    - [x] [`1.3 matchesSelector()`]
 - [x] [`2.元素遍历`](#target2)
 - [x] [`3.HTML5`](#target3)
+- [x] [`4.插入标记`](#target4)
  
 
 ------
@@ -129,6 +130,86 @@ if (document.compatMode == "CSS1Compat"){
 var head = document.head || document.getElementsByTagName("head")[0]; 
 ```
 
+##### 字符集属性 
+`HTML5新增了几个与文档字符集有关的属性。其中，charset 属性表示文档中实际使用的字符集， 也可以用来指定新字符集`
+
+```node
+alert(document.charset); //"UTF-16" 
+document.charset = "UTF-8"; 
+```
+`另一个属性是 defaultCharset，表示根据默认浏览器及操作系统的设置，当前文档默认的字符集 应该是什么。如果文档没有使用默认的字符集，那 charset 和 defaultCharset 属性的值可能会不一 样`
+
+```node
+if (document.charset != document.defaultCharset){      
+   alert("Custom character set being used.");
+} 
+```
+##### 自定义数据属性 
+`HTML5规定可以为元素添加非标准的属性，但要添加前缀 data-，目的是为元素提供与渲染无关的 信息，或者提供语义信息。这些属性可以任意添加、随便命名，只要以 data-开头即可 ，每个 data-name 形式 的属性都会有一个对应的属性，只不过属性名没有 data-前缀（比如，自定义属性是 data-myname， 那映射中对应的属性就是 myname）。`
+```node
+<div id="myDiv" data-appId="12345" data-myname="Nicholas"></div> 
+
+var div = document.getElementById("myDiv"); 
+ 
+//取得自定义属性的值 
+var appId = div.dataset.appId; 
+var myName = div.dataset.myname;
+
+//设置值 
+div.dataset.appId = 23456; 
+div.dataset.myname = "Michael";
+```
+#####  :octocat: [4.插入标记 ](#top) <b id="target4"></b>  
+
+##### 1. innerHTML 属性 
+`在读模式下，innerHTML 属性返回与调用元素的所有子节点（包括元素、注释和文本节点）对应 的 HTML标记`
+
+```html
+ <div id="content">
+     <p>This is a <strong>paragraph</strong> with a list following it.</p>
+     <ul>
+         <li>Item 1</li>
+         <li>Item 2</li>
+         <li>Item 3</li>
+     </ul>
+ </div>
+```
+`对于上面的<div>元素来说，它的 innerHTML 属性会返回如下字符串。 `
+
+```html
+<p>This is a <strong>paragraph</strong> with a list following it.</p>
+<ul>
+   <li>Item 1</li>
+   <li>Item 2</li>
+   <li>Item 3</li>
+</ul>
+```
+`使用 innerHTML 属性也有一些限制。比如，在大多数浏览器中，通过 innerHTML 插入<script> 元素并不会执行其中的脚本。`
+
+`div.innerHTML = "_<script defer>alert('hi');<\/script>";`
+
+##### 2.outerHTML 属性
+`在读模式下，outerHTML 返回调用它的元素及所有子节点的 HTML标签。在写模式下，outerHTML 会根据指定的 HTML字符串创建新的 DOM子树，然后用这个 DOM子树完全替换调用元素。下面是一 个例子。 `
+
+`对于上面的<div>元素来说，它的 outerHTML 属性会返回如下字符串。 `
+
+```node
+ <div id="content">
+     <p>This is a <strong>paragraph</strong> with a list following it.</p>
+     <ul>
+         <li>Item 1</li>
+         <li>Item 2</li>
+         <li>Item 3</li>
+     </ul>
+ </div>
+```
+##### 3.insertAdjacentHTML
+`插入标记的后一个新增方式是insertAdjacentHTML()方法。这个方法早也是在IE中出现的， 它接收两个参数：插入位置和要插入的 HTML文本。第一个参数必须是下列值之一： `
+
+* `"beforebegin"，在当前元素之前插入一个紧邻的同辈元素；` 
+* `"afterbegin"，在当前元素之下插入一个新的子元素或在第一个子元素之前再插入新的子元素；`
+* `"beforeend"，在当前元素之下插入一个新的子元素或在后一个子元素之后再插入新的子元素；`
+* `"afterend"，在当前元素之后插入一个紧邻的同辈元素。`
 
 --------------------
 `作者:` `JxKicker` 
