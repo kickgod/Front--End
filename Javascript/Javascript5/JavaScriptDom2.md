@@ -11,10 +11,31 @@
    - [x] [`1.2 querySelectorAll()`]
    - [x] [`1.3 matchesSelector()`]
 - [x] [`2.元素遍历`](#target2)
+   - [x] [`2.1 childElementCount`]
+   - [x] [`2.2 firstElementChild`]
+   - [x] [`2.3 lastElementChild`]
+   - [x] [`2.4 previousElementSibling`]
+   - [x] [`2.6 nextElementSibling`]
 - [x] [`3.HTML5`](#target3)
+   - [x] [`3.1 getElementsByClassName`]
+   - [x] [`3.2 classList属性`]
+   - [x] [`3.3 焦点管理`]
+   - [x] [`3.4 readyState`]
+   - [x] [`3.5 兼容模式`]
+   - [x] [`3.6 head 属性`]
+   - [x] [`3.7 charset 自定义数据属性dataset `]
 - [x] [`4.插入标记`](#target4)
- 
-
+   - [x] [`4.1 innerHTML `] 
+   - [x] [`4.2 outerHTML `] 
+   - [x] [`4.3 insertAdjacentHTML `] 
+- [x] [`5.scrollIntoView`](#target5)
+- [x] [`6.专有扩展`](#target6)
+   - [x] [`6.1 children`]
+   - [x] [`6.2 contains`]
+   - [x] [`6.3 innerText`]
+   - [x] [`6.4 outerText`]
+   - [x] [`6.5 滚动`]
+   
 ------
 
 #####  :octocat: [1.选择符 API ](#top) <b id="target1"></b> 
@@ -210,6 +231,61 @@ div.dataset.myname = "Michael";
 * `"afterbegin"，在当前元素之下插入一个新的子元素或在第一个子元素之前再插入新的子元素；`
 * `"beforeend"，在当前元素之下插入一个新的子元素或在后一个子元素之后再插入新的子元素；`
 * `"afterend"，在当前元素之后插入一个紧邻的同辈元素。`
+
+#####  :octocat: [5.scrollIntoView ](#top) <b id="target5"></b>  
+`如何滚动页面也是 DOM规范没有解决的一个问题。为了解决这个问题，浏览器实现了一些方法， 以方便开发人员更好地控制页面滚动。在各种专有方法中，HTML5终选择了 scrollIntoView()作 为标准方法`
+
+ `scrollIntoView()可以在所有 HTML 元素上调用，通过滚动浏览器窗口或某个容器元素，调用 元素就可以出现在视口中。如果给这个方法传入 true 作为参数，或者不传入任何参数，那么窗口滚动 之后会让调用元素的顶部与视口顶部尽可能平齐。如果传入 false 作为参数，调用元素会尽可能全部 出现在视口中，（可能的话，调用元素的底部会与视口顶部平齐。）不过顶部不一定平`
+
+`让元素可见`: `document.forms[0].scrollIntoView(); `
+
+#####  :octocat: [6.专有扩展 ](#top) <b id="target6"></b>
+`通过 document.documentMode 属性可以知道给定页面使用的是什么文档模式。这个属性是 IE8 中新增的，它会返回使用的文档模式的版本号（在 IE9中，可能返回的版本号为 5、7、8、9）： `
+
+##### children
+`这个属性是 HTMLCollection 的实例，只包含元素中同样还是元素的子节点。除此之外， children 属性与 childNodes 没有什么区别`
+```node
+var childCount = element.children.length; 
+var firstChild = element.children[0]; 
+```
+
+##### contains()
+`在实际开发中，经常需要知道某个节点是不是另一个节点的后代。IE为此率先引入了 contains() 以便不通过在 DOM文档树中查找即可获得这个信息。调用 contains()方法的应该是祖先节点`
+
+```node
+alert(document.documentElement.contains(document.body));    //true 
+```
+
+##### 插入文本 
+
+* `innerText`:`通过 innertText 属性可以操作元素中包含的所有文本内容，包括子文档树中的文本。`
+```node
+<div id="content">
+  <p>This is a <strong>paragraph</strong> with a list following it.</p>
+  <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+  </ul>
+</div>
+//innerText 为
+This is a paragraph with a list following it. 
+Item 1 
+Item 2 
+Item 3 
+```
+* `outerText `:`除了作用范围扩大到了包含调用它的节点之外，outerText 与 innerText 基本上没有多大区别。 在读取文本值时，outerText 与 innerText 的结果完全一样。但在写模式下，outerText 就完全不 同了：outerText 不只是替换调用它的元素的子节点，而是会替换整个元素（包括子节点）`
+
+
+##### 滚动
+`如前所述，HTML5 之前的规范并没有就与页面滚动相关的 API 做出任何规定。但 HTML5 在将 scrollIntoView()纳入规范之后，仍然还有其他几个专有方法可以在不同的浏览器中使用。下面列出 的几个方法都是对 HTMLElement 类型的扩展，因此在所有元素中都可以调用。 `
+
+*  `scrollIntoViewIfNeeded(alignCenter)`：`只在当前元素在视口中不可见的情况下，才滚 动浏览器窗口或容器元素，终让它可见。如果当前元素在视口中可见，这个方法什么也不做。 如果将可选的 alignCenter 参数设置为 true，则表示尽量将元素显示在视口中部（垂直方向）。 Safari和 Chrome实现了这个方法。` 
+
+*  `scrollByLines(lineCount)：将元素的内容滚动指定的行高，lineCount 值可以是正值， 也可以是负值。Safari和 Chrome实现了这个方法。`
+
+* `scrollByPages(pageCount)：将元素的内容滚动指定的页面高度，具体高度由元素的高度决 定。Safari和 Chrome实现了这个方法`
+
 
 --------------------
 `作者:` `JxKicker` 
