@@ -474,7 +474,12 @@ ul.appendChild(fragment);
 `尽管它们也是节点，但特性却不被认为是 DOM 文档树的一部分。开发人员常使用的是 getAt- tribute()、setAttribute()和 remveAttribute()方法，很少直接引用特性节点。 `
 
 ```node
-var attr = document.createAttribute("align"); attr.value = "left"; element.setAttributeNode(attr); alert(element.attributes["align"].value);       //"left" alert(element.getAttributeNode("align").value); //"left" alert(element.getAttribute("align"));           //"left" 
+var attr = document.createAttribute("align"); 
+attr.value = "left"; 
+element.setAttributeNode(attr); 
+alert(element.attributes["align"].value);       //"left" 
+alert(element.getAttributeNode("align").value); //"left" 
+alert(element.getAttribute("align"));           //"left" 
 ```
 
 ##### :octocat: [14.DOM操作技术](#top) <b id="target16"></b>  
@@ -518,7 +523,114 @@ link.href = "style.css";
 var head = document.getElementsByTagName("head")[0]; 
 head.appendChild(link); 
  
+//整合为一个函数
+ function loadStyles(url){     
+  var link = document.createElement("link");
+  link.rel = "stylesheet";     
+  link.type = "text/css";     
+  link.href = url;     
+  var head = document.getElementsByTagName("head")[0];     
+  head.appendChild(link); 
+}
+
+loadStyles("styles.css"); 
 ```
+
+##### 操作表格 
+```
+<table>元素是 HTML中复杂的结构之一。要想创建表格，一般都必须涉及表示表格行、单元格、 表头
+等方面的标签。由于涉及的标签多，因而使用核心 DOM方法创建和修改表格往往都免不了要编写 大量
+的代码。
+```
+
+```html
+<table border="1" width="100%">
+    <tbody>
+        <tr>
+            <td>Cell 1,1</td>
+            <td>Cell 2,1</td>
+        </tr>
+        <tr>
+            <td>Cell 1,2</td>
+            <td>Cell 2,2</td>
+        </tr>
+    </tbody>
+</table>
+```
+
+```node
+//创建 table 
+var table = document.createElement("table"); 
+table.border = 1; table.width = "100%"; 
+ 
+//创建 tbody 
+var tbody = document.createElement("tbody"); 
+
+//创建第一行 
+var row1 = document.createElement("tr"); 
+tbody.appendChild(row1); 
+var cell1_1 = document.createElement("td"); 
+cell1_1.appendChild(document.createTextNode("Cell 1,1")); 
+row1.appendChild(cell1_1); 
+var cell2_1 = document.createElement("td"); 
+cell2_1.appendChild(document.createTextNode("Cell 2,1")); 
+row1.appendChild(cell2_1); 
+ 
+//创建第二行 
+var row2 = document.createElement("tr"); 
+tbody.appendChild(row2); 
+var cell1_2 = document.createElement("td"); 
+cell1_2.appendChild(document.createTextNode("Cell 1,2")); 
+row2.appendChild(cell1_2); 
+var cell2_2= document.createElement("td"); 
+cell2_2.appendChild(document.createTextNode("Cell 2,2")); 
+row2.appendChild(cell2_2); 
+ 
+//将表格添加到文档主体中 
+document.body.appendChild(table);
+```
+> `显然，DOM代码很长，还有点不太好懂。为了方便构建表格，HTML DOM还为<table>、<tbody> 和<tr>元素添加了一些属性和方法。 `
+
+`为<table>元素添加的属性和方法如下。`
+
+* `caption`：`保存着对元素（如果有）的指针。`
+* `tBodies`：`是一个 元素的 HTMLCollection。`
+* `tFoot`：`保存着对 元素（如果有）的指针。`
+* `tHead`：`保存着对元素（如果有）的指针。`
+* `rows`：`是一个表格中所有行的 HTMLCollection。`
+* `createTHead()`：`创建 元素，将其放到表格中，返回引用。`
+* `createTFoot()`：`创建 元素，将其放到表格中，返回引用。`
+* `createCaption()`：`创建元素，将其放到表格中，返回引用。`
+* `deleteTHead()`：`删除 元素。`
+* `deleteTFoot()`：`删除 元素。`
+* `deleteCaption()`：`删除元素。`
+* `deleteRow(pos)`：`删除指定位置的行。`
+* `insertRow(pos)`：`向 rows 集合中的指定位置插入一行。`
+
+`为元素添加的属性和方法如下。`
+
+* `rows`：`保存着元素中行的 HTMLCollection。`
+* `deleteRow(pos)`：`删除指定位置的行。`
+* `insertRow(pos)`：`向 rows 集合中的指定位置插入一行，返回对新插入行的引用。`
+
+`为<tr>元素添加的属性和方法如下`
+
+* `cells`：`保存着<tr>元素中单元格的 HTMLCollection。` 
+* `deleteCell(pos)：删除指定位置的单元格。 `
+* `insertCell(pos)：向 cells 集合中的指定位置插入一个单元格，返回对新插入单元格的引用。`
+  
+##### NodeList 
+`理解 NodeList 及其“近亲”NamedNodeMap 和 HTMLCollection，是从整体上透彻理解 DOM的 关键所在。这三个集合都是“动态的”；换句话说，每当文档结构发生变化时，它们都会得到更新。它们始终都会保存着新、准确的信息。所有 NodeList 对象都是在访问 DOM文 档时实时运行的查询`
+
+```node
+var divs = document.getElementsByTagName("div"), i, div; 
+ 
+for (i=0; i < divs.length; i++){     
+  div = document.createElement("div");     
+  document.body.appendChild(div); 
+}
+```
+`一般来说，应该尽量减少访问 NodeList 的次数。因为每次访问 NodeList，都会运行一次基于文 档的查询。所以，可以考虑将从 NodeList 中取得的值缓存起来。`
 
 --------------------
 `作者:` `JxKicker` 
