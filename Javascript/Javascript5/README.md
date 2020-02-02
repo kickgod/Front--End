@@ -19,6 +19,8 @@
 
 * [x] [`8.JavaScript5. 原生DOM1`](./JavaScriptDom1.md)
 
+* [x] [`8.JavaScript5. 原生DOM1 扩展`](./JavaScriptDom2.md)
+
 * [x] [`JavaScript5. 原生Event`](./JavaScriptEvent.md)
 
 * [x] [`JavaScript5. 表单脚本`](./JavaScriptForm.md)
