@@ -7,8 +7,130 @@
 ------
 
 - [x] [`1.选择符 API `](#target1)
-
+   - [x] [`1.1 querySelector()`]
+   - [x] [`1.2 querySelectorAll()`]
+   - [x] [`1.3 matchesSelector()`]
+- [x] [`2.元素遍历`](#target2)
+- [x] [`3.HTML5`](#target3)
+ 
 
 ------
 
 #####  :octocat: [1.选择符 API ](#top) <b id="target1"></b> 
+`是由 W3C 发起制定的一个标准，致力于让浏览器原 生支持 CSS查询。所有实现这一功能的 JavaScript库都会写一个基础的 CSS解析器，然后再使用已有的 DOM 方法查询文档并找到匹配的节点。尽管库开发人员在不知疲倦地改进这一过程的性能，但到头来 都只能通过运行 JavaScript代码来完成查询操作。而把这个功能变成原生 API之后，解析和树查询操作 可以在浏览器内部通过编译后的代码来完成，极大地改善了性能`
+
+##### 1.1 querySelector()方法 
+`querySelector()方法接收一个 CSS选择符，返回与该模式匹配的第一个元素，如果没有找到匹 配的元素，返回 null。请看下面的例子。 `
+
+```node
+//取得 body 元素 
+var body = document.querySelector("body"); 
+ 
+//取得 ID 为"myDiv"的元素 
+var myDiv = document.querySelector("#myDiv"); 
+```
+
+##### 1.2 querySelectorAll()方法
+`querySelectorAll()方法接收的参数与 querySelector()方法一样，都是一个 CSS选择符，但 返回的是所有匹配的元素而不仅仅是一个元素。这个方法返回的是一个 NodeList 的实例`
+ 
+`只要传给 querySelectorAll()方法的 CSS选择符有效，该方法都会返回一个 NodeList 对象， 而不管找到多少匹配的元素。如果没有找到匹配的元素，NodeList 就是空的。` 
+
+```node
+//取得某<div>中的所有<em>元素（类似于 getElementsByTagName("em")） 
+var ems = document.getElementById("myDiv").querySelectorAll("em"); 
+ 
+//取得类为"selected"的所有元素 
+var selecteds = document.querySelectorAll(".selected"); 
+ 
+//取得所有<p>元素中的所有<strong>元素 
+var strongs = document.querySelectorAll("p strong"); 
+```
+
+##### 1.3 matchesSelector()方法 
+`Selectors API Level 2规范为 Element 类型新增了一个方法 matchesSelector()。这个方法接收 一个参数，即 CSS选择符，如果调用元素与该选择符匹配，返回 true；否则，返回 false。`
+
+```node
+if (document.body.matchesSelector("body.page1")){      
+  //true 
+}
+```
+#####  :octocat: [2.元素遍历 ](#top) <b id="target2"></b> 
+`对于元素间的空格，IE9及之前版本不会返回文本节点，而其他所有浏览器都会返回文本节点。这样， 就导致了在使用 childNodes 和 firstChild 等属性时的行为不一致。为了弥补这一差异，而同时又保 持DOM规范不变，Element Traversal规范（www.w3.org/TR/ElementTraversal/）新定义了一组属性。 `
+
+`Element Traversal API为 DOM元素添加了以下 5个属性。 `
+
+* `childElementCount`：`返回子元素（不包括文本节点和注释）的个数。` 
+* `firstElementChild`：`指向第一个子元素；firstChild 的元素版。` 
+* `lastElementChild`：`指向后一个子元素；lastChild 的元素版。` 
+* `previousElementSibling`：`指向前一个同辈元素；previousSibling 的元素版。` 
+* `nextElementSibling`：`指向后一个同辈元素；nextSibling 的元素版。`
+
+`支持的浏览器为 DOM元素添加了这些属性，利用这些元素不必担心空白文本节点，从而可以更方便地查找 DOM元素了。 `
+
+#####  :octocat: [3.HTML5 ](#top) <b id="target3"></b>
+`而 HTML5规范则围绕如何使用新增标记定义了大量 JavaScript API。其中一些 API与 DOM重叠， 定义了浏览器应该支持的 DOM扩展`
+
+##### 与类相关的扩充 
+
+* `1. getElementsByClassName()方法 `
+> `接收一个参数，即一个包含一或多个类名的字符串，返回带有 指定类的所有元素的 NodeList。传入多个类名时，类名的先后顺序不重要。`
+  
+```node
+//取得所有类中包含"username"和"current"的元素，类名的先后顺序无所谓 
+var allCurrentUsernames = document.getElementsByClassName("username current");
+```
+
+* `2.classList属性 `:`返回类名数组 。这个 classList 属性是新集合类型 DOMTokenList 的实例。 这个新类型还定义如下方法。 `
+  * `add(value)`：`将给定的字符串值添加到列表中。如果值已经存在，就不添加了。 `  
+  * `contains(value)`：`表示列表中是否存在给定的值，如果存在则返回 true，否则返回 false。`
+  * `remove(value)`：`从列表中删除给定的字符串。` 
+  * `toggle(value)`：`如果列表中已经存在给定的值，删除它；如果列表中没有给定的值，添加它。`
+
+* `3.焦点管理 `
+> `HTML5也添加了辅助管理 DOM焦点的功能。首先就是 document.activeElement 属性，这个属性始终会引用 DOM中当前获得了焦点的元素。`
+
+```node
+var button = document.getElementById("myButton"); 
+button.focus(); 
+alert(document.activeElement === button);   //true 
+```
+
+`默认情况下，文档刚刚加载完成时，document.activeElement 中保存的是 document.body 元 素的引用。`
+
+`文档加载期间，document.activeElement 的值为 null。 `
+
+`另外就是新增了` `document.hasFocus()` `方法，这个方法用于确定文档是否获得了焦点。 `
+```node
+button.focus(); 
+alert(document.hasFocus());  //true 
+```
+`通过检测文档是否获得了焦点，可以知道用户是不是正在与页面交互。 `
+
+##### HTMLDocument 变化
+`HTML5扩展了 HTMLDocument，增加了新的功能。与 HTML5中新增的其他 DOM扩展类似，这些 变化同样基于那些已经得到很多浏览器完美支持的专有扩展。所以，尽管这些扩展被写入标准的时间相 对不长，但很多浏览器很早就已经支持这些功能了。 `
+
+* `1. readyState 属性 `: `IE4早为 document 对象引入了 readyState 属性。然后，其他浏览器也都陆续添加这个属性， 终 HTML5把这个属性纳入了标准当中。Document 的 readyState 属性有两个可能的值：`
+   * `loading，正在加载文档；` 
+   * `complete，已经加载完文档`
+
+* `2. 兼容模式`:`自从 IE6开始区分渲染页面的模式是标准的还是混杂的，检测页面的兼容模式就成为浏览器的必要 功能。IE为此给 document 添加了一个名为 compatMode 的属性`
+
+> `。IE为此给 document 添加了一个名为 compatMode 的属性，这个属性就是为了告诉开发人员浏 览器采用了哪种渲染模式。就像下面例子中所展示的那样，在标准模式下，document.compatMode 的 值等于"CSS1Compat"，而在混杂模式下，document.compatMode 的值等于"BackCompat"。 `
+```node
+if (document.compatMode == "CSS1Compat"){     
+  alert("Standards mode"); 
+  } else {
+  alert("Quirks mode"); 
+}
+```
+* `3.head属性`:`作为对 document.body 引用文档的<body>元素的补充，HTML5新增了 document.head 属性， 引用文档的<head>元素。要引用文档的<head>元素，可以结合使用这个属性和另一种后备方法。 `  `如果可用，就使用 document.head，否则仍然使用 getElementsByTagName()方法。 `
+
+```node
+var head = document.head || document.getElementsByTagName("head")[0]; 
+```
+
+
+--------------------
+`作者:` `JxKicker` 
+`完成时间`:`2020年2月2日16:46:58`
+`备注信息`: `任意使用` 
