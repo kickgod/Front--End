@@ -3,7 +3,7 @@
 
 ------
 - [x] [`DOM2/3简介和XML命名空间变化`](#target1)
-- [x] [`样式`](#atrget2)
+- [x] [`样式`](#target2)
 
 -----
 #####  :octocat: [1.DOM2/3简介和XML命名空间变化[部分版本]](#top) <b id="target1"></b> 
