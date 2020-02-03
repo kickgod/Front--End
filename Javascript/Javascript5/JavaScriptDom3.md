@@ -107,3 +107,40 @@ myDiv.style.border = "1px solid black";
  alert(myDiv.style.cssText); 
  ```
  
+`计算的样式`:`虽然 style 对象能够提供支持 style 特性的任何元素的样式信息，但它不包含那些从其他样式表 层叠而来并影响到当前元素的样式信息。“DOM2 级样式”增强了 document.defaultView，提供了 getComputedStyle()方法。这个方法接受两个参数：要取得计算样式的元素和一个伪元素字符串（例 如":after"）如果不需要伪元素信息，第二个参数可以是 null。getComputedStyle()方法返回一 个 CSSStyleDeclaration 对象（与 style 属性的类型相同），其中包含当前元素的所有计算的样式。`
+
+```html
+<!DOCTYPE html>
+<html>
+<head><title>Computed Styles Example</title>
+    <style type="text/css">
+        #myDiv {
+            background-color: blue;
+            width: 100px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="myDiv" style="background-color: red; border: 1px solid black"></div>
+</body>
+</html>
+```
+
+`应用给这个例子中<div>元素的样式一方面来自嵌入式样式表（<style>元素中的样式），另一方 面来自其 style 特性。但是，style 特性中设置了 backgroundColor 和 border，没有设置 width 和 height，后者是通过样式表规则应用的。以下代码可以取得这个元素计算后的样式。 `
+
+```node
+var myDiv = document.getElementById("myDiv");
+var computedStyle = document.defaultView.getComputedStyle(myDiv, null);
+
+alert(computedStyle.backgroundColor);  // "red" 
+alert(computedStyle.width);    // "100px"
+alert(computedStyle.height);    // "200px"
+alert(computedStyle.border);    // 在某些浏览器中是"1px solid black"
+```
+
+`IE不支持 getComputedStyle()方法，但它有一种类似的概念。在 IE中，每个具有 style 属性 的元素还有一个 currentStyle 属性。这个属性是 CSSStyleDeclaration 的实例，包含当前元素全 部计算后的样式。所以兼容IE`
+
+```node
+var computeStyle = document.defaultView.getComputedStyle(myDiv, null) ||  myDiv.currentStyle; 
+```
