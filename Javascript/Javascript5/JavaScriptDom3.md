@@ -4,6 +4,7 @@
 ------
 - [x] [`DOM2/3简介和XML命名空间变化`](#target1)
 - [x] [`样式`](#target2)
+- [x] [`操作样式表 `](#target3)
 
 -----
 #####  :octocat: [1.DOM2/3简介和XML命名空间变化[部分版本]](#top) <b id="target1"></b> 
@@ -144,3 +145,38 @@ alert(computedStyle.border);    // 在某些浏览器中是"1px solid black"
 ```node
 var computeStyle = document.defaultView.getComputedStyle(myDiv, null) ||  myDiv.currentStyle; 
 ```
+
+#####  :octocat: [3.操作样式表](#top) <b id="target3"></b> 
+`CSSStyleSheet 类型表示的是样式表，包括通过<link>元素包含的样式表和在<style>元素中定义 的样式表。这两个元素本身分别是由 HTMLLinkElement 和 HTMLStyleElement 类型 表示的。但是，CSSStyleSheet 类型相对更加通用一些，它只表示样式表，而不管这些样式表在 HTML 中是如何定义的上述两个针对元素的类型允许修改 HTML特性，但 CSSStyleSheet 对象则是一 套只读的接口（有一个属性例外）。使用下面的代码可以确定浏览器是否支持 DOM2级样式表。 `
+
+```javascript
+var supportsDOM2StyleSheets =  document.implementation.hasFeature("StyleSheets", "2.0"); 
+```
+`CSSStyleSheet 继承自 StyleSheet，后者可以作为一个基础接口来定义非 CSS 样式表。从 StyleSheet 接口继承而来的属性如下`
+
+* ` disabled`:`表示样式表是否被禁用的布尔值。这个属性是可读/写的，将这个值设置为 true 可 以禁用样式表。 `
+* ` href`：`如果样式表是通过<link>包含的，则是样式表的 URL；否则，是 null。 `
+* `media`：`当前样式表支持的所有媒体类型的集合。与所有 DOM 集合一样，这个集合也有一个 length 属性和一个 item()方法。也可以使用方括号语法取得集合中特定的项。如果集合是空 列表，表示样式表适用于所有媒体。在 IE中，media 是一个反映<link>和<style>元素 media 特性值的字符串。 `
+* `ownerNode`：`指向拥有当前样式表的节点的指针，样式表可能是在 HTML 中通过<link>或 <style/>引入的（在 XML中可能是通过处理指令引入的）。如果当前样式表是其他样式表通过 @import 导入的，则这个属性值为 null。IE不支持这个属性。 `
+* `parentStyleSheet`：`在当前样式表是通过@import 导入的情况下，这个属性是一个指向导入 它的样式表的指针。 `
+* `title`：`ownerNode 中 title 属性的值。 `
+* `type`：`表示样式表类型的字符串。对 CSS样式表而言，这个字符串是"type/css"。 除了 disabled 属性之外，其他属性都是只读的。`
+
+`在支持以上所有这些属性的基础上， CSSStyleSheet 类型还支持下列属性和方法： `
+
+* `cssRules`：`样式表中包含的样式规则的集合。IE不支持这个属性，但有一个类似的 rules 属性。`
+* `ownerRule`：`如果样式表是通过@import 导入的，这个属性就是一个指针，指向表示导入的规 则；否则，值为 null。IE不支持这个属性。 `
+* `deleteRule(index)`：`删除 cssRules 集合中指定位置的规则。IE 不支持这个方法，但支持 一个类似的 removeRule()方法。`
+* `insertRule(rule,index)`：`向 cssRules 集合中指定的位置插入 rule 字符串。IE不支持这 个方法，但支持一个类似的 addRule()方法。 `
+
+`应用于文档的所有样式表是通过 document.styleSheets 集合来表示的. 通过这个集合的 length 属性可以获知文档中样式表的数量,而通过方括号语法或 item()方法可以访问每一个样式表`
+
+```node
+var sheet = null; 
+
+for (var i=0, len=document.styleSheets.length; i < len; i++){
+    sheet = document.styleSheets[i];
+    alert(sheet.href);
+}
+```
+`以上代码可以输出文档中使用的每一个样式表的 href 属性（<style>元素包含的样式表没有 href 属性） `
