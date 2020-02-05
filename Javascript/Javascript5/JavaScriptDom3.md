@@ -4,8 +4,8 @@
 ------
 - [x] [`DOM2/3简介和XML命名空间变化`](#target1)
 - [x] [`样式`](#target2)
-- [x] [`操作样式表 `](#target3)
-
+- [x] [`操作样式表`](#target3)
+- [x] [`元素大小`](#target4)
 -----
 #####  :octocat: [1.DOM2/3简介和XML命名空间变化[部分版本]](#top) <b id="target1"></b> 
 `DOM2/3支持了更高级的 XML特性。为此，DOM2和 DOM3 级分为许多模块（模块之间具有某种关联），分别描述了 DOM 的某个非常具体的子集。这些模块 如下。 `
@@ -180,3 +180,95 @@ for (var i=0, len=document.styleSheets.length; i < len; i++){
 }
 ```
 `以上代码可以输出文档中使用的每一个样式表的 href 属性（<style>元素包含的样式表没有 href 属性） `
+
+```node
+function getStyleSheet(element){     
+  return element.sheet || element.styleSheet; 
+}
+//这里的 getStyleSheet()返回的样式表对象与 document.styleSheets 集合中的样式表对象相同
+```
+
+##### 1. CSS规则 
+`CSSRule 对象表示样式表中的每一条规则。实际上，CSSRule 是一个供其他多种类型继承的基类 型，其中常见的就是 CSSStyleRule 类型，表示样式信息（其他规则还有@import、@font-face、 @page 和@charset，但这些规则很少有必要通过脚本来访问）`
+
+* `cssText`：`返回整条规则对应的文本。由于浏览器对样式表的内部处理方式不同，返回的文本 可能会与样式表中实际的文本不一样；Safari 始终都会将文本转换成全部小写。IE 不支持这个 属性。 `
+* `parentRule`：`如果当前规则是导入的规则，这个属性引用的就是导入规则；否则，这个值为 null。IE不支持这个属性。`
+* `parentStyleSheet`：`当前规则所属的样式表。IE不支持这个属性。 `
+* `selectorText`：`返回当前规则的选择符文本。`
+* `style`：`一个 CSSStyleDeclaration 对象，可以通过它设置和取得规则中特定的样式值。 `
+* `type`：`表示规则类型的常量值。对于样式规则，这个值是 1。IE不支持这个属性。 `
+
+```html
+<style>
+div.box {    
+ background-color: blue;
+ width: 100px;     
+ height: 200px; 
+} 
+</style>
+
+<script>
+ var sheet = document.styleSheets[0]; 
+ var rules = sheet.cssRules || sheet.rules;   //取得规则列表 
+ var rule = rules[0];                      //取得第一条规则 
+ alert(rule.selectorText);                  //"div.box" 
+ alert(rule.style.cssText);                  //完整的 CSS 代码 
+ alert(rule.style.backgroundColor);          //"blue" 
+ alert(rule.style.width);                  //"100px" 
+ alert(rule.style.height);                  //"200px" 
+</script>
+```
+
+##### 2.创建规则 
+`DOM 规定，要向现有样式表中添加新规则，需要使用 insertRule()方法。这个方法接受两个参 数：规则文本和表示在哪里插入规则的索引`
+
+```node
+sheet.insertRule("body { background-color: silver }", 0); //DOM方法 
+```
+
+`IE8 及更早版本支持一个类似的方法，名叫 addRule()，也接收两必选参数：选择符文本和 CSS 样式信息；一个可选参数：插入规则的位置。在 IE中插入与前面例子相同的规则，可使用如下代码`
+
+```node
+sheet.addRule("body", "background-color: silver", 0); //仅对 IE有效 
+// 有关这个方法的规定中说，多可以使用 addRule()添加 4 095条样式规则。超出这个上限的调用 将会导致错误。 
+```
+
+`要以跨浏览器的方式向样式表中插入规则，可以使用下面的函数。`
+
+```node
+function insertRule(sheet, selectorText, cssText, position) {
+    if (sheet.insertRule) {
+        sheet.insertRule(selectorText + "{" + cssText + "}", position);
+    } else if (sheet.addRule) {
+        sheet.addRule(selectorText, cssText, position);
+    }
+} 
+
+insertRule(document.styleSheets[0], "body", "background-color: silver", 0); 
+```
+
+##### 3. 删除规则 
+```node
+sheet.deleteRule(0);    //DOM方法 
+
+sheet.removeRule(0);    //仅对 IE有效 
+
+//跨浏览器
+function deleteRule(sheet, index) {
+    if (sheet.deleteRule) {
+        sheet.deleteRule(index);
+    } else if (sheet.removeRule) {
+        sheet.removeRule(index);
+    }
+} 
+```
+#####  :octocat: [4.元素大小](#top) <b id="target4"></b> 
+`本节介绍的属性和方法并不属于“DOM2级样式”规范，但却与 HTML元素的样式息息相关。`
+
+##### 1.偏移量 
+* `offsetHeight：元素在垂直方向上占用的空间大小，以像素计。包括元素的高度、（可见的） 水平滚动条的高度、上边框高度和下边框高度。[包含边框厚度] `
+* `offsetWidth：元素在水平方向上占用的空间大小，以像素计。包括元素的宽度、（可见的）垂 直滚动条的宽度、左边框宽度和右边框宽度。 [包含边框厚度]`
+* `offsetLeft：元素的左外边框至包含元素的左内边框之间的像素距离。 `
+* `offsetTop：元素的上外边框至包含元素的上内边框之间的像素距离。`
+
+`offsetLeft 和 offsetTop 属性与包含元素有关，包含元素的引用保存在 offsetParent 属性中。offsetParent 属性不一定与 parentNode 的值相等。`
