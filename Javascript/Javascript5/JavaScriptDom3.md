@@ -3,12 +3,14 @@
 
 ------
 
-- [x] [`DOM2/3简介和XML命名空间变化`](#target1)
-- [x] [`样式`](#target2)
-- [x] [`操作样式表`](#target3)
-- [x] [`元素大小`](#target4)
-- [x] [`遍历`](#target5)
+- [x] [`1.DOM2/3简介和XML命名空间变化`](#target1)
+- [x] [`2.样式`](#target2)
+- [x] [`3.操作样式表`](#target3)
+- [x] [`4.元素大小`](#target4)
+- [x] [`5.遍历`](#target5)
+- [x] [`6.范围`](#target6)
 
+ 
 -----
 #####  :octocat: [1.DOM2/3简介和XML命名空间变化[部分版本]](#top) <b id="target1"></b> 
 `DOM2/3支持了更高级的 XML特性。为此，DOM2和 DOM3 级分为许多模块（模块之间具有某种关联），分别描述了 DOM 的某个非常具体的子集。这些模块 如下。 `
@@ -443,6 +445,45 @@ var filter = {
 }; 
 
 ```
+
+```html
+<div id="div1"><p><b>Hello</b> world!</p>
+    <ul>
+        <li>List item 1</li>
+        <li>List item 2</li>
+        <li>List item 3</li>
+    </ul>
+</div>
+```
+`假设我们想要遍历<div>元素中的所有元素，那么可以使用下列代码。 `
+
+```node
+let div = document.getElementById("div1");
+let iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, null, false);
+let node = iterator.nextNode();
+while (node !== null) {
+    alert(node.tagName);        //输出标签名
+    node = iterator.nextNode();
+}//DIV P B UL LI LI LI
+```
+`也许用不着显示那么多信息，你只想返回遍历中遇到的<li>元素。很简单，只要使用一个过滤器 即可，如下面的例子所示。 `
+
+```node
+var div = document.getElementById("div1");
+var filter = function (node) {
+    return node.tagName.toLowerCase() == "li" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+};
+
+var iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, filter, false);
+
+var node = iterator.nextNode();
+while (node !== null) {
+    alert(node.tagName);        //输出标签名     
+    node = iterator.nextNode(); 
+} 
+```
+`在这个例子中，迭代器只会返回<li>元素。 `
+
 ##### TreeWalker 
 `TreeWalker 是 NodeIterator 的一个更高级的版本。除了包括 nextNode()和 previousNode() 在内的相同的功能之外，这个类型还提供了下列用于在不同方向上遍历 DOM结构的方法。 `
 
@@ -451,3 +492,69 @@ var filter = {
 * `lastChild()`：`遍历到当前节点的后一个子节点；` 
 * `nextSibling()`：`遍历到当前节点的下一个同辈节点；` 
 * `previousSibling()`：`遍历到当前节点的上一个同辈节点。 `
+
+`创建 TreeWalker 对象要使用 document.createTreeWalker()方法，这个方法接受的 4个参数 `:`：作为遍历起点的根节点、要显示的节点类型、过滤 器和一个表示是否扩展实体引用的布尔值。` [`官方文档`](https://developer.mozilla.org/zh-CN/docs/Web/API/TreeWalker)
+
+
+```node
+var div = document.getElementById("div1");
+var walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, null, false);
+
+walker.firstChild();            //转到<p> walker.nextSibling();         // 转到<ul> 
+
+var node = walker.firstChild();        //转到第一个<li> 
+ while (node !== null) {    
+     alert(node.tagName);     
+     node = walker.nextSibling();
+ } 
+```
+##### :octocat: [6.范围](#top) <b id="target6"></b>  
+`为了让开发人员更方便地控制页面，“DOM2级遍历和范围”模块定义了“范围”（range）接口。通 过范围可以选择文档中的一个区域，而不必考虑节点的界限（选择在后台完成，对用户是不可见的）。`
+
+##### DOM中的范围 
+`DOM2级在 Document 类型中定义了 createRange()方法。在兼容 DOM的浏览器中，这个方法 属于 document 对象。使用 hasFeature()或者直接检测该方法，都可以确定浏览器是否支持范围。 `
+
+```node
+var supportsRange = document.implementation.hasFeature("Range", "2.0");
+var alsoSupportsRange = (typeof document.createRange == "function"); 
+```
+
+```node
+var range = document.createRange();
+```
+`每个范围由一个 Range 类型的实例表示，这个实例拥有很多属性和方法。下列属性提供了当前范 围在文档中的位置信息。`
+
+
+* `startContainer`：`包含范围起点的节点（即选区中第一个节点的父节点）。` 
+* `startOffset`：`范围在 startContainer 中起点的偏移量。如果 startContainer 是文本节 点、注释节点或 CDATA节点，那么 startOffset 就是范围起点之前跳过的字符数量。否则， startOffset 就是范围中第一个子节点的索引。` 
+* `endContainer`：`包含范围终点的节点（即选区中后一个节点的父节点）。` 
+* `endOffset`：`范围在 endContainer 中终点的偏移量（与 startOffset 遵循相同的取值规则）。`
+* `commonAncestorContainer`：`startContainer 和 endContainer 共同的祖先节点在文档树 中位置深的那个。 `
+
+##### 6.1 用 DOM范围实现简单选择
+`要使用范围来选择文档中的一部分，简的方式就是使用 selectNode()或 selectNodeContents()。 这两个方法都接受一个参数，即一个 DOM 节点，然后使用该节点中的信息来填充范围`
+
+`selectNode()方法选择整个节点，包括其子节点；而 selectNodeContents()方法则只选择节点的 子节点。`
+
+```html
+<!DOCTYPE html>
+<html>
+<body><p id="p1"><b>Hello</b> world!</p></body>
+</html> 
+```
+`我们可以使用下列代码来创建范围： `
+
+```node
+var range1 = document.createRange();     
+    range2 = document.createRange();    
+    p1 = document.getElementById("p1"); 
+    range1.selectNode(p1); 
+    range2.selectNodeContents(p1); 
+```
+`这里创建的两个范围包含文档中不同的部分：rang1 包含<p/>元素及其所有子元素，而 rang2 包 含<b/>元素、文本节点"Hello"和文本节点"world!"`
+
+
+
+
+
+
