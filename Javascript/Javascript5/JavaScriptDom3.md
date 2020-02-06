@@ -2,10 +2,13 @@
 `DOM1 级主要定义的是 HTML和 XML文档的底层结构。DOM2 和 DOM3级则在这个结构 的基础上引入了更多的交互能力 `
 
 ------
+
 - [x] [`DOM2/3简介和XML命名空间变化`](#target1)
 - [x] [`样式`](#target2)
 - [x] [`操作样式表`](#target3)
 - [x] [`元素大小`](#target4)
+- [x] [`遍历`](#target5)
+
 -----
 #####  :octocat: [1.DOM2/3简介和XML命名空间变化[部分版本]](#top) <b id="target1"></b> 
 `DOM2/3支持了更高级的 XML特性。为此，DOM2和 DOM3 级分为许多模块（模块之间具有某种关联），分别描述了 DOM 的某个非常具体的子集。这些模块 如下。 `
@@ -368,4 +371,51 @@ function getBoundingClientRect(element) {
       bottom: rect.bottom + offset
     };
 }
+```
+`对于不支持 getBoundingClientRect()的浏览器，可以通过其他手段取得相同的信息。一般来 说，right 和 left 的差值与 offsetWidth 的值相等，而 bottom 和 top 的差值与 offsetHeight 相等。而且，left 和 top 属性大致等于使用本章前面定义的 getElementLeft()和 getElementTop() 函数取得的值。综合上述，就可以创建出下面这个跨浏览器的函数： `
+
+```node
+function getBoundingClientRect(element) {
+
+    var scrollTop = document.documentElement.scrollTop;
+    var scrollLeft = document.documentElement.scrollLeft;
+    if (element.getBoundingClientRect) {
+        if (typeof arguments.callee.offset != "number") {
+            var temp = document.createElement("div");
+            temp.style.cssText = "position:absolute;left:0;top:0;";
+            document.body.appendChild(temp);
+            arguments.callee.offset = -temp.getBoundingClientRect().top - scrollTop;
+            document.body.removeChild(temp);
+            temp = null;
+        }
+        var rect = element.getBoundingClientRect();
+        var offset = arguments.callee.offset;
+
+        return {
+            left: rect.left + offset, right: rect.right + offset, top: rect.top + offset, bottom: rect.bottom + offset
+
+        };
+    } else {
+
+        var actualLeft = getElementLeft(element);
+        var actualTop = getElementTop(element);
+
+        return {
+            left: actualLeft - scrollLeft,
+            right: actualLeft + element.offsetWidth - scrollLeft,
+            top: actualTop - scrollTop,
+            bottom: actualTop + element.offsetHeight - scrollTop
+        }
+    }
+}
+
+```
+
+##### :octocat: [5.遍历](#top) <b id="target5"></b>  
+`“DOM2级遍历和范围”模块定义了两个用于辅助完成顺序遍历 DOM结构的类型：NodeIterator 和 TreeWalker。这两个类型能够基于给定的起点对 DOM结构执行深度优先（depth-first）的遍历操作。 `
+
+```node
+var supportsTraversals = document.implementation.hasFeature("Traversal", "2.0"); 
+var supportsNodeIterator = (typeof document.createNodeIterator == "function"); 
+var supportsTreeWalker = (typeof document.createTreeWalker == "function"); 
 ```
