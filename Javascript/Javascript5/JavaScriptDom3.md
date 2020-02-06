@@ -509,7 +509,9 @@ var node = walker.firstChild();        //转到第一个<li>
  } 
 ```
 ##### :octocat: [6.范围](#top) <b id="target6"></b>  
-`为了让开发人员更方便地控制页面，“DOM2级遍历和范围”模块定义了“范围”（range）接口。通 过范围可以选择文档中的一个区域，而不必考虑节点的界限（选择在后台完成，对用户是不可见的）。`
+`为了让开发人员更方便地控制页面，“DOM2级遍历和范围”模块定义了“范围”（range）接口。通 过范围可以选择文档中的一个区域，而不必考虑节点的界限（选择在后台完成，对用户是不可见的）。` [`Range 官方文档`](https://developer.mozilla.org/zh-CN/docs/Web/API/Range)
+
+**`这个范围一般是富文本编辑器上面使用，其他用处暂时未知`**
 
 ##### DOM中的范围 
 `DOM2级在 Document 类型中定义了 createRange()方法。在兼容 DOM的浏览器中，这个方法 属于 document 对象。使用 hasFeature()或者直接检测该方法，都可以确定浏览器是否支持范围。 `
@@ -553,8 +555,60 @@ var range1 = document.createRange();
 ```
 `这里创建的两个范围包含文档中不同的部分：rang1 包含<p/>元素及其所有子元素，而 rang2 包 含<b/>元素、文本节点"Hello"和文本节点"world!"`
 
+`此外，为了更精细地控制将哪些节点包含在范围中，还可以使用下列方法`
+
+* `setStartBefore(refNode)`：`将范围的起点设置在refNode之前，因此refNode也就是范围选区中的第一个子节点。同时会将startContainer属性设置为refNode.parentNode，将startoffset属性设置为refNode在其父节点的childNodes集合中的索引`
+
+* `setStartAfter(refNode)`：`将范围的起点设置在refNode之后，因此refNode也就不在范围之内了，其下一个同辈节点才是范围选区中的第一个子节点。同时会将startContainer属性设置为refNode.parentNode，将startoffset属性设置为refNode在其父节点的childNodes集合中的索引加1`
+
+* `setEndBefore(refNode)`：`将范围的终点设置在refNode之前，因此refNode也就不在范围之内了，其上一个同辈节点才是范围选区中的最后一个子节点。同时会将endContainer属性设置为refNode.parentNode，将endOffset属性设置为refNode在其父节点的childNodes集合中的索引`
+
+* `setEndAfter(refNode)`：`将范围的终点设置在refNode之后，因此refNode也就是范围选区中的最后一个子节点。同时会将endContainer属性设置为refNode.parentNode，将endOffset属性设置为refNode在其父节点的childNodes集合中的索引加1`
+
+`调用这些方法时，所有属性会自动设置好。不过，要想创建复杂的范围选区，也可以直接指定这些属性的值`
+
+##### 比较 DOM范围  
+`在有多个范围的情况下，可以使用 compareBoundaryPoints()方法来确定这些范围是否有公共 的边界（起点或终点）。这个方法接受两个参数：表示比较方式的常量值和要比较的范围。表示比较方 式的常量值如下所示`
+
+* `Range.START_TO_START(0)`：`比较第一个范围和第二个范围的起点；` 
+* `Range.START_TO_END(1)`：`比较第一个范围的起点和第二个范围的终点；` 
+* `Range.END_TO_END(2)`：`比较第一个范围和第二个范围的终点；` 
+* `Range.END_TO_START(3)`：`比较第一个范围的终点和第一个范围的起点。 `
+
+`compareBoundaryPoints()方法可能的返回值如下：如果第一个范围中的点位于第二个范围中的 点之前，返回-1；如果两个点相等，返回 0；如果第一个范围中的点位于第二个范围中的点之后，返回 1。`
+
+```node
+var range1 = document.createRange();
+var range2 = document.createRange();
+var p1 = document.getElementById("p1");
+
+range1.selectNodeContents(p1);
+range2.selectNodeContents(p1);
+range2.setEndBefore(p1.lastChild);
+
+alert(range1.compareBoundaryPoints(Range.START_TO_START, range2));  //outputs 0
+alert(range1.compareBoundaryPoints(Range.END_TO_END, range2));      //outputs 1
+```
+
+`在这个例子中，两个范围的起点实际上是相同的，因为它们的起点都是由selectNodeContents()方法设置的默认值来指定的。因此，第一次比较返回0。但是，range2的终点由于调用setEndBefore()已经改变了，结果是range1的终点位于range2的终点后面，因此第二次比较返回1`
 
 
+##### 复制 DOM范围 
+`可以使用 cloneRange()方法复制范围。这个方法会创建调用它的范围的一个副本。 `
+
+```node
+var newRange = range.cloneRange();
+```
+`新创建的范围与原来的范围包含相同的属性，而修改它的端点不会影响原来的范围。 `
+
+##### 清理 DOM范围 
+`在使用完范围之后，好是调用 detach()方法，以便从创建范围的文档中分离出该范围。调用 detach()之后，就可以放心地解除对范围的引用，从而让垃圾回收机制回收其内存了。来看下面的 例子。`
+
+```node
+range.detach();      //从文档中分离 
+range = null;         //解除引用 
+```
+`在使用范围的后再执行这两个步骤是我们推荐的方式。一旦分离范围，就不能再恢复使用了。 `
 
 
 
