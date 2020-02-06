@@ -320,3 +320,52 @@ function getViewport() {
 ```
 
 ##### 3.滚动大小 
+`后要介绍的是滚动大小（scroll dimension），指的是包含滚动内容的元素的大小。有些元素（例如 <html>元素），即使没有执行任何代码也能自动地添加滚动条；但另外一些元素，则需要通过 CSS 的 overflow 属性进行设置才能滚动。以下是 4个与滚动大小相关的属性。 `
+
+* `scrollHeight`：`在没有滚动条的情况下，元素内容的总高度。` 
+* `scrollWidth`：`在没有滚动条的情况下，元素内容的总宽度。` 
+* `scrollLeft`：`被隐藏在内容区域左侧的像素数。通过设置这个属性可以改变元素的滚动位置。`
+* `scrollTop`：`被隐藏在内容区域上方的像素数。通过设置这个属性可以改变元素的滚动位置。 `
+
+`scrollWidth 和 scrollHeight 主要用于确定元素内容的实际大小。`
+
+`对于不包含滚动条的页面而言，scrollWidth 和 scrollHeight 与 clientWidth 和 clientHeight 之间的关系并不十分清晰。在这种情况下，基于 document.documentElement 查看 这些属性会在不同浏览器间发现一些不一致性问题`
+
+`IE（在标准模式）中的这两组属性不相等，其中 scrollWidth 和 scrollHeight 等于文档内 容区域的大小，而 clientWidth 和 clientHeight 等于视口大小`
+
+`在确定文档的总高度时（包括基于视口的小高度时），必须取得 scrollWidth/clientWidth 和 scrollHeight/clientHeight 中的大值，才能保证在跨浏览器的环境下得到精确的结果。下面就 是这样一个例子。 `
+
+```node
+var docHeight = Math.max(document.documentElement.scrollHeight, document.documentElement.clientHeight);
+
+var docWidth = Math.max(document.documentElement.scrollWidth, document.documentElement.clientWidth);
+```
+
+`注意，对于运行在混杂模式下的 IE，则需要用 document.body 代替 document.document- Element。 `
+
+##### 4. 确定元素大小 
+`IE、Firefox 3+、Safari 4+、Opera 9.5及Chrome为每个元素都提供了一个 getBoundingClientRect()方 法。这个方法返回会一个矩形对象，包含 4个属性：left、top、right 和 bottom。这些属性给出了元素在页面中相对于视口的位置。但是，浏览器的实现稍有不同。IE8 及更早版本认为文档的左上角坐 标是(2, 2)，而其他浏览器包括 IE9则将传统的(0,0)作为起点坐标。因此，就需要在一开始检查一下位于 (0,0)处的元素的位置，在 IE8及更早版本中，会返回(2,2)，而在其他浏览器中会返回(0,0)。来看下面的 函数： `
+
+```node
+function getBoundingClientRect(element) {
+    if (typeof arguments.callee.offset != "number") {
+        var scrollTop = document.documentElement.scrollTop;
+        var temp = document.createElement("div");
+        temp.style.cssText = "position:absolute;left:0;top:0;";
+        document.body.appendChild(temp);
+        arguments.callee.offset = -temp.getBoundingClientRect().top - scrollTop;
+        document.body.removeChild(temp);
+        temp = null;
+    }
+
+    var rect = element.getBoundingClientRect();
+    var offset = arguments.callee.offset;
+
+    return {
+      left: rect.left + offset,
+      right: rect.right + offset,
+      top: rect.top + offset, 
+      bottom: rect.bottom + offset
+    };
+}
+```
