@@ -392,7 +392,10 @@ function getBoundingClientRect(element) {
         var offset = arguments.callee.offset;
 
         return {
-            left: rect.left + offset, right: rect.right + offset, top: rect.top + offset, bottom: rect.bottom + offset
+            left: rect.left + offset, 
+            right: rect.right + offset, 
+            top: rect.top + offset, 
+            bottom: rect.bottom + offset
 
         };
     } else {
@@ -409,6 +412,7 @@ function getBoundingClientRect(element) {
     }
 }
 
+var iterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT,filter, false); 
 ```
 
 ##### :octocat: [5.遍历](#top) <b id="target5"></b>  
@@ -419,3 +423,31 @@ var supportsTraversals = document.implementation.hasFeature("Traversal", "2.0");
 var supportsNodeIterator = (typeof document.createNodeIterator == "function"); 
 var supportsTreeWalker = (typeof document.createTreeWalker == "function"); 
 ```
+
+##### NodeIterator 
+`对Dom树 进行遍历的对象` [`官方文档`](https://developer.mozilla.org/zh-CN/docs/Web/API/NodeIterator)
+
+* `root`：`想要作为搜索起点的树中的节点。` 
+* `whatToShow`：`表示要访问哪些节点的数字代码。` 
+* `filter`：`是一个 NodeFilter 对象，或者一个表示应该接受还是拒绝某种特定节点的函数。` 
+* `entityReferenceExpansion`：`布尔值，表示是否要扩展实体引用。这个参数在 HTML 页面 中没有用，因为其中的实体引用不能扩展。`
+* `whatToShow`: `参数是一个位掩码，通过应用一或多个过滤器（filter）来确定要访问哪些节点。这个 参数的值以常量形式在` [`NodeFilter`]() `类型中定义，返回一个无符号长整型，它是一个由描述必须呈现的Node类型的常量构成的位掩码。不匹配`
+
+`可以通过 createNodeIterator()方法的 filter 参数来指定自定义的 NodeFilter 对象，或者 指定一个功能类似节点过滤器（node filter）的函数.`
+
+```node
+var filter = {
+    acceptNode: function (node) {
+        return node.tagName.toLowerCase() == "p" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+    }
+}; 
+
+```
+##### TreeWalker 
+`TreeWalker 是 NodeIterator 的一个更高级的版本。除了包括 nextNode()和 previousNode() 在内的相同的功能之外，这个类型还提供了下列用于在不同方向上遍历 DOM结构的方法。 `
+
+* `parentNode()`：`遍历到当前节点的父节点；` 
+* `firstChild()`：`遍历到当前节点的第一个子节点；` 
+* `lastChild()`：`遍历到当前节点的后一个子节点；` 
+* `nextSibling()`：`遍历到当前节点的下一个同辈节点；` 
+* `previousSibling()`：`遍历到当前节点的上一个同辈节点。 `
