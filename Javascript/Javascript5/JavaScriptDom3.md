@@ -272,3 +272,51 @@ function deleteRule(sheet, index) {
 * `offsetTop：元素的上外边框至包含元素的上内边框之间的像素距离。`
 
 `offsetLeft 和 offsetTop 属性与包含元素有关，包含元素的引用保存在 offsetParent 属性中。offsetParent 属性不一定与 parentNode 的值相等。`
+
+`要想知道某个元素在页面上的偏移量，将这个元素的 offsetLeft 和 offsetTop 与其 offsetParent 的相同属性相加，如此循环直至根元素，就可以得到一个基本准确的值。以下两个函数就可以用于分别 取得元素的左和上偏移量。 `
+
+```node
+function getElementLeft(element) {
+    var actualLeft = element.offsetLeft;
+    var current = element.offsetParent;
+
+    while (current !== null) {
+        actualLeft += current.offsetLeft;
+        current = current.offsetParent;
+    }
+
+    return actualLeft;
+}
+```
+
+```node
+function getElementTop(element) {
+    var actualTop = element.offsetTop;
+    var current = element.offsetParent;
+
+    while (current !== null) {
+        actualTop += current.offsetTop;
+        current = current.offsetParent;
+    }
+
+    return actualTop;
+} 
+```
+`这两个函数利用 offsetParent 属性在 DOM层次中逐级向上回溯，将每个层次中的偏移量属性 合计到一块。对于简单的 CSS布局的页面，这两函数可以得到非常精确的结果。对于使用表格和内嵌 框架布局的页面，由于不同浏览器实现这些元素的方式不同，因此得到的值就不太精确了。`
+
+##### 2.客户区大小 
+`元素的客户区大小（client dimension），指的是元素内容及其内边距所占据的空间大小。有关客户区 大小的属性有两个：clientWidth 和 clientHeight。其中，clientWidth 属性是元素内容区宽度加 上左右内边距宽度 [内容 + padding]；clientHeight 属性是元素内容区高度加上上下内边距高度。图 12-2 形象地说明 了这些属性表示的大小。 `
+
+`从字面上看，客户区大小就是元素内部的空间大小，因此滚动条占用的空间不计算在内。常用到 这些属性的情况，就是像第 8章讨论的确定浏览器视口大小的时候。如下面的例子所示，要确定浏览器 视口大小，可以使用 document.documentElement 或 document.body（在 IE7 之前的版本中）的 clientWidth 和 clientHeight。 `
+
+```node
+function getViewport() {
+    if (document.compatMode == "BackCompat") {
+        return {width: document.body.clientWidth, height: document.body.clientHeight};
+    } else {
+        return {width: document.documentElement.clientWidth, height: document.documentElement.clientHeight};
+    }
+} 
+```
+
+##### 3.滚动大小 
