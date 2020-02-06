@@ -177,8 +177,7 @@ window对象`
 ```
 **`总结`**:`跨浏览器且简单大家都支持`
 ##### <a href="#top" id="DOM2EventBuilder">Dom2级事件处理程序</a>
-`DOM2级事件,提供了两个方法,用于处理指定和删除事件处理程序的操作,所以节点都包含这两种方法,并且它们都接受三个参数,要处理的事件名,作为事件处理程序的函数和一个
-布尔值,true 表示在捕获阶段使用时间处理程序, 如果是false表示在冒泡阶段调用时间处理程序,一般都是false`
+`DOM2级事件,提供了两个方法,用于处理指定和删除事件处理程序的操作,所以节点都包含这两种方法,并且它们都接受三个参数,要处理的事件名,作为事件处理程序的函数和一个布尔值。后这个布尔值参数如果是 true，表示在捕获 阶段调用事件处理程序；如果是 false，表示在冒泡阶段调用事件处理程序 `
 * `addEventListener("EventName",function(){//etc},false)`
 * `removeEventListener("EventName",function(){//etc},false)`
 
@@ -223,11 +222,45 @@ window对象`
 </body>
 </html>
 ```
+
 ----
 **`总结`**:`不错 标准写法,如果不需要remove那么直接第二个参数 传递一个函数也是可以的`
  ##### <a href="#top" id="IEEventBuilder">Dom2级事件处理程序</a>
  `IE实现了两个与DOM类似的方法attachEvent() detachEvent() 这两个方法接受相同的两个参数,IE8.0之前只支持冒泡所以没有第三个参数, 事件处理程序会在全局作用域中运行,因此this等于window`
  **`总结`**:`跨浏览器事件的解决方法,本人认为放弃兼容IE浏览器,一切完美,否则用框架吧,JQ VUE....之类的`
+ 
+ ``跨浏览器的事件处理程序 ``
+ 
+ ```node
+ var EventUtil = {
+    addHandler: function (element, type, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = handler;
+        }
+    }, removeHandler: function (element, type, handler) {
+        if (element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+        } else if (element.detachEvent) {
+            element.detachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = null;
+        }
+    }
+};     
+ 
+var btn = document.getElementById("myBtn");
+var handler = function () {
+    alert("Clicked");
+};
+EventUtil.addHandler(btn, "click", handler);
+
+//这里省略了其他代码 
+EventUtil.removeHandler(btn, "click", handler);
+```
  
 #####  <a id="EventObject" href="#EventObject">事件对象</a>  
 `在触发DOM上的某个事件的时候,都会产生一个事件对象Event，这个对象包含着所有与事件有关的信息,包括导致事件的元素,事件的类型,例如鼠标操作导致的事件
