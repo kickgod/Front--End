@@ -15,7 +15,7 @@
 - [x]  <a href="#EventObject">`事件对象`</a>
   - <a href="#DOMEventObject">`DOM中的事件对象`</a>  
   - <a href="#IEEventObject">`IE中的事件对象`</a>
-- [x] <a href="#EventType">事件类型</a>
+- [x] <a href="#EventType">`事件类型`</a>
   - <a href="#UIEvent">`UI事件`</a>
   - <a href="#FocusEvent">`焦点事件`</a>
   - <a href="#MouseEvent">`鼠标事件`</a>
@@ -37,7 +37,7 @@
 是否Button 所在的Div也产生了点击事件呢!事件流就是讨论Div到底该不该有点击事件,那些页面部分应该接受事件` <br/>
 **`事件流`**:`描述从页面接受事件的顺序,但是又有当年的两位天神IE和Netscape提出了两个相反的事件流概念,IE采用事件冒泡,Netscape采用事件捕获流`
 
-##### <a href="#top" id="top">事件冒泡</a>
+##### <a href="#top" id="EventMaoPao">事件冒泡</a>
 `IE采用,事件开始时由最具体的元素(文档嵌套层次最深的那个节点接受),然后逐级向上传播`
 ```html
 <!DOCTYPE html>
@@ -100,7 +100,7 @@ window对象`
            ⬇️ 3      ⬆️ 4
           button 发生事件
 ```
-####  <a  id="top" href="#EventDealWith">事件处理程序</a>  
+##### <a  id="EventDealWith" href="#top">事件处理程序</a>   
 `响应事件的函数就是事件处理程序(事件侦听器),事件处理程序的名字以` **`on`** `开头因此click 事件的事件处理程序就是onclick,load事件的处理程
 序就是onload,为事件处理程序制定处理函数的方式有好多种`
 ##### <a href="#top" id="HTMLEventBuilder">HTML事件处理程序</a> 
@@ -171,7 +171,7 @@ window对象`
   </body>
 </html>
 ```
-* 取消事件的方法
+* `取消事件的方法`
 ```js
    btnDom0.onclick=null; //这样就没有了
 ```
@@ -179,11 +179,13 @@ window对象`
 ##### <a href="#top" id="DOM2EventBuilder">Dom2级事件处理程序</a>
 `DOM2级事件,提供了两个方法,用于处理指定和删除事件处理程序的操作,所以节点都包含这两种方法,并且它们都接受三个参数,要处理的事件名,作为事件处理程序的函数和一个
 布尔值,true 表示在捕获阶段使用时间处理程序, 如果是false表示在冒泡阶段调用时间处理程序,一般都是false`
-* addEventListener("EventName",function(){//etc},false)
-* removeEventListener("EventName",function(){//etc},false)
+* `addEventListener("EventName",function(){//etc},false)`
+* `removeEventListener("EventName",function(){//etc},false)`
+
 **`注意`**:`DOM2级事件 使用addEventListener 添加的事件就必须使用removeEventListener移除,移除传入的参数与添加处理程序时使用的参数相同,这就
 意味着通过addEventListener添加的匿名函数无法移除`
-* 正常格式
+
+`正常格式`
 ```HTML
 <!DOCTYPE html>
 <html>
@@ -227,7 +229,7 @@ window对象`
  `IE实现了两个与DOM类似的方法attachEvent() detachEvent() 这两个方法接受相同的两个参数,IE8.0之前只支持冒泡所以没有第三个参数, 事件处理程序会在全局作用域中运行,因此this等于window`
  **`总结`**:`跨浏览器事件的解决方法,本人认为放弃兼容IE浏览器,一切完美,否则用框架吧,JQ VUE....之类的`
  
-####  <a id="EventObject" href="#EventObject">事件对象</a>  
+#####  <a id="EventObject" href="#EventObject">事件对象</a>  
 `在触发DOM上的某个事件的时候,都会产生一个事件对象Event，这个对象包含着所有与事件有关的信息,包括导致事件的元素,事件的类型,例如鼠标操作导致的事件
 会有包含鼠标位置的信息,键盘操作有关于键盘的信息`
 
