@@ -1,8 +1,7 @@
-#### <a id="top" href="#top">JavaScript 原生Event </a> 
+#### <a id="top" href="#top">JavaScript 原生Event :grey_exclamation:</a> 
 ----
 
-`JS与HTML之间的交互式通过事件实现的,事件就是文档或浏览器窗口发生的一些特点交互瞬间,可以使用侦听器来预订事件,由于不同的DOM版本 又有不同DOM级别的事件,比如DOM0级事件
-DOM1 级事件,现在主要浏览器已经实现了DOM2级事件`
+`JS与HTML之间的交互式通过事件实现的,事件就是文档或浏览器窗口发生的一些特点交互瞬间,可以使用侦听器来预订事件,由于不同的DOM版本 又有不同DOM级别的事件,比如DOM0级事件DOM1 级事件,现在主要浏览器已经实现了DOM2级事件` :speech_balloon:
 
 - [x] <a href="#EventStream">`事件流`</a>
   - <a href="#EventMaoPao">`事件冒泡`</a>
@@ -30,14 +29,15 @@ DOM1 级事件,现在主要浏览器已经实现了DOM2级事件`
   - <a href="#TouchAndGestureEvent">`触摸与手势事件[现代移动响应开发的需求产生]`</a>
 - [x] <a href="#MemoreEngine">`内存和性能`</a>
   - <a href="#EventDelegate">`事件委托[基于事件冒泡]`</a>
-- [x] :maple_leaf: <a href="#StartEventByMe">`模拟事件`</a>
+- [x] <a href="#StartEventByMe">`模拟事件`</a>
 
 
-####  <a id="EventStream" href="#EventStream">事件流</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+#####  <a id="EventStream" href="#top">事件流</a> 
 **`事件的拥有问题`**:`就像数个同心圆一样,当你手指触碰到了中心的圆,相当于所有的圆你都触碰到了,事件也是一样的当一个Button 产生了点击事件那么
 是否Button 所在的Div也产生了点击事件呢!事件流就是讨论Div到底该不该有点击事件,那些页面部分应该接受事件` <br/>
 **`事件流`**:`描述从页面接受事件的顺序,但是又有当年的两位天神IE和Netscape提出了两个相反的事件流概念,IE采用事件冒泡,Netscape采用事件捕获流`
-##### <a href="#top" id="EventMaoPao">事件冒泡</a> <a href="#top">:arrow_up:</a>  
+
+##### <a href="#top" id="top">事件冒泡</a>
 `IE采用,事件开始时由最具体的元素(文档嵌套层次最深的那个节点接受),然后逐级向上传播`
 ```html
 <!DOCTYPE html>
@@ -71,7 +71,7 @@ DOM1 级事件,现在主要浏览器已经实现了DOM2级事件`
 ```
 **`总结`**:`事件冒泡已经被所有现代浏览器所支持,具体实现由细微的差别,IE5.5 会的事件冒泡会跳过html直接到document IE9/Safari/Firefox/Chrome/ 则将事件一直冒泡到
 window对象`
-##### <a href="#top" id="EventCatch">事件捕获</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="EventCatch">事件捕获</a> 
 `事件捕获和事件冒泡正好相反,它的思想是最不具体的节点应该更早的接受到事件,最具体的节点应该最后接受事件`
 ```html
      document 发生事件 向下传播到body
@@ -100,10 +100,10 @@ window对象`
            ⬇️ 3      ⬆️ 4
           button 发生事件
 ```
-####  <a  id="EventDealWith" href="#EventDealWith">事件处理程序</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a  id="top" href="#EventDealWith">事件处理程序</a>  
 `响应事件的函数就是事件处理程序(事件侦听器),事件处理程序的名字以` **`on`** `开头因此click 事件的事件处理程序就是onclick,load事件的处理程
 序就是onload,为事件处理程序制定处理函数的方式有好多种`
-##### <a href="#top" id="HTMLEventBuilder">HTML事件处理程序</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="HTMLEventBuilder">HTML事件处理程序</a> 
 `HTML事件处理程序将Js代码嵌入到HTML标签中,可以在点击的时候执行一段js代码 ,或者执行一个函数,当然绑定的函数要声明在HTML渲染之前才有效`
 ```html
 <!DOCTYPE html>
@@ -129,7 +129,7 @@ window对象`
 </html>
 ```
 **`总结`**:`缺点很大将JS代码和HTML代码紧密耦合,不方便改动前端代码`
-##### <a href="#top" id="DOM1EventBuilder">Dom0级事件处理程序</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="DOM1EventBuilder">Dom0级事件处理程序</a> 
 `DOM0级事件处理,简单跨浏览器所有浏览器都支持这种绑定事件的方式,使用JS给HTML元素指定事件处理程序,首先要取得操作对象的引用,每个元素都有自己的事件处理
 程序` [`HTML事件属性`](http://www.w3school.com.cn/tags/html_ref_eventattributes.asp) `这些属性通常全部小写,例如onclick 将这种属性的值设置为
 一个函数`
@@ -227,11 +227,11 @@ window对象`
  `IE实现了两个与DOM类似的方法attachEvent() detachEvent() 这两个方法接受相同的两个参数,IE8.0之前只支持冒泡所以没有第三个参数, 事件处理程序会在全局作用域中运行,因此this等于window`
  **`总结`**:`跨浏览器事件的解决方法,本人认为放弃兼容IE浏览器,一切完美,否则用框架吧,JQ VUE....之类的`
  
-####  <a id="EventObject" href="#EventObject">事件对象</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a id="EventObject" href="#EventObject">事件对象</a>  
 `在触发DOM上的某个事件的时候,都会产生一个事件对象Event，这个对象包含着所有与事件有关的信息,包括导致事件的元素,事件的类型,例如鼠标操作导致的事件
 会有包含鼠标位置的信息,键盘操作有关于键盘的信息`
 
-##### <a id="DOMEventObject" href="#top">`DOM中的事件对象 `</a><a href="#top">:arrow_up:</a> 
+##### <a id="DOMEventObject" href="#top">`DOM中的事件对象 `</a>
 `兼容DOM的浏览器会将一个event对象传入到时间处理程序中,无论指定事件处理程序使用的什么方式(DOM0,dom2),都会传入一个event对象` [`Event对象 官方文档`](https://developer.mozilla.org/en-US/docs/Web/API/Event)
 ```html
 <!DOCTYPE html>
@@ -321,12 +321,12 @@ window对象`
         event.preventDefault(); //手机上浏览器 手指滑动时  组织浏览器默认切换页面是事件
     }
 ```
-##### <a id="IEEventObject" href="#top">`IE中的事件对象`</a><a href="#top">:arrow_up:</a> 
+##### <a id="IEEventObject" href="#top">`IE中的事件对象`</a> 
 `你以为我还会考虑IE这个浏览器吗?不存在的不可能的,IE事件对象  不考虑 放弃`
 
-#### <a id="EventType" href="#top">`事件类型`</a><a href="#top">:arrow_up:</a> 
+#### <a id="EventType" href="#top">`事件类型`</a> 
 `Web浏览器中的事件有很多的类型二DOM3级事件规定了一下几类事件`</br>
-##### <a href="#top" id="UIEvent">UI事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="UIEvent">UI事件</a> 
 `不介绍已经废弃的例如DOMActivate 表示元素已经被用户操作(通过鼠标或者键盘)激活 已经废除`
 * 0.确定浏览器是否支持DOMativateDOM2级事件</br>
 ```javascript
@@ -363,7 +363,7 @@ window对象`
 `当窗口或框架的大小变化时在window或框架上面触发`
 * 7.scroll 事件</br>
 `当用户滚动滚动条的元素的内容时,在该元素上面触发 body元素包含所在家的滚动条`
-##### <a href="#top" id="FocusEvent">焦点事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="FocusEvent">焦点事件</a> > 
 `焦点事件会在页面元素获得或者失去焦点的时候触发`
 * 0.牵扯浏览器是否支持一下事件
 ```javascript
@@ -384,7 +384,7 @@ window对象`
 `当元素获得焦点的时候触发,会冒泡,基本上全支持`
 * 5.focusout 事件</br>
 `当元素失去焦点的时候触发,基本上全支持`
-##### <a href="#top" id="MouseEvent">鼠标事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="MouseEvent">鼠标事件</a> 
 `最常见的事件了`
 * 0.测试支持性
 ```javascript
@@ -523,7 +523,7 @@ window.onload=function(){
 * `触摸设备手指移动而滚动时会触发mousewheel和scroll事件`
 * `屏幕阅读器的问题 需要开发这个的时候再考虑吧`
 
-##### <a href="#top" id="TextEvent">文本事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="TextEvent">文本事件</a> 
 `文本事件只有一个,textInput,这个事件是对keypress的补偿,在文本插入文本框之前会触发这个事件`
 *  1.textInput 事件</br>
 `在文本插入文本框之前会触发这个事件`
@@ -576,7 +576,7 @@ window.onload=function(){
 </html>
 ```
 
-##### <a href="#top" id="KeyboardEvent">键盘事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="KeyboardEvent">键盘事件</a>
 * `用户在使用键盘时会出发键盘事件,DOM2级事件,最初规定了键盘事件,但在最终定稿之前删除了相应的内容,所以主要遵循的是DOM0级`
 * `DOM3级时间为键盘事件制定了规范,IE率先实现了该规范`
 *  1.keydown 事件</br>
@@ -599,7 +599,7 @@ window.onload=function(){
 		console.log("ASCII："+event.charCode);    
 	}
 ```
-##### <a href="#top" id="MulEvent">合成事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="MulEvent">合成事件</a> 
 `复合事件是DOM3事件中新添加了一类事件,用于处理IME输入序列,IME(Input Method Editor 输入法编辑器),可以让用户输入物理键盘上找不到的字符,例如,使用拉丁文键盘的用户通过IME照样能输入日文字符.IME通常需要按住多个键,但最终只输入一个字符,复合事件就是针对检测和处理这类输入而设计的`
 *  1.compositionstart 事件</br>
 `在IME的文本复合系统打开时触发,表示要开始输入`
@@ -607,7 +607,7 @@ window.onload=function(){
 `在想输入字段中插入新字符时触发`
 *  3.compositionsend 事件</br>
 `IME的文本复合系统关闭时触发,表示返回正常键盘输入状态`
-##### <a href="#top" id="DOMChangeEvent">DOM结构变得事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="DOMChangeEvent">DOM结构变得事件</a> 
 `DOM2级的变动事件能够在DOM中的某一部分发生变化的时候提示`
 1. `DOMSubtreeModified：在DOM结构中发生任何变化时触发；`
 2. `DOMNodeInserted：在一个节点作为子节点被插入到另一个节点中时触发； `
@@ -616,7 +616,7 @@ window.onload=function(){
 5. `DOMNodeRemovedFromDocument：在一个节点被直接从文档中删除或通过子树间接从文档中移除之前触发。在DOMNodeRemoved之后触发。 `
 6. `DOMAttrModified：在特性被修改之后触发;`
 7. `DOMCharacterDataModified：在文本节点的值发生变化的时候触发。 `
-##### <a href="#top" id="HTMLEventType">HTML5事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="HTMLEventType">HTML5事件</a> 
 * 1.`contextmenu` 事件[`我人笨用不来,或无用的事件`] </br>
 `上下文事件,没有什么用`
 * 2.`beforeunload` 事件[`我人笨用不来,或无用的事件`] </br>
@@ -653,7 +653,7 @@ window.onload=function(){
      }
    },false)
 ```
-##### <a href="#top" id="DevieceEvent">设备事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="DevieceEvent">设备事件</a> 
 * 1.`orientationchange` 事件</br>
 `苹果公司为移动Safari中添加了orientationchange事件，以便开发人员能够确定用户何时将设备由横向查看模式。移动Safari的window.reientation属性可能包含3个值：0表示肖像模式，90表示向左旋转的横向模式，-90表示向右旋转的横向模式。相关文档中还提到一个值，即180表示iPhone头朝下；但这种模式至今尚未得到支持。 
 只要用户改变了设备的查看模式，就会触发 orientationchange 事件。此时的 event 对象不包含任何有价值的信息，因为唯一相关的信息可以通过 window.orientation 访问到。下面是使用这个事件的典型示例。`
@@ -709,7 +709,7 @@ EventUtil.addHandler(window, "devicemotion", function(event){
 });
 ```
 **`总结`**:`与 deviceorientation 事件类似，只有 iOS 4.2+中的 Safari、Chrome 和 Android 版 WebKit 实现了devicemotion 事件。`
-##### <a href="#top" id="TouchAndGestureEvent">触摸和手势事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="TouchAndGestureEvent">触摸和手势事件</a>
 * 1.`touchstart` 事件<br/>
 `当手指触摸屏幕时触发；即使已经有一个手指放在了屏幕上也会触发。`
 * 2.`touchmove` 事件<br/>
@@ -759,7 +759,7 @@ EventUtil.addHandler(document,"touchmove",handlerTouchEvent);
 * `gesturestart`:`当一个手指已经按在屏幕上而另一个手指又触摸屏幕时触发。`
 * `gesturechange`:`当触摸屏幕的任何一个手指的位置发生变化时触发。`
 * `gestureend`:`当任何一个手指从屏幕上移开时触发。`
-####  <a id="MemoreEngine" href="#MemoreEngine">内存和性能</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a id="MemoreEngine" href="#MemoreEngine">内存和性能</a>  :
 `给事件绑定函数,而函数的本质是对象,给页面绑定的事件越多那么对象就越多,占用的内存就越多,页面的交互效果就越差,所以要进来减少绑定事件的个数,这里JS利用事件冒泡实现事件委托,通过一个绑定处理多个元素的一个事件,例如一个button click事件 会一直冒泡到 document 所有我们只需要给document 绑定一个click事件然后利用event事件的target属性,针对不同元素处理不同的事件`
 ##### <a href="#top" id="EventDelegate">事件委托[基于事件冒泡]</a> <a href="#top">:arrow_up:</a> 
 ```javascript
@@ -779,7 +779,7 @@ function handdegeter(event){
 }
 document.addEventListener("click",handdegeter,false);
 ```
-####  <a id="StartEventByMe" href="#StartEventByMe">模拟事件 </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+#####  <a id="StartEventByMe" href="#StartEventByMe">模拟事件 </a> 
 `模拟事件的目的就是可以让用户通过js在任何时刻来出发特定的事件`
 [`Javascript模拟事件`](https://www.baidu.com/s?wd=Javascript%E6%A8%A1%E6%8B%9F%E4%BA%8B%E4%BB%B6&rsv_spt=1&rsv_iqid=0xb461733200052139&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&rqlang=cn&tn=baiduhome_pg&rsv_enter=1&oq=%25E6%25A8%25A1%25E6%258B%259F%25E4%25BA%258B%25E4%25BB%25B6&rsv_t=c1fetBvpicr0FtMJFi6M15VefazQVqLWNNQcshpZLrsMe5MNBUkKamxcmXnRga2z7zCV&inputT=3081&rsv_sug3=28&rsv_sug1=15&rsv_sug7=000&rsv_pq=af968581000544a5&rsv_sug2=0&rsv_sug4=3458&rsv_sug=1)
 
