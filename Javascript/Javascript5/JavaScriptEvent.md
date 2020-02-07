@@ -266,7 +266,7 @@ EventUtil.removeHandler(btn, "click", handler);
 `在触发DOM上的某个事件的时候,都会产生一个事件对象Event，这个对象包含着所有与事件有关的信息,包括导致事件的元素,事件的类型,例如鼠标操作导致的事件
 会有包含鼠标位置的信息,键盘操作有关于键盘的信息`
 
-##### <a id="DOMEventObject" href="#top">`DOM中的事件对象 `</a>
+##### <a id="DOMEventObject" href="#top">DOM中的事件对象</a>
 `兼容DOM的浏览器会将一个event对象传入到时间处理程序中,无论指定事件处理程序使用的什么方式(DOM0,dom2),都会传入一个event对象` [`Event对象 官方文档`](https://developer.mozilla.org/en-US/docs/Web/API/Event)
 ```html
 <!DOCTYPE html>
@@ -819,4 +819,76 @@ document.addEventListener("click",handdegeter,false);
 `模拟事件的目的就是可以让用户通过js在任何时刻来出发特定的事件`
 [`Javascript模拟事件`](https://www.baidu.com/s?wd=Javascript%E6%A8%A1%E6%8B%9F%E4%BA%8B%E4%BB%B6&rsv_spt=1&rsv_iqid=0xb461733200052139&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&rqlang=cn&tn=baiduhome_pg&rsv_enter=1&oq=%25E6%25A8%25A1%25E6%258B%259F%25E4%25BA%258B%25E4%25BB%25B6&rsv_t=c1fetBvpicr0FtMJFi6M15VefazQVqLWNNQcshpZLrsMe5MNBUkKamxcmXnRga2z7zCV&inputT=3081&rsv_sug3=28&rsv_sug1=15&rsv_sug7=000&rsv_pq=af968581000544a5&rsv_sug2=0&rsv_sug4=3458&rsv_sug=1)
 
+`可以在 document 对象上使用 createEvent()方法创建 event 对象。这个方法接收一个参数，即 表示要创建的事件类型的字符串。在 DOM2 级中，所有这些字符串都使用英文复数形式，而在 DOM3级中都变成了单数。这个字符串可以是下列几字符串之一。 `
 
+* `UIEvents`：`一般化的 UI事件。鼠标事件和键盘事件都继承自 UI事件。DOM3级中是 UIEvent。`
+* `MouseEvents`：`一般化的鼠标事件。DOM3级中是 MouseEvent。` 
+* `MutationEvents`：`一般化的 DOM变动事件。DOM3级中是 MutationEvent。` 
+* `HTMLEvents`：`一般化的 HTML事件。没有对应的 DOM3级事件（HTML事件被分散到其他类 别中）。`
+
+`要注意的是，“DOM2 级事件”并没有专门规定键盘事件，后来的“DOM3 级事件”中才正式将其 作为一种事件给出规定`
+
+`在创建了 event 对象之后，还需要使用与事件有关的信息对其进行初始化。每种类型的 event 对 象都有一个特殊的方法，为它传入适当的数据就可以初始化该 event 对象。不同类型的这个方法的名 字也不相同，具体要取决于 createEvent()中使用的参数。 `
+
+`模拟事件的后一步就是触发事件。这一步需要使用 dispatchEvent()方法，所有支持事件的 DOM 节点都支持这个方法。调用 dispatchEvent()方法时，需要传入一个参数，即表示要触发事件 的 event 对象。触发事件之后，该事件就跻身“官方事件”之列了，因而能够照样冒泡并引发相应事 件处理程序的执行。`
+
+##### 1. 模拟鼠标事件 
+`创建新的鼠标事件对象并为其指定必要的信息，就可以模拟鼠标事件。创建鼠标事件对象的方法是 为 createEvent()传入字符串"MouseEvents"。返回的对象有一个名为 initMouseEvent()方法， 用于指定与该鼠标事件有关的信息。这个方法接收 15 个参数，分别与鼠标事件中每个典型的属性一一 对应；这些参数的含义如下`
+
+* `type（字符串）`：`表示要触发的事件类型，例如"click"。` 
+* `bubbles（布尔值）`：`表示事件是否应该冒泡。为精确地模拟鼠标事件，应该把这个参数设置为 true。` 
+* `cancelable（布尔值）`：`表示事件是否可以取消。为精确地模拟鼠标事件，应该把这个参数设 置为 true。` 
+* `view（AbstractView）`：`与事件关联的视图。这个参数几乎总是要设置为 document.defaultView。`
+* `detail（整数）`：`与事件有关的详细信息。这个值一般只有事件处理程序使用，但通常都设置为 0。`
+* `screenX（整数）`：`事件相对于屏幕的 X坐标。` 
+* `screenY（整数）`：`事件相对于屏幕的 Y坐标。` 
+* `clientX（整数）`：`事件相对于视口的 X坐标。` 
+* `clientY（整数）`：`事件想对于视口的 Y坐标。` 
+* `ctrlKey（布尔值）`：`表示是否按下了 Ctrl键。默认值为 false。` 
+* `altKey（布尔值）`：`表示是否按下了 Alt键。默认值为 false。` 
+* `shiftKey（布尔值）`：`表示是否按下了 Shift键。默认值为 false。` 
+* `metaKey（布尔值）`：`表示是否按下了 Meta键。默认值为 false。` 
+* `button（整数）`：`表示按下了哪一个鼠标键。默认值为 0。` 
+* `relatedTarget（对象）`：`表示与事件相关的对象。这个参数只在模拟 mouseover 或 mouseout 时使用。`
+
+`显而易见，initMouseEvent()方法的这些参数是与鼠标事件的 event 对象所包含的属性一一对 应的,前 4个参数对正确地激发事件至关重要，因为浏览器要用到这些参数；而剩下的所有参数 只有在事件处理程序中才会用到。当把 event 对象传给 dispatchEvent()方法时，这个对象的 target 属性会自动设置。`
+
+```node
+var btn = document.getElementById("myBtn");
+
+//创建事件对象 
+var event = document.createEvent("MouseEvents");      //初始化事件对象
+event.initMouseEvent("click", true, true, document.defaultView,
+	0, 0, 0, 0, 0,false, false, false, false, 0, null);      
+
+//触发事件 
+btn.dispatchEvent(event);
+
+```
+
+##### 2. 模拟键盘事件 
+`“DOM2 级事件”中没有就键盘事件作出规定，因此模拟键盘事件并没有现成的 思路可循。“DOM2级事件”的草案中本来包含了键盘事件，但在定稿之前又被删除了；；Firefox根据其 草案实现了键盘事件。需要提请大家注意的是，“DOM3 级事件”中的键盘事件与曾包含在“DOM2 级 事件”草案中的键盘事件有很大区别`
+
+`DOM3级规定，调用 createEvent()并传入"KeyboardEvent"就可以创建一个键盘事件。返回的 事件对象会包含一个 initKeyEvent()方法，这个方法接收下列参数`
+
+* `type（字符串）`：`要触发的事件类型，“keydown”等；`
+* `bubbles（布尔值）`：`表示事件是否应该冒泡；`
+* `cancelable（布尔值）`：`是否可以取消；`
+* `view（AbstractView）`：与事件关联的视图。一般为document.defaultView；`
+* `key（布尔值）`：`表示按下的键的键码；`
+* `location（整数）`：`表示按下哪里的键。0为主键盘；1为左；2为右；3为数字键盘；4为虚拟键盘；5为手柄；`
+* `modifiers（字符串）`：`空格分隔的修改键列表，如“shift”；`
+* `repeat（整数）`：`在一行中按下了多少次这个键；`
+
+`由于DOM3级不提倡使用keypress事件，因此只能利用这种技术来模拟keydown和keyup事件：`
+
+```javascript
+var textbox = document.getElementById("myTextBox");
+//以 DOM3级方式创建事件对象
+var event = document.createEvent("KeyboardEvent");
+//初始化事件对象 
+event.initKeyboardEvent("keydown",true,true,document.defaultView,"a",0,"Shift",0);
+
+//触发事件 
+textbox.dispatchEvent(event);
+```
