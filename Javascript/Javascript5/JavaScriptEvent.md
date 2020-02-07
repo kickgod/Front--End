@@ -1,4 +1,4 @@
-#### <a id="top" href="#top">JavaScript 原生Event :grey_exclamation:</a> 
+### <a id="top" href="#top">JavaScript 原生Event :grey_exclamation:</a> 
 ----
 
 `JS与HTML之间的交互式通过事件实现的,事件就是文档或浏览器窗口发生的一些特点交互瞬间,可以使用侦听器来预订事件,由于不同的DOM版本 又有不同DOM级别的事件,比如DOM0级事件DOM1 级事件,现在主要浏览器已经实现了DOM2级事件` :speech_balloon:
@@ -356,10 +356,10 @@ EventUtil.removeHandler(btn, "click", handler);
         event.preventDefault(); //手机上浏览器 手指滑动时  组织浏览器默认切换页面是事件
     }
 ```
-##### <a id="IEEventObject" href="#top">`IE中的事件对象`</a> 
+##### <a id="IEEventObject" href="#top">IE中的事件对象</a> 
 `你以为我还会考虑IE这个浏览器吗?不存在的不可能的,IE事件对象  不考虑 放弃`
 
-#### <a id="EventType" href="#top">`事件类型`</a> 
+##### <a id="EventType" href="#top">事件类型</a> 
 `Web浏览器中的事件有很多的类型二DOM3级事件规定了一下几类事件`</br>
 ##### <a href="#top" id="UIEvent">UI事件</a> 
 `不介绍已经废弃的例如DOMActivate 表示元素已经被用户操作(通过鼠标或者键盘)激活 已经废除`
@@ -400,7 +400,7 @@ EventUtil.removeHandler(btn, "click", handler);
 `当用户滚动滚动条的元素的内容时,在该元素上面触发 body元素包含所在家的滚动条`
 ##### <a href="#top" id="FocusEvent">焦点事件</a> > 
 `焦点事件会在页面元素获得或者失去焦点的时候触发`
-* 0.牵扯浏览器是否支持一下事件
+* 0.检测浏览器是否支持一下事件
 ```javascript
   <script>
       let isSupport=document.implementation.hasFeature("FoucsEvent","2.0");
@@ -444,7 +444,8 @@ EventUtil.removeHandler(btn, "click", handler);
       console.log(" 鼠标抬起了 鼠标位置:");
       console.log(`(${event.clientY},${event.clientY})` );
   }
- 只有在一个元素上面相继触发 mousedown mouseup才会触发click 只有两次触发click事件才能触发dblclick,一般不使用dblclick 
+ //只有在一个元素上面相继触发 mousedown mouseup才会触发click 
+ //只有两次触发click事件才能触发dblclick,一般不使用dblclick 
 ```
 
 * 4.dblclick 事件</br>
@@ -532,7 +533,7 @@ pan.onclick=function(event){
 ##### 触摸设备
 * `触摸设备不支持双击 dblclick事件,双击会放大屏幕,而且这个行为无法改变`
 **`总结`**:`鼠标移动的触发事件只有三个 mouseleave mouseenter mousemove 都是DOM3级事件`
-##### <a href="#top" id="wheelEvent">鼠标滚轮事件</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="wheelEvent">鼠标滚轮事件</a> 
 `大家都实现了一个事件mousewheel,并且对于这个事件的Event对象提供了一个 wheelDelta熟悉`
 * `wheelDelta 正常为120的倍数 向上滑动为正 向下滑动为负数,但是在Opera9.5以前的版本 正负号正好相反`
 *  1.mousewheel 事件</br>
@@ -774,16 +775,16 @@ function handlerTouchEvent(event){
         switch(event.type){
             case "touchstart":
                 output.innerHTML="Touch started ( "+event.touches[0].clientX+",
-								"+event.touches[0].clientY+")";
+					"+event.touches[0].clientY+")";
                 break;
             case "touchend":
                 output.innerHTML+="<br/>Touch ended ("+event.changedTouches[0].clientX+", 
-								"+event.changedTouches[0].clientY+")";
+					"+event.changedTouches[0].clientY+")";
                 break;
             case "touchmove":
                 event.preventDefault(); //阻止滚动
                 output.innerHTML+="<br/>Touch moved ("+event.changedTouches[0].clientX+",
-								"+event.changedTouches[0].clientY+")";
+					"+event.changedTouches[0].clientY+")";
         }
     }
 }
@@ -794,7 +795,7 @@ EventUtil.addHandler(document,"touchmove",handlerTouchEvent);
 * `gesturestart`:`当一个手指已经按在屏幕上而另一个手指又触摸屏幕时触发。`
 * `gesturechange`:`当触摸屏幕的任何一个手指的位置发生变化时触发。`
 * `gestureend`:`当任何一个手指从屏幕上移开时触发。`
-####  <a id="MemoreEngine" href="#MemoreEngine">内存和性能</a>  :
+#####  <a id="MemoreEngine" href="#MemoreEngine">内存和性能</a>  :
 `给事件绑定函数,而函数的本质是对象,给页面绑定的事件越多那么对象就越多,占用的内存就越多,页面的交互效果就越差,所以要进来减少绑定事件的个数,这里JS利用事件冒泡实现事件委托,通过一个绑定处理多个元素的一个事件,例如一个button click事件 会一直冒泡到 document 所有我们只需要给document 绑定一个click事件然后利用event事件的target属性,针对不同元素处理不同的事件`
 ##### <a href="#top" id="EventDelegate">事件委托[基于事件冒泡]</a> <a href="#top">:arrow_up:</a> 
 ```javascript
