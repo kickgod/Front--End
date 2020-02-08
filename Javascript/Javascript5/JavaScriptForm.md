@@ -1,7 +1,7 @@
-#### <a id="top" href="#top">JavaScript 原生Form</a> 
+### <a id="top" href="#top">JavaScript 原生Form :grey_exclamation:</a> 
 
 ----
-`一个网站的关键在于表单，他决定用户的输入,向服务器提交的数据,Js对于它有许多的方法和属性对象,以便我们开发更优秀的前端界面`
+`一个网站的关键在于表单，他决定用户的输入,向服务器提交的数据,Js对于它有许多的方法和属性对象,以便我们开发更优秀的前端界面` :speech_balloon:
 - [x] <a href="#FormBasicKnow">`表单的基本知识`</a>
   - <a href="#GetFromElement">`获取表单：HTMLFormElement `</a> 
   - <a href="#FormSubmit">`提交表单：Submit `</a> 
@@ -13,8 +13,8 @@
 - [x] <a href="#TextScript">`文本框脚本`</a>
   - <a href="#getvaluetext">`获取表单文本的值`</a> 
   - <a href="#Shoosetext">`选择文本select`</a> 
-  - <a href="#keypressevent">`过滤输入`</a>
-- [x] <a href="#copypaste">`粘贴板事件`</a>
+- [x] <a href="#keypressevent">`过滤输入`</a>
+  - <a href="#copypaste">`粘贴板事件`</a>
 - [x] <a href="#">``</a>
 
 #####  <a id="FormBasicKnow" href="#FormBasicKnow">表单的基本知识</a>  <a href="#top">   ↑</a>
@@ -32,7 +32,7 @@
   * `reset()`：`将所有表单域重置为默认值。`
   * `submit()`：`提交表单。`
   * `target`：`用于发送请求和接收响应的窗口名称；等价于 HTML 的 target 特性`
-##### <a href="#GetFromElement" id="GetFromElement">`获取表单：HTMLFormElement `</a> <br/>
+##### <a href="#GetFromElement" id="GetFromElement">获取表单：HTMLFormElement</a> <br/>
 `每一个表单都应该有一个唯一的id和name 且id和name应该相同`
 * `我们可以通过id或者name获取`：`var formElement=document.getElementById("form1");` 
 * `通过document.forms来取得页面中的所有表单元素`:`var forms=document.forms;`
@@ -52,7 +52,7 @@ window.onload=function(){
   console.log("HTML表单数目: "+forms.length);
 }
 ```
-##### <a href="#FormSubmit" id="FormSubmit">`提交表单：submit submit事件 `</a> 
+##### <a href="#FormSubmit" id="FormSubmit">提交表单：submit submit事件 </a> 
 `每一个表单里面的input或者,type为submit的button,或者图像按钮 都可以下直接提交表单`
 ```html
  <input type="submit" value="提交" class="btn btn-warning btn-sm"  />
@@ -68,7 +68,7 @@ formElement.addEventListener("submit",function(event){
  event.preventDefault();//取消浏览器默认事件
 },false);
 ```
-##### <a href="#resetform" id="resetform">`重置表单：reset() reset事件 `</a> 
+##### <a href="#resetform" id="resetform">重置表单：reset() reset事件 </a> 
 `用户单击重置,表单会被重置。使用type 特性值的<input> 或<button> 都可以创建重置按钮,如下面的例如所示。`
 
 ````html
@@ -183,25 +183,48 @@ console.log(formElement.elements["color"]);
 #####  <a id="keypressevent" href="#keypressevent">过滤输入</a>   <a href="#top"> ↑ </a>
 `过滤输入最快捷的方式就是监控keypress 事件,然后阻止浏览器的默认事件就可以阻止用户的输入，但是因为输入法的关系用户还是可以输入中文数字和英文
 已经不可以输入了`
-```C#
+
+##### 屏蔽字符 
+`响应向文本框中插入字符操作的是 keypress 事件。因此，可以通过阻止这个事件的默 认行为来屏蔽此类字符`
+```node
  txt.addEventListener("keypress",function(event){
    event.preventDefault();
  },false);
 ```
 ##### <a id="copypaste" href="#copypaste">粘贴板事件</a>   <a href="#top"> ↑ </a> 
-* 关于粘贴复制剪切操作的事件
+* `关于粘贴复制剪切操作的事件`
   * `beforecopy`：`在发生复制操作前触发`
   * `copy`：`在发生复制操作时触发`
   * `beforecut`：`在发生剪切操作前触发`
   * `cut`：`在发生剪切操作时触发`
   * `beforepaste`：`在发生粘贴操作前触发`
   * `paste`：`在发生粘贴操作时触发`
-* 访问剪切板中的数据
-  * `使用clipboardData对象`
+
+`由于没有针对剪贴板操作的标准，这些事件及相关对象会因浏览器而异。在 Safari、Chrome和 Firefox 中，beforecopy、beforecut 和 beforepaste 事件只会在显示针对文本框的上下文菜单（预期将发 生剪贴板事件）的情况下触发。但是，IE则会在触发 copy、cut 和 paste 事件之前先行触发这些事件。 至于 copy、cut 和 paste 事件，只要是在上下文菜单中选择了相应选项，或者使用了相应的键盘组合 键，所有浏览器都会触发它们`
+  
+* `访问剪切板中的数据`
+  * `使用clipboardData对象[类型: DataTransfer ]`
   * `1.这个对象有三个方法`
-    * `getDate`:`获取数据`
-    * `setDate`：``
-    * `clearDate`:``
+    * `getDate`:`用于从剪贴板中取得数据，它接受一个参数，即要取得的数据的格式。在 IE中，有两种数据格式："text" 和"URL"。在 Firefox、Safari 和 Chrome 中，这个参数是一种 MIME 类型；不过，可以用"text"代表 "text/plain"。 `
+    * `setDate`：`第一个参数也是数据类型，第二个参数是要放在剪贴板中的文本。对于 第一个参数，IE 照样支持"text"和"URL"，而 Safari 和 Chrome 仍然只支持 MIME 类型。但是，与 getData()方法不同的是，Safari和 Chrome的 setData()方法不能识别"text"类型。这两个浏览器在 成功将文本放到剪贴板中后，都会返回 true；否则，返回 false`
+    * `clearDate`:`清楚数据`
+    
+```node
+var EventUtil = {
+    getClipboardText: function (event) {
+        var clipboardData = (event.clipboardData || window.clipboardData);
+        return clipboardData.getData("text");
+    },
+    setClipboardText: function (event, value) {
+        if (event.clipboardData) {
+            return event.clipboardData.setData("text/plain", value);
+        } else if (window.clipboardData) {
+            return window.clipboardData.setData("text", value);
+        }
+    },
+}; 
+```
+
 #####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
 #####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
 #####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
