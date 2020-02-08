@@ -28,8 +28,8 @@
   - <a href="#DevieceEvent">`设备事件[现代移动响应开发的需求产生]`</a>
   - <a href="#TouchAndGestureEvent">`触摸与手势事件[现代移动响应开发的需求产生]`</a>
 - [x] <a href="#MemoreEngine">`内存和性能`</a>
-  - <a href="#EventDelegate">`事件委托[基于事件冒泡]`</a>
-- [x] <a href="#StartEventByMe">`模拟事件`</a>
+  - <a href="#valTarget1">`事件委托[基于事件冒泡]`</a>
+- [x] <a href="#target1">`模拟事件`</a>
 
 
 #####  <a id="EventStream" href="#top">事件流</a> 
@@ -795,9 +795,9 @@ EventUtil.addHandler(document,"touchmove",handlerTouchEvent);
 * `gesturestart`:`当一个手指已经按在屏幕上而另一个手指又触摸屏幕时触发。`
 * `gesturechange`:`当触摸屏幕的任何一个手指的位置发生变化时触发。`
 * `gestureend`:`当任何一个手指从屏幕上移开时触发。`
-#####  <a id="MemoreEngine" href="#MemoreEngine">内存和性能</a>  :
+#####  <a id="MemoreEngine" href="#top">内存和性能</a>  :
 `给事件绑定函数,而函数的本质是对象,给页面绑定的事件越多那么对象就越多,占用的内存就越多,页面的交互效果就越差,所以要进来减少绑定事件的个数,这里JS利用事件冒泡实现事件委托,通过一个绑定处理多个元素的一个事件,例如一个button click事件 会一直冒泡到 document 所有我们只需要给document 绑定一个click事件然后利用event事件的target属性,针对不同元素处理不同的事件`
-##### <a href="#top" id="EventDelegate">事件委托[基于事件冒泡]</a> <a href="#top">:arrow_up:</a> 
+##### <a href="#top" id="valTarget1">事件委托[基于事件冒泡]</a> <a href="#top">:arrow_up:</a> 
 ```javascript
 function handdegeter(event){
    let target= event.target;
@@ -815,7 +815,7 @@ function handdegeter(event){
 }
 document.addEventListener("click",handdegeter,false);
 ```
-#####  <a id="StartEventByMe" href="#StartEventByMe">模拟事件 </a> 
+#####  <a id="target1" href="#top">模拟事件 </a> 
 `模拟事件的目的就是可以让用户通过js在任何时刻来出发特定的事件`
 [`Javascript模拟事件`](https://www.baidu.com/s?wd=Javascript%E6%A8%A1%E6%8B%9F%E4%BA%8B%E4%BB%B6&rsv_spt=1&rsv_iqid=0xb461733200052139&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&rqlang=cn&tn=baiduhome_pg&rsv_enter=1&oq=%25E6%25A8%25A1%25E6%258B%259F%25E4%25BA%258B%25E4%25BB%25B6&rsv_t=c1fetBvpicr0FtMJFi6M15VefazQVqLWNNQcshpZLrsMe5MNBUkKamxcmXnRga2z7zCV&inputT=3081&rsv_sug3=28&rsv_sug1=15&rsv_sug7=000&rsv_pq=af968581000544a5&rsv_sug2=0&rsv_sug4=3458&rsv_sug=1)
 
@@ -892,3 +892,35 @@ event.initKeyboardEvent("keydown",true,true,document.defaultView,"a",0,"Shift",0
 //触发事件 
 textbox.dispatchEvent(event);
 ```
+`这个例子模拟的是按住 Shift 的同时又按下 A 键。在使用 document.createEvent ("KeyboardEvent")之前，应该先检测浏览器是否支持 DOM3级事件；其他浏览器返回一个非标准的 KeyboardEvent 对象`
+
+`在Firefox中，调用createEvent()并传入“KeyEvents”就可以创建一个键盘事件，返回的事件对象会包含一个initKeyEvent()方法，接收参数：这个方法接受下列 10个参数。 `
+
+* `type（字符串）`：`表示要触发的事件类型，如"keydown"。` 
+* `bubbles（布尔值）`：`表示事件是否应该冒泡。为精确模拟鼠标事件，应该设置为 true。` 
+* `cancelable（布尔值）`：`表示事件是否可以取消。为精确模拟鼠标事件，应该设置为 true。` 
+* `view（AbstractView）`：`与事件关联的视图。这个参数几乎总是要设置为 document.default- View。` 
+* `ctrlKey（布尔值）`：`表示是否按下了 Ctrl键。默认值为 false。 `
+* `altKey（布尔值）`：`表示是否按下了 Alt键。默认值为 false。` 
+* `shiftKey（布尔值）`：`表示是否按下了 Shift键。默认值为 false。` 
+* `metaKey（布尔值）`：`表示是否按下了 Meta键。默认值为 false。 `
+* `keyCode（整数）`：`被按下或释放的键的键码。这个参数对 keydown 和 keyup 事件有用，默认 值为 0。` 
+* `charCode（整数）`：`通过按键生成的字符的 ASCII编码。这个参数对 keypress 事件有用，默 认值为 0。`
+
+`将创建的 event 对象传入到 dispatchEvent()方法就可以触发键盘事件，如下面的例子所示。 `
+
+```node
+//只适用于 Firefox 
+let textbox = document.getElementById("myTextbox")
+
+//创建事件对象 
+let event = document.createEvent("KeyEvents"); 
+
+//初始化事件对象 
+event.initKeyEvent("keypress", true, true, document.defaultView, false, false,
+				false, false, 65, 65); 
+				
+//触发事件 
+textbox.dispatchEvent(event); 
+```
+`在 Firefox中运行上面的代码，会在指定的文本框中输入字母 A。同样，也可以依此模拟 keyup 和 keydown 事件。 `
