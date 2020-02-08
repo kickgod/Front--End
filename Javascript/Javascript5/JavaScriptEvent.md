@@ -75,14 +75,14 @@ window对象`
 `事件捕获和事件冒泡正好相反,它的思想是最不具体的节点应该更早的接受到事件,最具体的节点应该最后接受事件`
 ```html
      document 发生事件 向下传播到body
-       ⬇️
-       ⬇️
+       ↓
+       ↓
        body 发生事件 向下传播到div
-         ⬇️
-         ⬇️
+         ↓
+         ↓
         div 发生事件 向下传播到button
-           ⬇️
-           ⬇️
+           ↓
+           ↓
           button 发生事件
 ```
 **`总结`**:`现在大多数现代浏览器也都支持这种事件模型,虽然规定要求从document传播但是这些浏览器都是从window对象开始捕获事件,很少有人使用事件捕获`
@@ -90,14 +90,14 @@ window对象`
 `Dom2级事件,规定的事件流包含上个阶段,事件捕获阶段,处于目标阶段,事件冒泡阶段 简短来说就是  先捕获在 冒泡`
 ```html
      document 发生事件 向下传播到body
-       ⬇️                  ⬆️
-       ⬇️ 1                ⬆️ 6
+       ↓                  ↑
+       ↑ 1                ↑ 6
        body 发生事件 向下传播到div
-         ⬇️             ⬆️ 
-         ⬇️ 2           ⬆️ 5
+         ↓             ↑ 
+         ↓ 2           ↑ 5
         div 发生事件 向下传播到button
-           ⬇️        ⬆️
-           ⬇️ 3      ⬆️ 4
+           ↓        ↑
+           ↓ 3      ↑ 4
           button 发生事件
 ```
 ##### <a  id="EventDealWith" href="#top">事件处理程序</a>   
@@ -924,3 +924,70 @@ event.initKeyEvent("keypress", true, true, document.defaultView, false, false,
 textbox.dispatchEvent(event); 
 ```
 `在 Firefox中运行上面的代码，会在指定的文本框中输入字母 A。同样，也可以依此模拟 keyup 和 keydown 事件。 `
+
+##### 3. 模拟其他事件 
+`虽然鼠标事件和键盘事件是在浏览器中经常模拟的事件，但有时候同样需要模拟变动事件和 HTML 事件。要模拟变动事件，可以使用 createEvent("MutationEvents") 创建一个包含 initMutationEvent()方法的变动事件对象。这个方法接受的参数包括：type、bubbles、 cancelable、relatedNode、preValue、newValue、attrName 和 attrChange。下面来看一个模 拟变动事件的例子。 `
+
+```node
+var event = document.createEvent("MutationEvents"); 
+event.initMutationEvent("DOMNodeInserted", true, false, someNode, "","","",0); 
+target.dispatchEvent(event); 
+```
+`以上代码模拟了 DOMNodeInserted 事件。其他变动事件也都可以照这个样子来模拟，只要改一改 参数就可以了。 `
+
+`要模拟 HTML事件，同样需要先创建一个 event 对象——通过 createEvent("HTMLEvents")， 然后再使用这个对象的 initEvent()方法来初始化它即可，如下面的例子所示。 `
+
+```node
+var event = document.createEvent("HTMLEvents");
+event.initEvent("focus", true, false); 
+target.dispatchEvent(event); 
+```
+`这个例子展示了如何在给定目标上模拟 focus 事件。模拟其他 HTML事件的方法也是这样。 `
+
+##### 4. 自定义 DOM事件 
+`DOM3 级还定义了“自定义事件”。自定义事件不是由 DOM 原生触发的，它的目的是让开发人员 创建自己的事件。要创建新的自定义事件，可以调用 createEvent("CustomEvent")。返回的对象有 一个名为 initCustomEvent()的方法，接收如下 4个参数。 `
+
+* `type（字符串）`：`触发的事件类型，例如"keydown"。` 
+* `bubbles（布尔值）`：`表示事件是否应该冒泡。` 
+* `cancelable（布尔值）`：`表示事件是否可以取消。 `
+* `detail（对象）`：`任意值，保存在 event 对象的 detail 属性中。`
+
+`可以像分派其他事件一样在 DOM中分派创建的自定义事件对象。例如： `
+
+```node
+ var EventUtil = {
+    addHandler: function (element, type, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = handler;
+        }
+    }, removeHandler: function (element, type, handler) {
+        if (element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+        } else if (element.detachEvent) {
+            element.detachEvent("on" + type, handler);
+        } else {
+            element["on" + type] = null;
+        }
+    }
+};   
+
+var div = document.getElementById("myDiv"), event;
+
+EventUtil.addHandler(div, "myevent", function (event) {
+    alert("DIV: " + event.detail);
+});
+EventUtil.addHandler(document, "myevent", function (event) {
+    alert("DOCUMENT: " + event.detail);
+});
+
+if (document.implementation.hasFeature("CustomEvents", "3.0")) {
+    event = document.createEvent("CustomEvent");
+    event.initCustomEvent("myevent", true, false, "Hello world!");
+    div.dispatchEvent(event);
+} 
+```
+`这个例子创建了一个冒泡事件"myevent"。而 event.detail 的值被设置成了一个简单的字符串， 然后在<div>元素和 document 上侦听这个事件。因为 initCustomEvent()方法已经指定这个事件应 该冒泡，所以浏览器会负责将事件向上冒泡到 document。 `
