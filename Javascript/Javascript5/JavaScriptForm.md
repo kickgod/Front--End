@@ -15,13 +15,14 @@
   - <a href="#Shoosetext">`选择文本select`</a> 
 - [x] <a href="#keypressevent">`过滤输入`</a>
   - <a href="#copypaste">`粘贴板事件`</a>
-- [x] <a href="#">``</a>
+- [x] <a href="#target1">`自动切换焦点 `</a>
+- [x] <a href="#target2">`HTML5约束验证API  `</a>
+- [x] <a href="#target3">`选择框脚本`</a>
 
 #####  <a id="FormBasicKnow" href="#FormBasicKnow">表单的基本知识</a>  <a href="#top">   ↑</a>
 <a href="#">`表单对应：HTMLFormElement  --->继承自 HTMLElement`</a> <br/>
 
-* `在HTML中，表单由form标签，在javascript中，表单对应HTMLFormElement类型，HTMLFormElement类型继承HTMLElement类型，所
-有它和其他的Element元素有相同的默认属性，同时它也有自己的属性和方法：`
+* `在HTML中，表单由form标签，在javascript中，表单对应HTMLFormElement类型，HTMLFormElement类型继承HTMLElement类型，所有它和其他的Element元素有相同的默认属性，同时它也有自己的属性和方法：`
   * `acceptCharset`：`服务器能够处理的字符集；等价于 HTML 中的 accept-charset 特性。`
   * `action`：`接受请求的 URL；等价于 HTML 中的 action 特性 。`
   * `elements`：`表单中所有控件的集合（HTMLCollection）。`
@@ -130,10 +131,10 @@ console.log(formElement.elements["color"]);
   * `blur()`：`可以使得字段失去焦点`
   
 #####  <a id="formfiledEventFunction" href="#formfiledEventFunction">表单字段公共事件</a>   <a href="#top"> ↑ </a>
-* 公共的事件
-  * focus 焦点事件： `当浏览器的字段获得焦点的时候触发`
-  * blur 失去焦点事件 ：`失去焦点`
-  * change : `value的值改变或者 <select> 标签的选项改变`
+* `公共的事件`
+  * `focus` `焦点事件`： `当浏览器的字段获得焦点的时候触发`
+  * `blur` `失去焦点事件` ：`失去焦点`
+  * `change` : `value的值改变或者 <select> 标签的选项改变`
 #####  <a id="TextScript" href="#TextScript">文本框脚本</a>   <a href="#top"> ↑ </a>
 * `在HTML中，有两种方式来表现文本框：一种是使用<input>元素的单行文本框，另一种是使用<textarea>的多行文本框。这两个控件非常相似，而且多数时候的行为也差不多。不过，它们之间仍然存在一些重要的区别。`
 * `要表现文本框，必须将<input>元素的type特性设置为”text”。而通过设置size特性，可以指定文本框中能够显示的字符数。通过value特性，可以设置文本框的初始值，而maxlength特性则用于指定文本框可以接受的最大字符数。`
@@ -207,7 +208,7 @@ console.log(formElement.elements["color"]);
   * `1.这个对象有三个方法`
     * `getDate`:`用于从剪贴板中取得数据，它接受一个参数，即要取得的数据的格式。在 IE中，有两种数据格式："text" 和"URL"。在 Firefox、Safari 和 Chrome 中，这个参数是一种 MIME 类型；不过，可以用"text"代表 "text/plain"。 `
     * `setDate`：`第一个参数也是数据类型，第二个参数是要放在剪贴板中的文本。对于 第一个参数，IE 照样支持"text"和"URL"，而 Safari 和 Chrome 仍然只支持 MIME 类型。但是，与 getData()方法不同的是，Safari和 Chrome的 setData()方法不能识别"text"类型。这两个浏览器在 成功将文本放到剪贴板中后，都会返回 true；否则，返回 false`
-    * `clearDate`:`清楚数据`
+    * `clearDate()`:`清楚数据 参数为,一个 string指定要删除的数据类型。如果此参数为空字符串或未提供，则将删除所有类型的数据。`
     
 ```node
 var EventUtil = {
@@ -225,9 +226,173 @@ var EventUtil = {
 }; 
 ```
 
-#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
-#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
-#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
+#####  <a id="target1" href="#top">自动切换焦点</a>   <a href="#top"> ↑ </a>
+`使用 JavaScript可以从多个方面增强表单字段的易用性。其中，常见的一种方式就是在用户填写 完当前字段时，自动将焦点切换到下一个字段。通常，在自动切换焦点之前，必须知道用户已经输入了 既定长度的数据（例如电话号码）。例如，美国的电话号码通常会分为三部分：区号、局号和另外 4 位 数字。为取得完整的电话号码，很多网页中都会提供下列 3个文本框`
+
+```html
+<input type="text" name="tel1" id="txtTel1" maxlength="3"> 
+<input type="text" name="tel2" id="txtTel2" maxlength="3"> 
+<input type="text" name="tel3" id="txtTel3" maxlength="4"> 
+```
+
+`为增强易用性，同时加快数据输入，可以在前一个文本框中的字符达到大数量后，自动将焦点切 换到下一个文本框。换句话说，用户在第一个文本框中输入了 3个数字之后，焦点就会切换到第二个文 本框，再输入 3个数字，焦点又会切换到第三个文本框。这种“自动切换焦点”的功能，可以通过下列 代码实现： `
+
+```node
+(function () {
+
+    function tabForward(event) {
+        event = EventUtil.getEvent(event);
+        var target = EventUtil.getTarget(event);
+
+        if (target.value.length == target.maxLength) {
+            var form = target.form;
+
+            for (var i = 0, len = form.elements.length; i < len; i++) {
+                if (form.elements[i] == target) {
+                    if (form.elements[i + 1]) {
+                        form.elements[i + 1].focus();
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    var textbox1 = document.getElementById("txtTel1");
+    var textbox2 = document.getElementById("txtTel2");
+    var textbox3 = document.getElementById("txtTel3");
+
+    EventUtil.addHandler(textbox1, "keyup", tabForward);
+    EventUtil.addHandler(textbox2, "keyup", tabForward);
+    EventUtil.addHandler(textbox3, "keyup", tabForward);
+
+})(); 
+```
+#####  <a id="target2" href="#top">HTML5约束验证API </a>   <a href="#top"> ↑ </a>
+`为了在将表单提交到服务器之前验证数据，HTML5新增了一些功能。有了这些功能，即便 JavaScript 被禁用或者由于种种原因未能加载，也可以确保基本的验证。`
+
+##### 1.required
+`必填字段 `:`第一种情况是在表单字段中指定了 required 属性，如下面的例子所示： `
+```html 
+<input type="text" name="username" required> 
+```
+`任何标注有 required 的字段，在提交表单时都不能空着。这个属性适用于<input>、<textarea> 和<select>字段`
+
+`可以检查某个表单字段是否为必填字段。 `
+```html 
+var isUsernameRequired = document.forms[0].elements["username"].required; 
+```
+
+##### 2.其他输入类型 
+`HTML5为<input>元素的 type 属性又增加了几个值。这些新的类型不仅能反映数据类型的信息， 而且还能提供一些默认的验证功能。其中，"email"和"url"是两个得到支持多的类型，各浏览器也 都为它们增加了定制的验证机制。例如`
+
+```html
+<input type="email" name ="email"> 
+<input type="url" name="homepage"> 
+```
+##### 3.数值范围 
+`除了"email"和"url"，HTML5 还定义了另外几个输入元素。这几个元素都要求填写某种基于数字的值："number"、"range"、"datetime"、"datetime-local"、"date"、"month"、"week"， 还有"time"。浏览器对这几个类型的支持情况并不好，因此如果真想选用的话，要特别小心。`
+
+```html
+<input type="number" min="0" max="100" step="5" name="count"> 
+```
+##### 4.输入模式 
+`HTML5为文本字段新增了 pattern 属性。这个属性的值是一个正则表达式，用于匹配文本框中的 值。例如，如果只想允许在文本字段中输入数值，可以像下面的代码一样应用约束： `
+
+```html
+<input type="text" pattern="\d+" name="count"> 
+```
+`使用以下代码可以检测浏览器是否支持 pattern 属性。 `
+
+```node
+var isPatternSupported = "pattern" in document.createElement("input"); 
+```
+
+##### 5.检测有效性 
+`使用 checkValidity()方法可以检测表单中的某个字段是否有效。所有表单字段都有个方法，如 果字段的值有效，这个方法返回 true，否则返回 false.`
+
+```node
+if (document.forms[0].elements[0].checkValidity()){  
+  //字段有效，继续 
+  } else {    
+  //字段无效
+} 
+```
+`要检测整个表单是否有效，可以在表单自身调用 checkValidity()方法。如果所有表单字段都有 效，这个方法返回 true；即使有一个字段无效，这个方法也会返回 false。 `
+
+```node
+if(document.forms[0].checkValidity()){   
+  //表单有效，继续 
+  } else { 
+  //表单无效 
+} 
+```
+
+`与 checkValidity()方法简单地告诉你字段是否有效相比，validity 属性则会告诉你为什么字 段有效或无效。这个对象中包含一系列属性，每个属性会返回一个布尔值。 `
+
+* `customError` ：`如果设置了 setCustomValidity()，则为 true，否则返回 false。` 
+* `patternMismatch`：`如果值与指定的 pattern 属性不匹配，返回 true。` 
+* `rangeOverflow`：`如果值比 max 值大，返回 true。` 
+* `rangeUnderflow`：`如果值比 min 值小，返回 true。` 
+* `stepMisMatch`：`如果 min 和max 之间的步长值不合理，返回 true。` 
+* `tooLong`：`如果值的长度超过了 maxlength 属性指定的长度，返回 true。有的浏览器（如Firefox 4） 会自动约束字符数量，因此这个值可能永远都返回 false。` 
+* `typeMismatch`：`如果值不是"mail"或"url"要求的格式，返回 true。` 
+* `valid`：`如果这里的其他属性都是 false，返回 true。checkValidity()也要求相同的值。` 
+* `valueMissing`：`如果标注为 required 的字段中没有值，返回 true。 `
+
+`因此，要想得到更具体的信息，就应该使用 validity 属性来检测表单的有效性。下面是一个例子。`
+
+```node
+if (input.validity && !input.validity.valid) {
+    if (input.validity.valueMissing) {
+        alert("Please specify a value.")
+    } else if (input.validity.typeMismatch) {
+        alert("Please enter an email address.");
+    } else {
+        alert("Value is invalid.");
+    }
+}
+```
+
+##### 6.禁用验证
+`通过设置 novalidate 属性，可以告诉表单不进行验证。 `
+
+```html
+<form method="post" action="signup.php" novalidate>    
+  <!--这里插入表单元素--> 
+</form> 
+```
+`在 JavaScript中使用 noValidate 属性可以取得或设置这个值，如果这个属性存在，值为 true， 如果不存在，值为 false。 `
+`document.forms[0].noValidate = true; //禁用验证 `
+
+`如果一个表单中有多个提交按钮，为了指定点击某个提交按钮不必验证表单，可以在相应的按钮上 添加 formnovalidate 属性`
+
+```html
+<form method="post" action="foo.php">   
+  <!--这里插入表单元素-->    
+  <input type="submit" value="Regular Submit"> 
+  <input type="submit" formnovalidate name="btnNoValidate" value="Non-validating Submit"> 
+</form> 
+```
+`在这个例子中，点击第一个提交按钮会像往常一样验证表单，而点击第二个按钮则会不经过验证而 提交表单。使用 JavaScript也可以设置这个属性。 `
+
+```node
+//禁用验证 
+document.forms[0].elements["btnNoValidate"].formNoValidate = true; 
+```
+
+#####  <a id="target3" href="#top">选择框脚本</a>   <a href="#top"> ↑ </a>
+`选择框是通过<select>和<option>元素创建的。为了方便与这个控件交互，除了所有表单字段共 有的属性和方法外，HTMLSelectElement 类型还提供了下列属性和方法`
+
+* `add(newOption, relOption)`：`向控件中插入新<option>元素，其位置在相关项（relOption） 之前。` 
+* `multiple`：`布尔值，表示是否允许多项选择；等价于 HTML中的 multiple 特性。` 
+* `options`：`控件中所有<option>元素的 HTMLCollection。` 
+* `remove(index)`：`移除给定位置的选项。` 
+* `selectedIndex`：`基于 0的选中项的索引，如果没有选中项，则值为-1。对于支持多选的控件， 只保存选中项中第一项的索引。  size：选择框中可见的行数；等价于 HTML中的 size 特性。`
+
+`选择框的 type 属性不是"select-one"，就是"select-multiple"，这取决于 HTML代码中有 没有 multiple 特性。选择框的 value 属性由当前选中项决定，相应规则如下。`
+
+
 #####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
 #####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
 #####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
