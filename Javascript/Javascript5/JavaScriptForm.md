@@ -392,6 +392,48 @@ document.forms[0].elements["btnNoValidate"].formNoValidate = true;
 
 `选择框的 type 属性不是"select-one"，就是"select-multiple"，这取决于 HTML代码中有 没有 multiple 特性。选择框的 value 属性由当前选中项决定，相应规则如下。`
 
+* `如果没有选中的项，则选择框的 value 属性保存空字符串。` 
+* `如果有一个选中项，而且该项的 value 特性已经在 HTML中指定，则选择框的 value 属性等 于选中项的 value 特性。即使 value 特性的值是空字符串，也同样遵循此条规则。` 
+* `如果有一个选中项，但该项的 value 特性在 HTML中未指定，则选择框的 value 属性等于该 项的文本。 `
+* `如果有多个选中项，则选择框的 value 属性将依据前两条规则取得第一个选中项的值。 `
+
+`在 DOM 中，每个<option>元素都有一个 HTMLOptionElement 对象表示。为便于访问数据， HTMLOptionElement 对象添加了下列属性：`
+
+* `index`：`当前选项在 options 集合中的索引。` 
+* `label`：`当前选项的标签；等价于 HTML中的 label 特性。` 
+* `selected`：`布尔值，表示当前选项是否被选中。将这个属性设置为 true 可以选中当前选项。` 
+* `text`：`选项的文本。  value：选项的值（等价于 HTML中的 value 特性）`
+
+
+`其中大部分属性的目的，都是为了方便对选项数据的访问。虽然也可以使用常规的 DOM功能来访 问这些信息，但效率是比较低的，如下面的例子所示： `
+```node
+var selectbox = document.forms[0].elements["location"]; 
+ 
+//不推荐 
+var text = selectbox.options[0].firstChild.nodeValue;       //选项的文本 
+var value = selectbox.options[0].getAttribute("value");     //选项的值 
+
+var selectbox = document.forms[0]. elements["location"]; 
+ 
+/*
+以上代码使用标准 DOM方法，取得了选择框中第一项的文本和值。可以与下面使用选项属性的代 码作一比较： 
+*/ 
+
+//推荐 
+var text = selectbox.options[0].text;         //选项的文本 
+var value = selectbox.options[0].value;       //选项的值 
+```
+
+##### 选择选项 
+`对于只允许选择一项的选择框，访问选中项的简单方式，就是使用选择框的 selectedIndex 属 性，如下面的例子所示：`
+
+`var selectedOption = selectbox.options[selectbox.selectedIndex]; `
+
+`取得选中项之后，可以像下面这样显示该选项的信息： `
+```node 
+var selectedIndex = selectbox.selectedIndex; 
+var selectedOption = selectbox.options[selectedIndex]; 
+```
 
 #####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
 #####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
