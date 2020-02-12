@@ -23,24 +23,23 @@
 
 * [x] [`10.JavaScript5.原生Dom2/3`](./JavaScriptDom3.md)
 
-* [x] [`JavaScript5. 原生Event`](./JavaScriptEvent.md)
+* [x] [`11.JavaScript5. 原生Event`](./JavaScriptEvent.md)
 
-* [x] [`JavaScript5. 表单脚本`](./JavaScriptForm.md)
+* [x] [`12.JavaScript5. 表单脚本`](./JavaScriptForm.md)
 
-* [x] [`JavaScript5. 正则表达式`](./JavascriptRegExp.md)
+* [x] [`13.JavaScript5. 正则表达式`](./JavascriptRegExp.md)
 
-* [x] [`JavaScript5. 原生Error`](./ErrorHandling.md)
+* [x] [`14.JavaScript5. 原生Error`](./ErrorHandling.md)
 
-* [x] [`JavaScript5. 原生XML`](./JavaScriptXML.md)
+* [x] [`15.JavaScript5. 原生XML`](./JavaScriptXML.md)
 
-* [x] [`JavaScript5. 原生JSON` ](./JavaScriptJson.md)
+* [x] [`16.JavaScript5. 原生JSON` ](./JavaScriptJson.md)
 
-* [x] [`Javascript5. 原生Ajax `](./JavaScriptAjax.md)
+* [x] [`17.Javascript5. 原生Ajax `](./JavaScriptAjax.md)
 
-* [x] [`JavaScript5. 原生Cookie`](./JavaScriptCookie.md)
+* [x] [`18.JavaScript5. 原生Cookie Session 本地存储`](./JavaScriptLocalSC.md)
 
-
-
+`关于canvas 和webGL` [`MDN Canvas教程`](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial)  [`WebGL 教程`](https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API) `关于WEB 页面支持的XML 的内容都没有介绍，主要是因为现在数据内容都是采用的Json格式，所以对XML 的内容就没有深入研究,如果以后在实际工作中国遇到了可以查询相关API即可`
 
 ------
 [`Javascript 官方标准文档`](https://developer.mozilla.org/en-US/docs/Web/JavaScript)  [`JavaScript 高级程序设计`](https://www.baidu.com/s?ie=utf8&f=8&rsv_bp=1&tn=baidu&wd=JavaScript%20%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%20PDF&oq=JavaScript%2520%25E9%25AB%2598%25E7%25BA%25A7%25E7%25A8%258B%25E5%25BA%258F%25E8%25AE%25BE%25E8%25AE%25A1&rsv_pq=dc0e49010000b180&rsv_t=2d7ejtSsBBG6FGnURtMwmZPnaQ4WrrJLvG0UOqoudhPmoHZg03gEjSJ%2FgFg&rqlang=cn&rsv_enter=1&rsv_sug3=5&rsv_sug1=1&rsv_sug7=000&rsv_sug2=0&inputT=1466&rsv_sug4=1633&rsv_sug=1)
