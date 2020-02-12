@@ -1,13 +1,14 @@
-<a id="top"  href="#">:maple_leaf: JavaScript数据存储 </a>:arrow_lower_left:
+### <a id="top"  href="#top">:maple_leaf: JavaScript数据存储 </a>  :grey_exclamation: 
 ----
 
-- [x] <a href="#CookieInfo">`Cookie 信息`</a>
-- [x] <a href="#SubCookie">`Sub Cookie`</a>
-- [x] <a href="#NoticeCookie">`Cookie 注意`</a>
+[`Cookie`]()
+ - [x] <a href="#CookieInfo">`Cookie 信息`</a>
+ - [x] <a href="#SubCookie">`Sub Cookie`</a>
+ - [x] <a href="#NoticeCookie">`Cookie 注意`</a>
 
-### [1.Cookie](#) <span id="CookieInfo"></span>
+##### [1.Cookie 信息](#top) <span id="CookieInfo"></span>
 `用于在客户端存储信息`
-* Cookie的构成
+* `Cookie的构成`
   * `名称`:`key ,cookie不区分大小写,但是实践中最好当做区分大小写,因为某些服务会这样处理,Cookie的名称必须进过URL编码的。`
   * `值`:`存储信息`
   * `域`:`所有想改域发送的请求都会包含这个cookie信息`
@@ -15,7 +16,7 @@
           不能发送cookie信息,即使请求来着同一个域`
   * `失效时间`:`什么时候浏览器删除掉的时间戳, 这个值是GMT时间格式 Wdy,DD-Mon-YYYY HH:MM:SS`    
      
-     * 1.**`GMT转普通格式`**
+     * 1.`GMT转普通格式`
      
      ```javascript
        GMTToStr(time){
@@ -29,7 +30,7 @@
             return Str
         }
      ```
-     * 2.**`普通格式转GMT`**
+     * 2.`普通格式转GMT`
      
      ```javascript
        StrToGMT(time){
@@ -49,13 +50,13 @@
     Set-Cookie: name=value; expires=Mon， 22-Jan-07 07:10:24 GMT; domin=.www.com
     Other-header: other-header-value
   ```
-* 设置Cookie 使用Cookie 
+* `设置Cookie 使用Cookie `
   ```javascript
       //设置一个cookie键值对: "name":"JiangXing"
       document.cookie=encodeURIComponent("name")+"="+encodeURIComponent("JiangXing");
   ```
   
-* Cookie 操作对象 <a href="#top">置顶</a>
+* `Cookie 操作对象` <a href="#top">置顶</a>
   
   ```javascript
     var CookieUtil = {
@@ -97,7 +98,7 @@
           }
     };
   ```
-* 使用 CookieUtil  <a href="#top">置顶</a>
+* `使用 CookieUtil`  <a href="#top">置顶</a>
 
   ```javascript
         //document.cookie=encodeURIComponent("name")+"="+encodeURIComponent("JiangXing");
@@ -110,11 +111,11 @@
 
         }
   ```
-### <a href="#ttp" id="ttp"> 2.子 Cookie </a>  <a href="#top" id="SubCookie" >置顶</a> 
+##### <a href="#ttp" id="ttp"> 2.子 Cookie </a>  <a href="#top" id="SubCookie" >置顶</a> 
 
 `子Cookie一般格式`:`name=name1=value1&name2=value2&name3=value3`
 
-* 操作 子Cookie
+* `操作 子Cookie`
 
 ```javascript
     var SubCookieUtil = {
@@ -176,7 +177,9 @@
 
         for (subName in subcookies){
             if (subName.length > 0 && subcookies.hasOwnProperty(subName)){
-                subcookieParts.push(encodeURIComponent(subName) + "=" + encodeURIComponent(subcookies[subName]));
+                subcookieParts.push(encodeURIComponent(subName)
+                +
+                "=" + encodeURIComponent(subcookies[subName]));
             }
         }
 
@@ -220,7 +223,7 @@
 
     };
 ```
-* 操作
+* `操作`
 ```javascript
     function StrToGMT(time){
         let GMT = new Date(time);
@@ -230,5 +233,5 @@
     SubCookieUtil.set("data","book","JavaScript5 高级教程",StrToGMT("2018-8-5 20:24"));
     console.log(SubCookieUtil.get("data","book"));    
 ```
-### <a id="NoticeCookie">`Cookie 注意`</a>
+##### <a id="NoticeCookie">`Cookie 注意`</a>
 `还有一类Cookie被称为` `HTTP 专有Cookie 可以从浏览器或者服务器设置,但是只能在服务器端读取,因为Js无法获取HTTP专有 Cookie的值`
