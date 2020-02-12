@@ -1,7 +1,9 @@
 ### <a id="top" href="#top">JavaScript 原生Form :grey_exclamation:</a> 
 
+`一个网站的关键在于表单，他决定用户的输入,向服务器提交的数据,Js对于它有许多的方法和属性对象,以便我们开发更优秀的前端界面` :speech_balloon:`
+
 ----
-`一个网站的关键在于表单，他决定用户的输入,向服务器提交的数据,Js对于它有许多的方法和属性对象,以便我们开发更优秀的前端界面` :speech_balloon:
+
 - [x] <a href="#FormBasicKnow">`表单的基本知识`</a>
   - <a href="#GetFromElement">`获取表单：HTMLFormElement `</a> 
   - <a href="#FormSubmit">`提交表单：Submit `</a> 
@@ -18,6 +20,8 @@
 - [x] <a href="#target1">`自动切换焦点 `</a>
 - [x] <a href="#target2">`HTML5约束验证API  `</a>
 - [x] <a href="#target3">`选择框脚本`</a>
+- [x] <a href="#target4">`表单序列化`</a>
+- [x] <a href="#target5">`富文本编辑`</a>
 
 #####  <a id="FormBasicKnow" href="#FormBasicKnow">表单的基本知识</a>  <a href="#top">   ↑</a>
 <a href="#">`表单对应：HTMLFormElement  --->继承自 HTMLElement`</a> <br/>
@@ -434,13 +438,149 @@ var value = selectbox.options[0].value;       //选项的值
 var selectedIndex = selectbox.selectedIndex; 
 var selectedOption = selectbox.options[selectedIndex]; 
 ```
+`另一种选择选项的方式，就是取得对某一项的引用，然后将其 selected 属性设置为 true。例如， 下面的代码会选中选择框中的第一项： `
+ 
+`selectbox.options[0].selected = true;` 
 
-#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
-#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
-#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
-#####  <a id="" href="#"></a>   <a href="#top"> ↑ </a>
+`与selectedIndex 不同，在允许多选的选择框中设置选项的 selected 属性，不会取消对其他选中项 的选择，因而可以动态选中任意多个项。`
+
+##### 添加选项 
+`可以使用 JavaScript 动态创建选项，并将它们添加到选择框中。添加选项的方式有很多，第一种方 式就是使用如下所示的 DOM方法。 `
+
+```node
+var newOption = document.createElement("option");
+newOption.appendChild(document.createTextNode("Option text"));
+newOption.setAttribute("value", "Option value");
+
+selectbox.appendChild(newOption); 
+```
+
+`以上代码创建了一个新的<option>元素，然后为它添加了一个文本节点，并设置其 value 特性， 后将它添加到了选择框中。添加到选择框之后，用户立即就可以看到新选项。 `
+
+`第二种方式是使用 Option 构造函数来创建新选项，这个构造函数是 DOM出现之前就有的，一 直遗留到现在。Option 构造函数接受两个参数：文本（text）和值（value）；第二个参数可选。 虽然这个构造函数会创建一个 Object 的实例，但兼容 DOM的浏览器会返回一个<option>元素。 `
+
+```javascript
+var newOption = new Option("Option text", "Option value"); 
+selectbox.appendChild(newOption);     //在 IE8及之前版本中有问题 
+```
+`这种方式在除 IE 之外的浏览器中都可以使用。由于存在 bug，IE 在这种方式下不能正确设置新选 项的文本。 `
+
+`第三种添加新选项的方式是使用选择框的 add()方法。DOM规定这个方法接受两个参数：要添加 的新选项和将位于新选项之后的选项。如果想在列表的最后添加一个选项，应该将第二个参数设置为 null`
+```javascript
+var newOption = new Option("Option text", "Option value"); 
+selectbox.add(newOption, undefined); //最佳方案  
+```
+`在 IE和兼容 DOM的浏览器中，上面的代码都可以正常使用。如果你想将新选项添加到其他位置（不 是后一个），就应该使用标准的 DOM技术和 insertBefore()方法。 `
+
+##### 移除选项 
+`与添加选项类似，移除选项的方式也有很多种。首先，可以使用 DOM 的 removeChild()方法， 为其传入要移除的选项，如下面的例子所示： `
+
+`selectbox.removeChild(selectbox.options[0]);     //移除第一个选项`
+
+`其次，可以使用选择框的 remove()方法。这个方法接受一个参数，即要移除选项的索引，如下面 的例子所示： `
+ 
+`selectbox.remove(0);     //移除第一个选项 `
+
+`后一种方式，就是将相应选项设置为 null。这种方式也是 DOM 出现之前浏览器的遗留机制。`
+
+`selectbox.options[0] = null;    //移除第一个选项 `
+
+ `要清除选择框中所有的项，需要迭代所有选项并逐个移除它们，如下面的例子所示： `
+```javascript 
+function clearSelectbox(selectbox) {
+    for (var i = 0, len = selectbox.options.length; i < len; i++) {
+        selectbox.remove(i);
+    }
+} 
+```
+`这个函数每次只移除选择框中的第一个选项。由于移除第一个选项后，所有后续选项都会自动向上 移动一个位置，因此重复移除第一个选项就可以移除所有选项了`
+
+#####  移动和重排选项 
+`在 DOM标准出现之前，将一个选择框中的选项移动到另一个选择框中是非常麻烦的。整个过程要 涉及从第一个选择框中移除选项，然后以相同的文本和值创建新选项，后再将新选项添加到第二个选 择框中。而使用 DOM 的 appendChild()方法，就可以将第一个选择框中的选项直接移动到第二个选 择框中。我们知道，如果为 appendChild()方法传入一个文档中已有的元素，那么就会先从该元素的 父节点中移除它，再把它添加到指定的位置。下面的代码展示了将第一个选择框中的第一个选项移动到 第二个选择框中的过程。 `
+
+```javascript
+var selectbox1 = document.getElementById("selLocations1"); 
+var selectbox2 = document.getElementById("selLocations2"); 
+ 
+selectbox2.appendChild(selectbox1.options[0]);
+//移动选项与移除选项有一个共同之处，即会重置每一个选项的 index 属性。 
+```
+
+`重排选项次序的过程也十分类似，好的方式仍然是使用 DOM方法。要将选择框中的某一项移动 到特定位置，合适的 DOM 方法就是 insertBefore()；appendChild()方法只适用于将选项添加 到选择框的后`
+#####  <a id="target4" href="#top">表单序列化</a>   <a href="#top"> ↑ </a>
+`随着 Ajax的出现，表单序列化已经成为一种常见需求（第 21章将讨论 Ajax）。在 JavaScript中，可 以利用表单字段的 type 属性，连同 name 和 value 属性一起实现对表单的序列化。在编写代码之前， 有必须先搞清楚在表单提交期间，浏览器是怎样将数据发送给服务器的。 `
+
+* `对表单字段的名称和值进行 URL编码，使用和号（&）分隔。` 
+* `不发送禁用的表单字段。` 
+* `只发送勾选的复选框和单选按钮。` 
+* `不发送 type 为"reset"和"button"的按钮。` 
+* `多选选择框中的每个选中的值单独一个条目。` 
+* `在单击提交按钮提交表单的情况下，也会发送提交按钮；否则，不发送提交按钮。也包括 type 为"image"的<input>元素。` 
+* `<select>元素的值，就是选中的<option>元素的 value 特性的值。如果<option>元素没有 value 特性，则是<option>元素的文本值。`   
+
+`在表单序列化过程中，一般不包含任何按钮字段，因为结果字符串很可能是通过其他方式提交的。 除此之外的其他上述规则都应该遵循。以下就是实现表单序列化的代码。 `
+```javascript
+function serializeForm2(form) {
+    var parts = [];
+    for (var i = 0, i1 = form.elements.length; i < i1; i++) {
+        var field = form.elements[i];
+        switch (field.type) {
+            case 'select-one':
+            case 'select-multiple':
+                if (field.type.length) {
+                    for (var j = 0, j1 = field.options.length; j < j1; j++) {
+                        var option = field.options[j];
+                        if (option.selected) {
+                            var optionValue = '';
+                            if (option.hasAttribute('value') && option.attributes['value'].specified) {
+                                //specified表明是否有此属性，有的话返回true
+                                //若定义了此属性但尚未添加到元素中也返回true。
+                                optionValue = option.value;
+                            } else {
+                                optionValue = optionValue.text;
+                            }
+                            parts.push(encodeURIComponent(field.name) + '=' + encodeURIComponent(optionValue));
+                        }
+                    }
+                }
+                break;
+            case undefined:
+            case 'file':
+            case 'submit':
+            case 'reset':
+            case 'button':
+                break;
+            case 'radio':
+            case 'checkbox':
+                if (!field.checked) {
+                    break;
+                } else {
+                    parts.push(encodeURIComponent(field.name) + 
+                    '=' 
+                    + encodeURIComponent(field.dataset['index']));
+                    break;
+                }
+            default:
+                if (field.name.length) {
+                    parts.push(encodeURIComponent(field.name) + '=' + encodeURIComponent(field.value));
+                }
+        }
+    }
+    return parts.join('&');
+}
+```
 
 
 
+#####  <a id="target5" href="#top">富文本编辑 </a>   <a href="#top"> ↑ </a>
+`富文本编辑，又称为 WYSIWYG（What You See Is What You Get，所见即所得）。在网页中编辑富 文本内容，是人们对 Web 应用程序大的期待之一。，但在 IE早引入的这一功能基 础上，已经出现了事实标准`
+
+##### contenteditable
+`另一种编辑富文本内容的方式是使用名为 contenteditable 的特殊属性，这个属性也是由 IE 早实现的。可以把 contenteditable 属性应用给页面中的任何元素，然后用户立即就可以编辑该元素。 `
+```html
+<div class="editable" id="richedit" contenteditable></div> 
+```
+
+`请使用富文本编辑器，其他内容不再赘述`
 
 
