@@ -3,7 +3,7 @@
 -----
 `更新时间:2018/10/8` `2020/1/19` `2020/2/13`
 
-`2020/2/13 更新说明`: [`Javascript 客户端检测 链接`](./JavaScriptCheck.md) `关于canvas 和webGL 由于他们可以在web中独立构成一个庞大的体系，并且主要是关于API 的使用就不过多介绍了` [`MDN Canvas教程`](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial)  [`WebGL 教程`](https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API) `关于WEB 页面支持的XML 的内容都没有介绍，主要是因为现在数据内容都是采用的Json格式，所以对XML 的内容就没有深入研究,如果以后在实际工作中国遇到了可以查询相关API即可`
+`2020/2/13 更新说明`: [`Javascript 客户端检测 链接`](./JavaScriptCheck.md) `关于canvas 和webGL 由于他们可以在web中独立构成一个庞大的体系，并且主要是关于API 的使用就不过多介绍了` [`MDN Canvas教程`](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial)  [`WebGL 教程`](https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API) `关于WEB 页面支持的XML 的内容都没有介绍，主要是因为现在数据内容都是采用的Json格式，所以对XML 的内容就没有深入研究,如果以后在实际工作中遇到了可以查询相关API即可`
 
 -----
 
