@@ -6,7 +6,6 @@
 - [x] [`1.XMLHttpRequest 对象`](#target1)
 - [x] [`2.HTTP头部信息 `](#target2)
 - [x] [`3.XMLHttpRequest2 对象 `](#target3)
- 
 - [x] [`?.XMLHttpRequest2 对象`](#XMLHttpRequest2)
 
 ----
