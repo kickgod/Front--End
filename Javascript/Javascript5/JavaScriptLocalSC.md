@@ -1,11 +1,15 @@
-### <a id="top"  href="#top">:maple_leaf: JavaScript数据存储 </a>  :grey_exclamation: 
+### <a id="top"  href="#top"> JavaScript数据存储 </a>  :grey_exclamation: 
 ----
 
-[`Cookie`]()
- - [x] <a href="#CookieInfo">`Cookie 信息`</a>
- - [x] <a href="#SubCookie">`Sub Cookie`</a>
- - [x] <a href="#NoticeCookie">`Cookie 注意`</a>
-
+- [ ] [`Cookie`](#CookieInfo)
+  - [x] <a href="#CookieInfo">`Cookie 信息`</a>
+  - [x] <a href="#SubCookie">`Sub Cookie`</a>
+  - [x] <a href="#NoticeCookie">`Cookie 注意`</a>
+- [ ] [`本地存储`](#localStorage)
+  - [x] <a href="#localStorage">`localStorage`</a>
+  - [x] <a href="#sessionStorage">`sessionStorage`</a>
+- [ ] [`区别`](#distinction)
+ 
 ##### [1.Cookie 信息](#top) <span id="CookieInfo"></span>
 `用于在客户端存储信息`
 * `Cookie的构成`
@@ -233,5 +237,71 @@
     SubCookieUtil.set("data","book","JavaScript5 高级教程",StrToGMT("2018-8-5 20:24"));
     console.log(SubCookieUtil.get("data","book"));    
 ```
-##### <a id="NoticeCookie">`Cookie 注意`</a>
+##### <a id="NoticeCookie" href="#top">Cookie 注意</a>
 `还有一类Cookie被称为` `HTTP 专有Cookie 可以从浏览器或者服务器设置,但是只能在服务器端读取,因为Js无法获取HTTP专有 Cookie的值`
+
+##### <a id="localStorage" href="#top">localStorage</a>
+`HTML 本地存储提供了两个在客户端存储数据的对象：`
+* `window.localStorage `:`存储没有截止日期的数据 本质上是一个 Storage 对象` [`官方文档`](https://developer.mozilla.org/zh-CN/docs/Web/API/Storage)
+* `window.sessionStorage`:`针对一个 session 来存储数据（当关闭浏览器标签页时数据会丢失）` [`官方文档`](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/sessionStorage)
+
+`在使用本地存储时，请检测 localStorage 和 sessionStorage 的浏览器支持：`
+```javascript
+if (typeof(Storage) !== "undefined") {
+    // 针对 localStorage/sessionStorage 的代码
+} else {
+    // 抱歉！不支持 Web Storage ..
+}
+```
+* `属性API`
+  * `Storage.length` `只读 返回一个整数，表示存储在 Storage 对象中的数据项数量。`
+* `方法API`
+  * `Storage.key(index)`:`该方法接受一个数值 n 作为参数，并返回存储中的第 n 个键名。`
+  ```node
+   function populateStorage() {
+     localStorage.setItem('bgcolor', 'yellow');
+     localStorage.setItem('font', 'Helvetica');
+     localStorage.setItem('image', 'cats.png');
+
+     localStorage.key(2); // 应该返回 'image'
+   }
+  ```
+  * `Storage.getItem(keyName)`:`该方法接受一个键名作为参数，返回键名对应的值。`
+  * `Storage.setItem(keyName,value)`:`该方法接受一个键名和值作为参数，将会把键值对添加到存储中，如果键名存在，则更新其对应的值。`
+  * `Storage.removeItem(keyName)`: `该方法接受一个键名作为参数，并把该键名从存储中删除。`
+  * `Storage.clear()`:`调用该方法会清空存储中的所有键名。`
+
+##### <a id="sessionStorage" href="#top">sessionStorage</a>
+`sessionStorage 对象等同 localStorage 对象，不同之处在于只对一个 session 存储数据。如果用户关闭具体的浏览器标签页，数据也会被删除。`
+
+```node
+sessionStorage.setItem('myCat', 'Tom');
+```
+
+`sessionStorage的API 等同于 localStorage`
+
+##### <a id="distinction" href="#top">三者区别</a> 
+[`摘抄出处`](https://www.cnblogs.com/wwmm1996/p/10981958.html) `javaScript有三种数据存储方式，分别是： sessionStorage,localStorage,cookier 相同点：都保存在浏览器端`
+
+##### 不同点
+
+* `1.传递方式不同`
+ * `cookie数据始终在同源的http请求中携带（即使不需要），即cookie在浏览器和服务器间来回传递。`
+ * `sessionStorage和localStorage不会自动把数据发给服务器，仅在本地保存。`
+ 
+* `2.数据大小不同`
+ * `cookie数据还有路径（path）的概念，可以限制cookie只属于某个路径下。存储大小限制也不同，cookie数据不能超过4k，同时因为每次http请求都会携带cookie，所以cookie只适合保存很小的数据，如会话标识。`
+ * `sessionStorage和localStorage 虽然也有存储大小的限制，但比cookie大得多，可以达到5M或更大。`
+ 
+* `3.数据有效期不同`
+ * `sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；`
+ * `localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；`
+ * `cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭。`
+ 
+* `4.作用域不同`
+ * `sessionStorage不在不同的浏览器窗口中共享，即使是同一个页面；`
+ * `localStorage 在所有同源窗口中都是共享的；`
+ * `cookie也是在所有同源窗口中都是共享的。`
+ * `Web Storage 支持事件通知机制，可以将数据更新的通知发送给监听者。`
+ * `Web Storage 的 api 接口使用更方便。`
+
