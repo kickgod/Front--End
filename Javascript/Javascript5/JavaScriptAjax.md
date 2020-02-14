@@ -11,7 +11,9 @@
    - [ ] `3.进度事件`
    - [ ] `4.load事件`  
    - [ ] `5.progress事件 ` 
-
+- [x] [`4.跨源资源共享`](#target4)
+- [x] [`5.Comet`](#target5)
+- [x] [`6.Http Web Sockets `](https://developer.mozilla.org/zh-CN/docs/Glossary/WebSockets)
 
 ----
 
@@ -235,7 +237,7 @@ xhr.send(new FormData(form));
 ```
 `使用 FormData 的方便之处体现在不必明确地在 XHR 对象上设置请求头部。XHR对象能够识别传 入的数据类型是 FormData 的实例，并配置适当的头部信息。 `
 
-##### 超时设定 
+##### :octocat: 2.超时设定 
 `IE8 为 XHR 对象添加了一个 timeout 属性，表示请求在等待响应多少毫秒之后就终止。在给 timeout 设置一个数值后，如果在规定的时间内浏览器还没有接收到响应，那么就会触发 timeout 事 件，进而会调用 ontimeout 事件处理程序。这项功能后来也被收入了 XMLHttpRequest 2级规范中。`
 
 ```node
@@ -264,7 +266,7 @@ xhr.send(null);
 
 `这个例子示范了如何使用 timeout 属性。将这个属性设置为 1000毫秒，意味着如果请求在 1秒钟 内还没有返回，就会自动终止。请求终止时，会调用 ontimeout 事件处理程序。但此时 readyState 可能已经改变为 4了，这意味着会调用 onreadystatechange 事件处理程序。可是，如果在超时终止 请求之后再访问 status 属性，就会导致错误。为避免浏览器报告错误，可以将检查 status 属性的语句封装在一个 try-catch 语句当中。 `
 
-##### overrideMimeType()
+##### :octocat: 3.overrideMimeType()
 `Firefox早引入了 overrideMimeType()方法，用于重写 XHR响应的 MIME 类型。这个方法后 来也被纳入了 XMLHttpRequest 2级规范。因为返回响应的 MIME类型决定了 XHR对象如何处理它，所 以提供一种方法能够重写服务器返回的 MIME类型是很有用的`
 
 `比如，服务器返回的 MIME类型是 text/plain，但数据中实际包含的是 XML。根据 MIME类型， 即使数据是 XML，responseXML 属性中仍然是 null。通过调用 overrideMimeType()方法，可以保 证把响应当作 XML而非纯文本来处理。 `
@@ -279,7 +281,7 @@ xhr.send(null);
 `这个例子强迫 XHR对象将响应当作 XML而非纯文本来处理。调用 overrideMimeType()必须在 send()方法之前，才能保证重写响应的 MIME类型`
 
 
-##### 进度事件 
+##### :octocat: 4.进度事件 
 `Progress Events规范是 W3C的一个工作草案，定义了与客户端服务器通信有关的事件。这些事件 早其实只针对 XHR操作，但目前也被其他 API借鉴。有以下 6个进度事件。` 
 * `loadstart`：`在接收到响应数据的第一个字节时触发。` 
 * `progress`：`在接收响应期间持续不断地触发。` 
@@ -288,7 +290,7 @@ xhr.send(null);
 * `load`：`在接收到完整的响应数据时触发。` 
 * `loadend`：`在通信完成或者触发 error、abort 或 load 事件后触发。 每个请求都从触发 loadstart 事件开始，接下来是一或多个 progress 事件，然后触发 error、 abort 或 load 事件中的一个，后以触发 loadend 事件结束。`
 
-#####  load事件 
+#####  :octocat: 5.load事件 
 `Firefox在实现 XHR 对象的某个版本时，曾致力于简化异步交互模型。终，Firefox实现中引入了 load 事件，用以替代 readystatechange 事件。响应接收完毕后将触发 load 事件，因此也就没有必 要去检查 readyState 属性了。而 onload 事件处理程序会接收到一个 event 对象，其 target 属性 就指向 XHR对象实例，因而可以访问到 XHR对象的所有方法和属性。然而，并非所有浏览器都兼容此API`
 
 ```node
@@ -304,4 +306,289 @@ xhr.open("get", "altevents.php", true);
 xhr.send(null);
 ```
 
-  
+##### :octocat: 6.progress事件 
+`Mozilla对 XHR的另一个革新是添加了 progress 事件，这个事件会在浏览器接收新数据期间周期 性地触发。而 onprogress 事件处理程序会接收到一个 event 对象，其 target 属性是 XHR 对象，但 包含着三个额外的属性：lengthComputable、position 和 totalSize 有了这些信息，我们就可以为用户创建一个进度指示器 了`
+ 
+* `lengthComputable`:`是一个表示进度信息是否可用的布尔值`
+* `position`:`表示已经接收的字节数`
+* `totalSize`:`表示根据 Content-Length 响应头部确定的预期字节数。`
+
+```node
+xhr.onload = function (event) {
+    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+        alert(xhr.responseText);
+    } else {
+        alert("Request was unsuccessful: " + xhr.status);
+    }
+};
+xhr.onprogress = function (event) {
+    var divStatus = document.getElementById("status");
+    if (event.lengthComputable) {
+        divStatus.innerHTML = "Received " + event.position + " of " + event.totalSize + " bytes";
+    }
+};
+
+xhr.open("get", "altevents.php", true);
+xhr.send(null);
+```
+
+`为确保正常执行，必须在调用 open()方法之前添加 onprogress 事件处理程序`
+
+#####  [4.跨源资源共享](#top) <b id="target4"></b> 
+`通过 XHR 实现 Ajax 通信的一个主要限制，来源于跨域安全策略。默认情况下，XHR 对象只能访 问与包含它的页面位于同一个域中的资源。这种安全策略可以预防某些恶意行为。但是，实现合理的跨 域请求对开发某些浏览器应用程序也是至关重要的。 `
+
+`CORS（Cross-Origin Resource Sharing，跨源资源共享）是 W3C的一个工作草案，定义了在必须访 问跨源资源时，浏览器与服务器应该如何沟通。CORS背后的基本思想，就是使用自定义的 HTTP头部 让浏览器与服务器进行沟通，从而决定请求或响应是应该成功，还是应该失败。 `
+
+`比如一个简单的使用 GET 或 POST 发送的请求，它没有自定义的头部，而主体内容是 text/plain。在 发送该请求时，需要给它附加一个额外的 Origin 头部，其中包含请求页面的源信息（协议、域名和端 口），以便服务器根据这个头部信息来决定是否给予响应。下面是 Origin 头部的一个示例： `
+ 
+`Origin: http://www.nczonline.net`
+
+`如果服务器认为这个请求可以接受，就在 Access-Control-Allow-Origin 头部中回发相同的源 信息（如果是公共资源，可以回发"*"）。例如： `
+ 
+`Access-Control-Allow-Origin: http://www.nczonline.net` 
+ 
+`如果没有这个头部，或者有这个头部但源信息不匹配，浏览器就会驳回请求。正常情况下，浏览器 会处理请求。注意，请求和响应都不包含 cookie信息。 ` 
+
+
+##### :octocat: 1.IE对CORS的实现 
+`微软在 IE8中引入了 XDR（XDomainRequest）类型。这个对象与 XHR类似，但能实现安全可靠 的跨域通信。XDR对象的安全机制部分实现了 W3C的 CORS规范。`
+`以下是 XDR与 XHR的一些不同之 处。`
+* `cookie不会随请求发送，也不会随响应返回。` 
+* `只能设置请求头部信息中的 Content-Type 字段。` 
+* `不能访问响应头部信息。` 
+* `只支持 GET 和 POST 请求。 `
+
+`这些变化使 CSRF（Cross-Site Request Forgery，跨站点请求伪造）和 XSS（Cross-Site Scripting，跨 站点脚本）的问题得到了缓解` `被请求的资源可以根据它认为合适的任意数据（用户代理、来源页面等） 来决定是否设置 Access-Control- Allow-Origin 头部。作为请求的一部分，Origin 头部的值表示 请求的来源域，以便远程资源明确地识别 XDR请求。 `
+
+`本人已经放弃IE 所以不解释了`
+
+##### :octocat: 2.其他浏览器对CORS的实现 
+`通过 XMLHttpRequest 对象实现了对 CORS 的原生支持。 在尝试打开不同来源的资源时，无需额外编写代码就可以触发这个行 为。要请求位于另一个域中的资源，使用标准的XHR对象并在 open()方法中传入绝对URL即可`
+
+```node
+var xhr = createXHR();
+xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4) {
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+            alert(xhr.responseText);
+        } else {
+            alert("Request was unsuccessful: " + xhr.status);
+        }
+    }
+};
+xhr.open("get", "http://www.somewhere-else.com/page/", true);
+xhr.send(null);
+```
+
+`与 IE中的 XDR对象不同，通过跨域 XHR对象可以访问 status 和 statusText 属性，而且还支 持同步请求。跨域 XHR对象也有一些限制，但为了安全这些限制是必需的。以下就是这些限制。 `
+
+* `不能使用 setRequestHeader()设置自定义头部。` 
+* `不能发送和接收 cookie。` 
+* `调用 getAllResponseHeaders()方法总会返回空字符串。`
+
+`由于无论同源请求还是跨源请求都使用相同的接口，因此对于本地资源，好使用相对 URL，在访 问远程资源时再使用绝对 URL。这样做能消除歧义，避免出现限制访问头部或本地 cookie信息等问题`
+
+
+##### :octocat: 3.Preflighted Reqeusts 
+`CORS通过一种叫做 Preflighted Requests的透明服务器验证机制支持开发人员使用自定义的头部、 GET或 POST之外的方法，以及不同类型的主体内容。在使用下列高级选项来发送请求时，就会向服务 器发送一个 Preflight请求。这种请求使用 OPTIONS方法，发送下列头部。 `
+
+* `Origin`：`与简单的请求相同。` 
+* `Access-Control-Request-Method`：`请求自身使用的方法。` 
+* `Access-Control-Request-Headers`：`（可选）自定义的头部信息，多个头部以逗号分隔。 以下是一个带有自定义头部 NCZ的使用 POST 方法发送的请求。 `
+
+```node
+//以下是一个带有自定义头部 NCZ的使用 POST 方法发送的请求。 
+Origin: http://www.nczonline.net 
+Access-Control-Request-Method: POST 
+Access-Control-Request-Headers: NCZ
+```
+
+`发送这个请求后，服务器可以决定是否允许这种类型的请求。服务器通过在响应中发送如下头部与 浏览器进行沟通`
+
+* `Access-Control-Allow-Origin`：`与简单的请求相同。` 
+* `Access-Control-Allow-Methods`：`允许的方法，多个方法以逗号分隔。` 
+* `Access-Control-Allow-Headers`：`允许的头部，多个头部以逗号分隔。` 
+* `Access-Control-Max-Age`：`应该将这个 Preflight请求缓存多长时间（以秒表示）。` 
+
+
+`例如：` 
+```node
+Access-Control-Allow-Origin: http://www.nczonline.net 
+Access-Control-Allow-Methods: POST, GET 
+Access-Control-Allow-Headers: NCZ 
+Access-Control-Max-Age: 1728000 
+```
+`Preflight 请求结束后，结果将按照响应中指定的时间缓存起来。而为此付出的代价只是第一次发送 这种请求时会多一次 HTTP请求 ,支持 Preflight请求的浏览器包括 Firefox 3.5+、Safari 4+和 Chrome。IE 10及更早版本都不支持。 `
+
+##### :octocat: 4.带凭据的请求 
+`默认情况下，跨源请求不提供凭据（cookie、HTTP 认证及客户端 SSL 证明等）。通过将 withCredentials 属性设置为 true，可以指定某个请求应该发送凭据。如果服务器接受带凭据的请 求，会用下面的 HTTP头部来响应。 `
+
+```node
+Access-Control-Allow-Credentials: true 
+```
+
+`如果发送的是带凭据的请求，但服务器的响应中没有包含这个头部，那么浏览器就不会把响应交给 JavaScript（于是，responseText 中将是空字符串，status 的值为 0，而且会调用 onerror()事件处 理程序）。另外，服务器还可以在 Preflight响应中发送这个 HTTP头部，表示允许源发送带凭据的请求。支持 withCredentials 属性的浏览器有 Firefox 3.5+、Safari 4+和 Chrome。IE 10及更早版本都不 支持。`
+
+##### :octocat: 5.跨浏览器的CORS 
+`即使浏览器对 CORS的支持程度并不都一样，但所有浏览器都支持简单的（非 Preflight和不带凭据 的）请求，因此有必要实现一个跨浏览器的方案。检测 XHR是否支持 CORS的简单方式，就是检查 是否存在 withCredentials 属性。再结合检测 XDomainRequest 对象是否存在，就可以兼顾所有浏览器了。 `
+
+```node
+function createCORSRequest(method, url) {
+    var xhr = new XMLHttpRequest();
+    if ("withCredentials" in xhr) {
+        xhr.open(method, url, true);
+    } else if (typeof XDomainRequest != "undefined") {
+        vxhr = new XDomainRequest();
+        xhr.open(method, url);
+    } else {
+        xhr = null;
+    }
+    return xhr;
+}
+
+var request = createCORSRequest("get", "http://www.somewhere-else.com/page/");
+if (request) {
+    request.onload = function () {         /*对 request.responseText 进行处理*/
+    };
+    request.send();
+} 
+```
+
+`Firefox、Safari和 Chrome中的 XMLHttpRequest 对象与 IE中的 XDomainRequest 对象类似，都 提供了够用的接口，因此以上模式还是相当有用的。这两个对象共同的属性/方法如下。` 
+
+* `abort()`：`用于停止正在进行的请求。` 
+* `onerror`：`用于替代 onreadystatechange 检测错误。` 
+* `onload`：`用于替代 onreadystatechange 检测成功。` 
+* `responseText`：`用于取得响应内容。` 
+* `send()`：`用于发送请求。` 
+
+`以上成员都包含在 createCORSRequest()函数返回的对象中，在所有浏览器中都能正常使用。 `
+
+##### :octocat: 6.图像Ping   
+`我们知道，一个网页可以从任何网页中加载图像，不 用担心跨域不跨域。这也是在线广告跟踪浏览量的主要方式` `也可以动态地创 建图像，使用它们的 onload 和 onerror 事件处理程序来确定是否接收到了响应。`
+
+`动态创建图像经常用于图像 Ping。图像 Ping 是与服务器进行简单、单向的跨域通信的一种方式。 请求的数据是通过查询字符串形式发送的，而响应可以是任意内容，但通常是像素图或 204响应。通过 图像 Ping，浏览器得不到任何具体的数据，但通过侦听 load 和 error 事件，它能知道响应是什么时 候接收到的`
+
+```node
+var img = new Image();
+img.onload = img.onerror = function () {
+    alert("Done!");
+};
+img.src = "http://www.example.com/test?name=Nicholas"; 
+```
+
+`这里创建了一个 Image 的实例，然后将 onload 和 onerror 事件处理程序指定为同一个函数。这 样无论是什么响应，只要请求完成，就能得到通知。请求从设置 src 属性那一刻开始，而这个例子在请 求中发送了一个 name 参数。`
+
+`图像 Ping常用于跟踪用户点击页面或动态广告曝光次数。图像 Ping有两个主要的缺点，一是只 能发送 GET 请求，二是无法访问服务器的响应文本。因此，图像 Ping只能用于浏览器与服务器间的单向通信。`
+
+#####  [5.Comet](#top) <b id="target5"></b>  
+`Comet是 Alex Russell①发明的一个词儿，指的是一种更高级的 Ajax技术（经常也有人称为“服务器 推送”）。Ajax 是一种从页面向服务器请求数据的技术，而 Comet 则是一种服务器向页面推送数据的技 术。Comet能够让信息近乎实时地被推送到页面上，非常适合处理体育比赛的分数和股票报价。 `
+
+`实现Comet有两种方式：长轮询与http流`
+
+`而长轮询的方式是，页面向服务器发起一个请求，服务器一直保持tcp连接打开，知道有数据可发送。发送完数据后，页面关闭该连接，随即又发起一个新的服务器请求，在这一过程中循环。`
+
+`短轮询和长轮询的区别是：短轮询中服务器对请求立即响应，而长轮询中服务器等待新的数据到来才响应，因此实现了服务器向页面推送实时，并减少了页面的请求次数。`
+
+`http流不同于上述两种轮询，因为它在页面整个生命周期内只使用一个HTTP连接，具体使用方法即页面向浏览器发送一个请求，而服务器保持tcp连接打开，然后不断向浏览器发送数据。`
+
+`以下为客户端实现长轮询的方法：`
+```node
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function(){
+   if(xhr.readyState == 4){
+      result = xhr.responseText
+      console.log(result);
+      xhr.open('get', 'test2.php');	//在获得数据后重新向服务器发起请求
+      xhr.send(null);
+   }
+}
+xhr.open('get', 'test2.php');
+xhr.send(null);
+```
+`以下为客户端实现http流的方法：`
+```node
+var xhr = new XMLHttpRequest();
+received = 0;	//最新消息在响应消息的位置
+xhr.onreadystatechange = function(){
+   if(xhr.readyState == 3){
+      result = xhr.responseText.substring(received);
+      console.log(result);
+      received += result.length;
+   }else if(xhr.readyState == 4){
+      console.log("完成消息推送");
+   }
+}
+xhr.open('get', 'test1.php');
+xhr.send(null);
+```
+`以下为服务器端实时推送的实现方法，以php为例：`
+```php
+<?php
+	ini_set('max_execution_time', 10);
+	error_reporting(0);
+	$i = 0;
+	while(true){	//不断推送消息
+		echo "Number is $i\n";
+		ob_flush();	//将php缓存冲出
+		flush();	//从php缓存中输出到tcp缓存
+		$i++;
+		sleep(1);	
+	}
+?>
+/*浏览器结果*/
+Number is 0
+Number is 1
+Number is 2
+Number is 3
+...
+完成消息推送
+```
+#####  服务器发送事件 
+`另外大多数浏览器实现了SSE(Server-Sent Events,服务器发送事件) API，SSE支持短轮询、长轮询和HTTP流，使用方式如下：` `SSE API 用于创建到服务器的单向连接，服务器通过这个连接可以发送任意数量的数据。服务器响应的 MIME 类型必须是 text/event-stream`
+
+`SSE的 JavaScript API与其他传递消息的 JavaScript API很相似。要预订新的事件流，首先要创建一 个新的 EventSource 对象，并传进一个入口点： `
+ ```javascript
+var source = new EventSource("myevents.php");
+```
+
+`注意，传入的 URL必须与创建对象的页面同源（相同的 URL模式、域及端口）。EventSource 的 实例有一个 readyState 属性，值为 0表示正连接到服务器，值为 1表示打开了连接，值为 2表示关闭 了连接。 另外，还有以下三个事件。` 
+
+* `open`：`在建立连接时触发。` 
+* `message`：`在从服务器接收到新事件时触发。` 
+* `error`：`在无法建立连接时触发。 就一般的用法而言，onmessage 事件处理程序也没有什么特别的。 `
+ 
+```javascript
+source.onmessage = function(event){    
+ var data = event.data;   
+ //处理数据
+}; 
+``` 
+`服务器发回的数据以字符串形式保存在 event.data 中。 `
+ 
+`默认情况下，EventSource 对象会保持与服务器的活动连接。如果连接断开，还会重新连接。这 就意味着 SSE适合长轮询和 HTTP流。如果想强制立即断开连接并且不再重新连接，可以调用 close() 方法。 `
+
+```javascript
+source.close(); 
+```
+
+`所谓的服务器事件会通过一个持久的 HTTP 响应发送，这个响应的 MIME 类型为 text/event-stream。响应的格式是纯文本，简单的情况是每个数据项都带有前缀 data:，例如： `
+
+```node
+data: foo 
+
+data: bar 
+
+data: foo 
+data: bar 
+```
+
+`对以上响应而言，事件流中的第一个 message 事件返回的 event.data 值为"foo"，第二个 message 事件返回的 event.data 值为"bar"，第三个 message 事件返回的 event.data 值为 "foo\nbar"（注意中间的换行符）。对于多个连续的以 data:开头的数据行，将作为多段数据解析， 每个值之间以一个换行符分隔。只有在包含 data:的数据行后面有空行时，才会触发 message 事件， 因此在服务器上生成事件流时不能忘了多添加这一行。 `
+
+`通过 id:前缀可以给特定的事件指定一个关联的 ID，这个 ID行位于 data:行前面或后面皆可： `
+ 
+```node
+data: foo
+id: 1 
+```
+`设置了 ID后，EventSource 对象会跟踪上一次触发的事件。如果连接断开，会向服务器发送一个 包含名为 Last-Event-ID 的特殊 HTTP头部的请求，以便服务器知道下一次该触发哪个事件。在多次 连接的事件流中，这种机制可以确保浏览器以正确的顺序收到连接的数据段。 `
