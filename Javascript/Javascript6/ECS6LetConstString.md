@@ -216,6 +216,46 @@ for (let codePoint of 'foo') {
 // "o"
 // "o"
 ```
+`除了遍历字符串，这个遍历器最大的优点是可以识别大于0xFFFF的码点，传统的for循环无法识别这样的码点。`
+
+```node
+let text = String.fromCodePoint(0x20BB7);
+
+for (let i = 0; i < text.length; i++) {
+  console.log(text[i]);
+}
+// " "
+// " "
+
+for (let i of text) {
+  console.log(i);
+}
+// "𠮷
+```
+
+##### 
+`JavaScript 字符串允许直接输入字符，以及输入字符的转义形式。举例来说，“中”的 Unicode 码点是 U+4e2d，你可以直接在字符串里面输入这个汉字，也可以输入它的转义形式\u4e2d，两者是等价的。`
+
+```javascript
+'中' === '\u4e2d' // true
+```
+`JavaScript 规定有5个字符，不能在字符串里面直接使用，只能使用转义形式。`
+
+* `U+005C`：`反斜杠（reverse solidus)`
+* `U+000D`：`回车（carriage return）`
+* `U+2028`：`行分隔符（line separator）`
+* `U+2029`：`段分隔符（paragraph separator）`
+* `U+000A`：`换行符（line feed）`
+
+`举例来说，字符串里面不能直接包含反斜杠，一定要转义写成\\或者\u005c。`
+
+`这个规定本身没有问题，麻烦在于 JSON 格式允许字符串里面直接使用 U+2028（行分隔符）和 U+2029（段分隔符）。这样一来，服务器输出的 JSON 被JSON.parse解析，就有可能直接报错。`
+
+```javascript
+const json = '"\u2028"';
+JSON.parse(json); // 可能报错
+```
+
 ##### 字符串对象新增加的实例方法
 * `str.includes(string [,indexStart])` ：`返回布尔值，表示是否找到了参数字符串。`
 * `str.startsWith(string [,indexStart])` ：`返回布尔值，表示参数字符串是否在原字符串的头部。`
