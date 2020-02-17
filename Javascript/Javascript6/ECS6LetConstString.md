@@ -1,4 +1,4 @@
-### <a id="top"  href="#top">:arrow_lower_left: JavaScript6 块级作用域.字符串.正则:maple_leaf:</a>
+### <a id="top"  href="#top">JavaScript6 块级作用域.字符串.正则</a>
 `JS6新语法提供了let实现块级作用域,字符串也新增了许多功能,增加了箭头函数,默认参数,不定参数`
 
 - [x] <a href="#letconst">`块级作用域绑定`</a>
@@ -6,7 +6,7 @@
 - [x] <a href="#regularexpend">`模板字符串`</a>
 
 
-##### 1. :whale2:  `块级作用域绑定` <a id="letconst" href="#letconst">let,const</a>    <a href="#top">----:arrow_up::arrow_up: </a>
+##### 1. <a id="letconst" href="#top">块级作用域绑定 let,const</a>    
 * `块级作用域 是用let 声明变量,可以把变量变成块级`
 * let `可以使得变量避免变量提升,不允许重复声明,使得变量成为块级变量,隔绝在块级作用域之间,而不会混淆`
 * `未声明访问会报错,而不是underfine输出`
@@ -60,7 +60,7 @@ funcs.forEach(function(funcs_){
 });
 // 打印出 0~10
 ```
-* JS6 Let对循环函数的影响 
+* `JS6 Let对循环函数的影响 `
 ```javascript
   var func= []; //把i声明为let 就行
   for(let i=0;i<=10;i++){
@@ -76,8 +76,38 @@ funcs.forEach(function(funcs_){
 ##### 1.3 全局作用域绑定
 * `全局作用域不会被绑定到window的全局属性中,所以不会产生覆盖window的属性的情况,`
 
-##### 2.	:whale2:  `字符串和正则表达式` <a id="stringexpend" href="#stringexpend">`代理对`,normalize,,=></a>    <a href="#top"> ----:arrow_up::arrow_up: </a>
+##### 1.4 顶层对象的属性
+`let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。也就是说，从 ES6 开始，全局变量将逐步与顶层对象的属性脱钩。`
+```node
+var a = 1;
+// 如果在 Node 的 REPL 环境，可以写成 global.a
+// 或者采用通用方法，写成 this.a
+window.a // 1
 
+let b = 1;
+window.b // undefined
+```
+
+##### 1.5 globalThis 对象
+`JavaScript 语言存在一个顶层对象，它提供全局环境（即全局作用域），所有代码都是在这个环境中运行。但是，顶层对象在各种实现里面是不统一的。`
+
+* `浏览器里面，顶层对象是window，但 Node 和 Web Worker 没有window。`
+* `浏览器和 Web Worker 里面，self也指向顶层对象，但是 Node 没有self。`
+* `Node 里面，顶层对象是global，但其他环境都不支持。`
+
+`同一段代码为了能够在各种环境，都能取到顶层对象，现在一般是使用this变量，但是有局限性。`
+
+* `1.全局环境中，this会返回顶层对象。但是，Node 模块和 ES6 模块中，this返回的是当前模块。`
+* `2.函数里面的this，如果函数不是作为对象的方法运行，而是单纯作为函数运行，this会指向顶层对象。但是，严格模式下，这时this会返回undefined。`
+* `3.不管是严格模式，还是普通模式，new Function('return this')()，总是会返回全局对象。但是，如果浏览器用了 CSP（Content Security Policy，内容安全策略），那么eval、new Function这些方法都可能无法使用。`
+
+`综上所述，很难找到一种方法，可以在所有情况下，都取到顶层对象。`
+
+`ES2020 在语言标准的层面，引入globalThis作为顶层对象。也就是说，任何环境下，globalThis都是存在的，都可以从它拿到顶层对象，指向全局环境下的this。
+垫片库global-this模拟了这个提案，可以在所有环境拿到globalThis。`
+
+
+##### 2. <a id="stringexpend" href="#top">字符串和正则表达式 代理对,normalize,,=></a>    
 `JS5的字符串是基于16位的UTF-16编码进行构建的,每十六位表示一个编程单元,代表一个字符,许多字符串方法和属性都是基于此编程单元的的,但是过去16足够了但是
 Unicode引入扩展字符集,编码规则不得不进行变更,所有不再限制在16位,扩展到了32位,一个字符对应一个码位例如 55362 表示 吉这个字符.UTF-16中,前面`2<sup>16</sup>`码位 均以16位的编码单位表示,这个范围被称为基于多文中平面(BMP)`<br/>
 `超过这个范围的码位则要归属于某个辅助平面,其中码位仅用16位就无法表示了,为此UTF-16引入` **`代理对`** `其规定用两个16位编码单位表示一个码位,也就是说,字符串里的字符有两种,一种是16位编码单位的BMP字符,一种是两个编码单位的32位字符串,为此产生了很多的问题`
@@ -219,7 +249,7 @@ Unicode引入扩展字符集,编码规则不得不进行变更,所有不再限�
   'x'.padEnd(4, 'ab') // 'xaba'
 ```
 
-##### 3.1	:whale2:  [`模板字符串`](#top) <b id="regularexpend"></b>
+##### 3.1 [`模板字符串`](#top) <b id="regularexpend"></b>
 `传统的 JavaScript 语言，输出模板通常是这样写的（下面使用了 jQuery 的方法）。`
 ```node
 $('#result').append(
