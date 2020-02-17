@@ -1,12 +1,15 @@
-### [:arrow_lower_left: ECS6 变量的解构赋值 :maple_leaf:](#top)
+### <a href="#top" id="top" >JavaScript6 变量的解构赋值 </a>
 `ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。然而有点逆天 这个语法,简单的还是可以用一下`
 
-- [x] :maple_leaf: [`数组的解构赋值`](#arraygetvalue) 
-- [x] :maple_leaf: [`默认值`](#defaultvalue) 
-- [x] :maple_leaf: [`对象的解构赋值`](#objectresolve)
-- [x] :maple_leaf: [`字符串的解构赋值`](#stringresolve)
-- [x] :maple_leaf: [`数值和布尔值的解构赋值`](#numberbooleanresolve)
-- [x] :maple_leaf: [`函数参数的解构赋值`](#functionresolve)
+-----
+- [x] [`数组的解构赋值`](#arraygetvalue) 
+- [x] [`默认值`](#defaultvalue) 
+- [x] [`对象的解构赋值`](#objectresolve)
+- [x] [`字符串的解构赋值`](#stringresolve)
+- [x] [`数值和布尔值的解构赋值`](#numberbooleanresolve)
+- [x] [`函数参数的解构赋值`](#functionresolve)
+
+----
 
 ##### [数组的解构赋值](#top) <b id="arraygetvalue"></b>
 `基本的赋值结构是定义变量然后再逐个赋值例如：`
@@ -121,7 +124,7 @@ len // 5
 ```
 ##### [数值和布尔值的解构赋值](#top) <b id="numberbooleanresolve"></b>
 `数值和布尔值本质上还是对象 ,按照对象解构赋值就行`
-- [x] :maple_leaf: [``](#)
+
 ```javascript
 let {toString: s} = 123;
 s === Number.prototype.toString // true
