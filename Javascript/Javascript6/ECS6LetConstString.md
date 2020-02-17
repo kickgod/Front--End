@@ -111,6 +111,8 @@ window.b // undefined
 
 
 ##### 2. <a id="stringexpend" href="#top">字符串和正则表达式 代理对,normalize,,=></a>    
+`ES6 加强了对 Unicode 的支持，允许采用\uxxxx形式表示一个字符，其中xxxx表示字符的 Unicode 码点。`
+
 `JS5的字符串是基于16位的UTF-16编码进行构建的,每十六位表示一个编程单元,代表一个字符,许多字符串方法和属性都是基于此编程单元的的,但是过去16足够了但是
 Unicode引入扩展字符集,编码规则不得不进行变更,所有不再限制在16位,扩展到了32位,一个字符对应一个码位例如 55362 表示 吉这个字符.UTF-16中,前面`2<sup>16</sup>`码位 均以16位的编码单位表示,这个范围被称为基于多文中平面(BMP)`<br/>
 `超过这个范围的码位则要归属于某个辅助平面,其中码位仅用16位就无法表示了,为此UTF-16引入` **`代理对`** `其规定用两个16位编码单位表示一个码位,也就是说,字符串里的字符有两种,一种是16位编码单位的BMP字符,一种是两个编码单位的32位字符串,为此产生了很多的问题`
@@ -161,95 +163,95 @@ Unicode引入扩展字符集,编码规则不得不进行变更,所有不再限�
   * `NFKD，表示“兼容等价分解”（Normalization Form Compatibility Decomposition），即在兼容等价的前提下，返回合成字符分解的多个简单字符。`
 * `normalize方法目前不能识别三个或三个以上字符的合成，默认 NFD 形式`
 ```C#
-    '\u01D1'==='\u004F\u030C' //false
+'\u01D1'==='\u004F\u030C' //false
 
-    '\u01D1'.length // 1
-    '\u004F\u030C'.length // 2
+'\u01D1'.length // 1
+'\u004F\u030C'.length // 2
 
-     console.log('\u01D1'.normalize() === '\u004F\u030C'.normalize());
-    // true
-    '\u004F\u030C'.normalize('NFC').length // 1
-    '\u004F\u030C'.normalize('NFD').length // 2
-    // 上面代码表示，NFC参数返回字符的合成形式，NFD参数返回字符的分解形式。
+ console.log('\u01D1'.normalize() === '\u004F\u030C'.normalize());
+// true
+'\u004F\u030C'.normalize('NFC').length // 1
+'\u004F\u030C'.normalize('NFD').length // 2
+// 上面代码表示，NFC参数返回字符的合成形式，NFD参数返回字符的分解形式。
 ```
 ```javascript
-    let values=["𠮷","天","下","王","者","J","i","1","5","q"];
-    //默认排序
-    console.log(values.sort());
+let values=["𠮷","天","下","王","者","J","i","1","5","q"];
+//默认排序
+console.log(values.sort());
 
-    //标准化后 第一种排序加标准化
-    let normalized=values.map(function(text){
-        return text.normalize();
+//标准化后 第一种排序加标准化
+let normalized=values.map(function(text){
+    return text.normalize();
+})
+console.log(normalized.sort(function(one,two){
+           if(one <two){
+               return 1;
+           }else if(one == two){
+               return 0;
+           }else{
+               return -1;
+           }
     })
-    console.log(normalized.sort(function(one,two){
-               if(one <two){
-                   return 1;
-               }else if(one == two){
-                   return 0;
-               }else{
-                   return -1;
-               }
-        })
-    );
-    // 第二种排序加标准化
-    console.log(values.sort(function(first,second){
-        let firstNormalized=first.normalize();
-        let secondNormalized=second.normalize();
-        if(firstNormalized <secondNormalized){
-            return 1;
-        }else if(firstNormalized == secondNormalized){
-            return 0;
-        }else{
-            return -1;
-        }
-    }));
+);
+// 第二种排序加标准化
+console.log(values.sort(function(first,second){
+    let firstNormalized=first.normalize();
+    let secondNormalized=second.normalize();
+    if(firstNormalized <secondNormalized){
+        return 1;
+    }else if(firstNormalized == secondNormalized){
+        return 0;
+    }else{
+        return -1;
+    }
+}));
 ```
 ##### 字符串遍历器
 `for...of循环遍历，除了遍历字符串，这个遍历器最大的优点是可以识别大于0xFFFF的码点，传统的for循环无法识别这样的码点。`
 ```C#
-  for (let codePoint of 'foo') {
-    console.log(codePoint)
-  }
-  // "f"
-  // "o"
-  // "o"
+for (let codePoint of 'foo') {
+  console.log(codePoint)
+}
+// "f"
+// "o"
+// "o"
 ```
 ##### 字符串对象新增加的实例方法
-* **`str.includes(string [,indexStart])`** ：`返回布尔值，表示是否找到了参数字符串。`
-* **`str.startsWith(string [,indexStart])`** ：`返回布尔值，表示参数字符串是否在原字符串的头部。`
-* **`str.endsWith(string [,indexStart])`** ：`返回布尔值，表示参数字符串是否在原字符串的尾部。`
-* **`str.repeat(number)`** :`方法返回一个新字符串，表示将原字符串重复n次。`
-* **`str.padStart(time,string)`** : `用于头部补全`
-* **`str.padEnd(time,string)`** : `用于尾部补全`
-* **`str.matchAll(pattern)`**:`方法返回一个正则表达式在当前字符串的所有匹配`
+* `str.includes(string [,indexStart])` ：`返回布尔值，表示是否找到了参数字符串。`
+* `str.startsWith(string [,indexStart])` ：`返回布尔值，表示参数字符串是否在原字符串的头部。`
+* `str.endsWith(string [,indexStart])` ：`返回布尔值，表示参数字符串是否在原字符串的尾部。`
+* `str.repeat(number)` :`方法返回一个新字符串，表示将原字符串重复n次。`
+* `str.padStart(time,string)` : `用于头部补全`
+* `str.padEnd(time,string)` : `用于尾部补全`
+* `str.matchAll(pattern)`:`方法返回一个正则表达式在当前字符串的所有匹配`
 ```javascript
-  let s = 'Hello world!';
+let s = 'Hello world!';
 
-  s.startsWith('Hello') // true
-  s.endsWith('!') // true
-  s.includes('o') // true
+s.startsWith('Hello') // true
+s.endsWith('!') // true
+s.includes('o') // true
 ```
 * 这三个方法都支持第二个参数，表示开始搜索的位置。
 ```javascript
-  let s = 'Hello world!';
+let s = 'Hello world!';
 
-  s.startsWith('world', 6) // true
-  s.endsWith('Hello', 5) // true
-  s.includes('Hello', 6) // false
+s.startsWith('world', 6) // true
+s.endsWith('Hello', 5) // true
+s.includes('Hello', 6) // false
 ```
 * repeat
 ```javascript
-  'x'.repeat(3) // "xxx"
-  'hello'.repeat(2) // "hellohello"
-  'na'.repeat(0) // ""
+'x'.repeat(3) // "xxx"
+'hello'.repeat(2) // "hellohello"
+'na'.repeat(0) // ""
 ```
 * padStart
 ```javascript
-  'x'.padStart(5, 'ab') // 'ababx'
-  'x'.padStart(4, 'ab') // 'abax'
+'x'.padStart(5, 'ab') // 'ababx'
+'x'.padStart(4, 'ab') // 'abax'
 
-  'x'.padEnd(5, 'ab') // 'xabab'
-  'x'.padEnd(4, 'ab') // 'xaba'
+'x'.padEnd(5, 'ab') // 'xabab'
+'x'.padEnd(4, 'ab') // 'xaba'
 ```
 
 ##### 3.1 [`模板字符串`](#top) <b id="regularexpend"></b>
