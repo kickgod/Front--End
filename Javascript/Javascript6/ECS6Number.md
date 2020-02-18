@@ -1,11 +1,14 @@
 ### [ECMASCript6  数值的扩展](#top)  <b id="top"></b>
 `ES6 对于数值也提供了扩展`
+
+----
 - [x]  [`二进制和八进制表示法`](#doubleeight) 
 - [x]  [`Number 扩展方法`](#number) 
 - [x]  [`Math 对象的扩展`](#math) 
 - [x]  [`新增运算符`](#yunsuan) 
 - [x]  [`BigInt 对象`](#bigint) 
 
+----
 #####   [二进制和八进制表示法](#top) <b id="doubleeight"></b>
 `ES6 提供了二进制和八进制数值的新的写法，分别用前缀0b（或0B）和0o（或0O）表示。` `是` **`零`** `不是` `欧`
 * `二进制`:`Binary`
