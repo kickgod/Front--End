@@ -4,7 +4,10 @@
 `ES6 给数组扩展了新的方法和运算服务`
 
 * [x]  [`扩展运算符`](#dian)
-    * `复制数组` `合并数组`  `Iterator 接口` `展开字符串`
+    * `复制数组` 
+    * `合并数组`  
+    * `Iterator 接口` 
+    * `展开字符串`
 * [x]  [`Array.from`](#from)
 * [x]  [`Array.of`](#of)
 * [x]  [`Array.copyWithin`](#copyWithin)
