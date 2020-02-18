@@ -1,5 +1,5 @@
-[ECMASCript6  函数扩展](#top)  <b id="top"></b>
-`ES增强了函数,提供了默认参数,多参数,箭头函数[lambda 表达式] name属性 双冒号运算符`
+### [ECMASCript6  函数扩展](#top)  <b id="top"></b>
+`ES6 增强了函数,提供了默认参数,多参数,箭头函数[lambda 表达式] name属性 双冒号运算符`
 
 ----
 
