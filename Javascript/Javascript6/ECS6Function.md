@@ -1,13 +1,16 @@
-[ECMASCript6  函数扩展](#top) :maple_leaf: <b id="top"></b>
-----
+[ECMASCript6  函数扩展](#top)  <b id="top"></b>
 `ES增强了函数,提供了默认参数,多参数,箭头函数[lambda 表达式] name属性 双冒号运算符`
- * [x] :maple_leaf: [`函数默认值`](#default)
- * [x] :maple_leaf: [`函数多参数`](#args)
- * [x] :maple_leaf: [`严格模式`](#strict)
- * [x] :maple_leaf: [`name 属性`](#name)
- * [x] :maple_leaf: [`箭头函数`](#arrow)
- * [x] :maple_leaf: [`双冒号运算符`](#aa)
- 
+
+----
+
+* [x]  [`1.函数默认值`](#default)
+* [x]  [`2.函数多参数`](#args)
+* [x]  [`3.严格模式`](#strict)
+* [x]  [`4.name 属性`](#name)
+* [x]  [`5.箭头函数`](#arrow)
+* [x]  [`6.双冒号运算符`](#aa)
+
+----
  ##### [函数默认值](#top) <b id="default"></b>
   `如果不传递参数或者传递的参数为undefined 那么就会适应默认值,默认值可以是值 可以是对象 可以是表达式`
   `通常情况下，定义了默认值的参数，应该是函数的尾参数 非默认值放在前面 默认值放在后面`
@@ -71,6 +74,29 @@ function f(t, y = g) {
 f(3) // 1
 
 ```
+
+##### 作用域问题
+`一旦设置了参数的默认值，函数进行声明初始化时，参数会形成一个单独的作用域（context）。等到初始化结束，这个作用域就会消失。这种语法行为，在不设置参数默认值时，是不会出现的。`
+```node
+var x = 1;
+
+function foo(x = x) {
+  // ...
+}
+
+foo() // ReferenceError: x is not defined
+```
+`但是可以这样写`
+```node
+var x = 1;
+
+function foo(name = x) {
+  console.log(name);
+}
+
+foo(); // 1
+```
+
 ##### [函数的 length 属性](#top)
 `指定了默认值以后，函数的length属性，将返回没有指定默认值的参数个数。也就是说，指定了默认值后，length属性将失真。`
 ```node
@@ -106,6 +132,28 @@ function doSomething(value = 70) {
 function foo() {}
 foo.name // "foo"
 ```
+
+`需要注意的是，ES6 对这个属性的行为做出了一些修改。如果将一个匿名函数赋值给一个变量，ES5 的name属性，会返回空字符串，而 ES6 的name属性会返回实际的函数名。`
+
+```node
+var f = function () {};
+
+// ES5
+f.name // ""
+
+// ES6
+f.name // "f"
+```
+
+`bind返回的函数，name属性值会加上bound前缀。`
+
+```node
+function foo() {};
+foo.bind({}).name // "bound foo"
+
+(function(){}).bind({}).name // "bound "
+```
+
 ##### [箭头函数](#top) <b id="arrow"></b>
 `ES6 允许使用“箭头”（=>）定义函数。 就是 lambda表达式`
  
@@ -156,8 +204,9 @@ var id = 21;
 foo.call({ id: 42 });
 // id: 42
 /*
-上面代码中，setTimeout的参数是一个箭头函数，这个箭头函数的定义生效是在foo函数生成时，而它的真正执行要等到 100 毫秒后。
-如果是普通函数，执行时this应该指向全局对象window，这时应该输出21。但是，箭头函数导致this总是指向函数定义生效时所在的对象
+上面代码中，setTimeout的参数是一个箭头函数，这个箭头函数的定义生效是在foo函数生成时，
+而它的真正执行要等到 100 毫秒后。如果是普通函数，执行时this应该指向全局对象window，
+这时应该输出21。但是，箭头函数导致this总是指向函数定义生效时所在的对象
 （本例是{id: 42}），所以输出的是42。
 
 箭头函数可以让setTimeout里面的this，绑定定义时所在的作用域，而不是指向运行时所在的作用域
