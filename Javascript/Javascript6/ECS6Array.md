@@ -1,21 +1,21 @@
-### [ECMASCript6  数组的扩展](#top) :maple_leaf: <b id="top"></b> 
+### [ECMASCript6  数组的扩展](#top)  <b id="top"></b> 
 
 ----
 `ES6 给数组扩展了新的方法和运算服务`
 
-* [x] :maple_leaf: [`扩展运算符`](#dian)
+* [x]  [`扩展运算符`](#dian)
     * `复制数组` `合并数组`  `Iterator 接口` `展开字符串`
-* [x] :maple_leaf: [`Array.from`](#from)
-* [x] :maple_leaf: [`Array.of`](#of)
-* [x] :maple_leaf: [`Array.copyWithin`](#copyWithin)
-* [x] :maple_leaf: [`find() 和 findIndex()`](#find)
-* [x] :maple_leaf: [`数组实例的 fill()`](#fill)
-* [x] :maple_leaf: [`数组实例的 entries(),keys() 和 values() `](#kve)
-* [x] :maple_leaf: [`数组实例的 includes()`](#includes)
-* [x] :maple_leaf: [`数组实例的 flat()，flatMap()`](#flat)
-* [x] :maple_leaf: [`数组的空位`](#null)
+* [x]  [`Array.from`](#from)
+* [x]  [`Array.of`](#of)
+* [x]  [`Array.copyWithin`](#copyWithin)
+* [x]  [`find() 和 findIndex()`](#find)
+* [x]  [`数组实例的 fill()`](#fill)
+* [x]  [`数组实例的 entries(),keys() 和 values() `](#kve)
+* [x]  [`数组实例的 includes()`](#includes)
+* [x]  [`数组实例的 flat()，flatMap()`](#flat)
+* [x]  [`数组的空位`](#null)
 
-##### :maple_leaf: [扩展运算符](#top) <b id="dian"></b>
+#####  [扩展运算符](#top) <b id="dian"></b>
 
 `点` `...` `展开运算符`
 ```node
@@ -115,7 +115,7 @@ const go = function*(){
 
 [...go()] // [1, 2, 3]
 ```
-##### :maple_leaf: [Array.from](#top) <b id="from"></b>
+#####  [Array.from](#top) <b id="from"></b>
 `Array.from方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）
 的对象（包括 ES6 新增的数据结构 Set 和 Map）。`
 * `Array.from将它转为真正的数组`
@@ -161,14 +161,14 @@ Array.from([1, , 2, , 3], (n) => n || 0)
 Array.from({ length: 2 }, () => 'jack')
 // ['jack', 'jack']
 ```
-##### :maple_leaf: [Array.of](#top) <b id="of"></b>
+#####  [Array.of](#top) <b id="of"></b>
 `Array.of方法用于将一组值，转换为数组。`
 ```node
 Array.of(3, 11, 8) // [3,11,8]
 Array.of(3) // [3]
 Array.of(3).length // 1
 ```
-##### :maple_leaf: [实例方法:copyWithin](#top) <b id="copyWithin"></b>
+#####  [实例方法:copyWithin](#top) <b id="copyWithin"></b>
 `Array.prototype.copyWithin(target, start = 0, end = this.length)`
 * `target（必需）：从该位置开始替换数据。如果为负值，表示倒数。`
 * `start（可选）：从该位置开始读取数据，默认为 0。如果为负值，表示倒数。`
@@ -178,7 +178,7 @@ Array.of(3).length // 1
 [1, 2, 3, 4, 5].copyWithin(0, 3, 4)
 // [4, 2, 3, 4, 5]
 ```
-##### :maple_leaf: [find() 和 findIndex()](#top) <b id="find"></b>
+#####  [find() 和 findIndex()](#top) <b id="find"></b>
 `数组实例的find方法，用于找出第一个符合条件的数组成员。它的参数是一个回调函数，所有数组成员依次执行该回调函数，直到找出
 第一个返回值为true的成员，然后返回该成员。如果没有符合条件的成员，则返回undefined。`
 
@@ -189,7 +189,7 @@ Array.of(3).length // 1
 [NaN].findIndex(y => Object.is(NaN, y))
 // 0
 ```
-##### :maple_leaf: [数组实例的 fill()](#top) <b id="fill"></b>
+#####  [数组实例的 fill()](#top) <b id="fill"></b>
 `数组填充方法`
 ```node
 ['a', 'b', 'c'].fill(7)
@@ -206,7 +206,7 @@ new Array(3).fill(7)
 let arr = new Array(3).fill({name: "Mike"});
 arr[0].name = "Ben";
 ```
-##### :maple_leaf: [数组实例的 entries(),keys() 和 values()](#top) <b id="kve"></b>
+#####  [数组实例的 entries(),keys() 和 values()](#top) <b id="kve"></b>
 * `ES6 提供三个新的方法——entries()，keys()和values()——用于遍历数组`
 ```node
 for (let index of ['a', 'b'].keys()) {
@@ -227,7 +227,7 @@ for (let [index, elem] of ['a', 'b'].entries()) {
 // 0 "a"
 // 1 "b"
 ```
-##### :maple_leaf: [数组实例的 includes()](#top) <b id="includes"></b>
+#####  [数组实例的 includes()](#top) <b id="includes"></b>
 `Array.prototype.includes方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的includes方法类似。ES2016 引入了该方法。`
 ```node
 [1, 2, 3].includes(2)      // true
@@ -240,7 +240,7 @@ for (let [index, elem] of ['a', 'b'].entries()) {
 [NaN].includes(NaN)
 // true
 ```
-##### :maple_leaf: [数组实例的 flat()，flatMap()](#top) <b id="flat"></b>
+#####  [数组实例的 flat()，flatMap()](#top) <b id="flat"></b>
 * `数组的成员有时还是数组，Array.prototype.flat()用于将嵌套的数组“拉平”，变成一维的数组。该方法返回一个新数组，对原数据没有影响。`
 ```node
 [1, 2, [3, 4]].flat()
@@ -261,7 +261,7 @@ for (let [index, elem] of ['a', 'b'].entries()) {
 [2, 3, 4].flatMap((x) => [x, x * 2])
 // [2, 4, 3, 6, 4, 8]
 ```
-##### :maple_leaf: [数组的空位](#top) <b id="null"></b>
+#####  [数组的空位](#top) <b id="null"></b>
 `Array(3) // [, , ,]`   `Array(3)返回一个具有 3 个空位的数组。注意，空位不是undefined，一个位置的值等于undefined，依然是有值的。
 空位是没有任何值`
 ```node
