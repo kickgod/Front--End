@@ -138,7 +138,23 @@ let map = new Map([
 
 let arr = [...map.keys()]; // [1, 2, 3]
 ```
-* `Generator 函数运行后，返回一个遍历器对象，因此也可以使用扩展运算符。`
+
+`对于那些没有部署 Iterator 接口的类似数组的对象，扩展运算符就无法将其转为真正的数组。`
+
+```
+let arrayLike = {
+  '0': 'a',
+  '1': 'b',
+  '2': 'c',
+  length: 3
+};
+
+// TypeError: Cannot spread non-iterable object.
+let arr = [...arrayLike];
+//这时，可以改为使用Array.from方法将arrayLike转为真正的数组。
+```
+
+`Generator 函数运行后，返回一个遍历器对象，因此也可以使用扩展运算符。`
 ```node
 const go = function*(){
   yield 1;
@@ -148,6 +164,7 @@ const go = function*(){
 
 [...go()] // [1, 2, 3]
 ```
+
 #####  [Array.from](#top) <b id="from"></b>
 `Array.from方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）
 的对象（包括 ES6 新增的数据结构 Set 和 Map）。`
@@ -287,8 +304,14 @@ for (let [index, elem] of ['a', 'b'].entries()) {
 [1, 2, [3, [4, 5]]].flat(2)
 // [1, 2, 3, 4, 5]
 ```
-* `flatMap()方法对原数组的每个成员执行一个函数（相当于执行Array.prototype.map()），然后对返回值组成的数组执行flat
-()方法。该方法返回一个新数组，不改变原数组。`
+
+`上面代码中，flat()的参数为2，表示要“拉平”两层的嵌套数组。如果不管有多少层嵌套，都要转成一维数组，可以用Infinity关键字作为参数。`
+```javascript
+[1, [2, [3]]].flat(Infinity)
+// [1, 2, 3]
+```
+
+* `flatMap()方法对原数组的每个成员执行一个函数（相当于执行Array.prototype.map()），然后对返回值组成的数组执行flat()方法。该方法返回一个新数组，不改变原数组。`
 ```node
 // 相当于 [[2, 4], [3, 6], [4, 8]].flat()
 [2, 3, 4].flatMap((x) => [x, x * 2])
