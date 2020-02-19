@@ -1,7 +1,8 @@
 ### [ECMASCript6  数组的扩展](#top)  <b id="top"></b> 
 
-----
 `ES6 给数组扩展了新的方法和运算服务`
+
+----
 
 * [x]  [`扩展运算符`](#dian)
     * `复制数组` 
@@ -17,6 +18,8 @@
 * [x]  [`数组实例的 includes()`](#includes)
 * [x]  [`数组实例的 flat()，flatMap()`](#flat)
 * [x]  [`数组的空位`](#null)
+
+---
 
 #####  [扩展运算符](#top) <b id="dian"></b>
 
@@ -53,6 +56,33 @@ Math.max(...[14, 3, 77])
 // 等同于
 Math.max(14, 3, 77);
 ```
+
+`注意，只有函数调用时，扩展运算符才可以放在圆括号中，否则会报错。`
+
+```node
+(...[1, 2])
+// Uncaught SyntaxError: Unexpected number
+
+console.log((...[1, 2]))
+// Uncaught SyntaxError: Unexpected number
+
+console.log(...[1, 2])
+```
+##### 替代函数的 apply 方法
+`由于扩展运算符可以展开数组，所以不再需要apply方法，将数组转为函数的参数了。`
+
+```node
+// ES5的 写法
+var arr1 = [0, 1, 2];
+var arr2 = [3, 4, 5];
+Array.prototype.push.apply(arr1, arr2);
+
+// ES6 的写法
+let arr1 = [0, 1, 2];
+let arr2 = [3, 4, 5];
+arr1.push(...arr2);
+```
+
 ##### 复制数组 
 * `ES5 只能用变通方法来复制数组。 深拷贝 不是浅拷贝`
 ```node
