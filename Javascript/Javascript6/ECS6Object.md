@@ -12,6 +12,9 @@
 * [x] [`7.对象的新增方法`](#target7)
   * [`7.1 Object.is()`](#target7)
   * [`7.2 Object.assign()`](#target7)
+  * [`7.3 getOwnPropertyDescriptor()`](#target7)
+  * [`7.4 __proto__属性，Object.setPrototypeOf()，Object.getPrototypeOf()`](#target7)
+  
 ----
  ##### [1.属性的简洁表示法](#top) <b id="target1"></b>
  `ES6 允许在大括号里面，直接写入变量和函数，作为对象的属性和方法。这样的书写更加简洁。`
@@ -312,6 +315,7 @@ const obj2 = Object.assign({}, obj1);
 obj1.a.b = 2;
 obj2.a.b // 2
 ```
+
 `Object.assign可以用来处理数组，但是会把数组视为对象。`
 
 ```node
@@ -319,6 +323,55 @@ Object.assign([1, 2, 3], [4, 5])
 // [4, 5, 3]
 ```
 
+##### getOwnPropertyDescriptor()
+`ES5 的Object.getOwnPropertyDescriptor()方法会返回某个对象属性的描述对象（descriptor）。ES2017 引入了Object.getOwnPropertyDescriptors()方法，返回指定对象所有自身属性（非继承属性）的描述对象。`
+
+```node
+const obj = {
+  foo: 123,
+  get bar() { return 'abc' }
+};
+
+Object.getOwnPropertyDescriptors(obj);
+// { foo:
+//    { value: 123,
+//      writable: true,
+//      enumerable: true,
+//      configurable: true },
+//   bar:
+//    { get: [Function: get bar],
+//      set: undefined,
+//      enumerable: true,
+//      configurable: true } }
+```
+
+`上面代码中，Object.getOwnPropertyDescriptors()方法返回一个对象，所有原对象的属性名都是该对象的属性名，对应的属性值就是该属性的描述对象。该方法的实现非常容易。`
+
+```node
+function getOwnPropertyDescriptors(obj) {
+  const result = {};
+  for (let key of Reflect.ownKeys(obj)) {
+    result[key] = Object.getOwnPropertyDescriptor(obj, key);
+  }
+  return result;
+}
+```
+
+##### __proto__属性，Object.setPrototypeOf()，Object.getPrototypeOf()
+
+`__proto__属性（前后各两个下划线），用来读取或设置当前对象的prototype对象。目前，所有浏览器（包括 IE11）都部署了这个属性。`
+
+```node
+// es5 的写法
+const obj = {
+  method: function() { ... }
+};
+obj.__proto__ = someOtherObj;
+
+// es6 的写法
+var obj = Object.create(someOtherObj);
+obj.method = function() { ... };
+```
 
 
 --------------------
