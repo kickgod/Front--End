@@ -14,9 +14,9 @@
 
 - [x] [`6.JavaScript6 数组扩展`](./ECS6Array.md)
 
-- [x] [`7.JavaScript6 对象扩展`](./ECS6Array.md)
+- [x] [`7.JavaScript6 对象扩展`](./ECS6Object.md)
 
-- [x] [`JavaScript6 Promise`](./ECS6Object.md)
+- [x] [`JavaScript6 Promise`](./ECS6Promise.md)
 
 -----
 `ES6推荐书籍:` <br/>
